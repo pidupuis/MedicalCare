@@ -1,4 +1,6 @@
-public class EEG extends BloodTest {
+package tests;
+
+public class EEG extends Analysis {
 
 	private int result;
 

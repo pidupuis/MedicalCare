@@ -1,7 +1,7 @@
-
+package persons;
 
 /**
- * rôle de la personne sera récupéré dans la base et permettra le cast de l'objet Java dans le rôle adequat
+ * rï¿½le de la personne sera rï¿½cupï¿½rï¿½ dans la base et permettra le cast de l'objet Java dans le rï¿½le adequat
  */
 public abstract class Actor {
 
@@ -21,6 +21,9 @@ public abstract class Actor {
 		throw new UnsupportedOperationException();
 	}
 
+        public Actor() {
+        }
+        
 	public String getId() {
 		return this.id;
 	}

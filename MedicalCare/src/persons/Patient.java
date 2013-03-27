@@ -1,10 +1,15 @@
+package persons;
+
+import java.util.Date;
+import main.*;
+
 public class Patient extends Actor {
 
 	private String id;
 	private String firstName;
 	private String lastName;
 	private boolean sex;
-	private date birthDate;
+	private Date birthDate;
 	private String roomNumber;
 	private boolean excluded;
 
@@ -21,7 +26,7 @@ public class Patient extends Actor {
 	 * @param patho
 	 * @param treatments
 	 */
-	public Patient(String firstname, String lastname, age age, boolean sex, ArrayList<Pathology> patho, ArrayList<Treatment> treatments) {
+	public Patient(String firstname, String lastname, int age, boolean sex, Pathology patho) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -37,7 +42,7 @@ public class Patient extends Actor {
 		this.sex = sex;
 	}
 
-	public date getBirthDate() {
+	public Date getBirthDate() {
 		return this.birthDate;
 	}
 
@@ -45,7 +50,7 @@ public class Patient extends Actor {
 	 * 
 	 * @param birthDate
 	 */
-	public void setBirthDate(date birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 

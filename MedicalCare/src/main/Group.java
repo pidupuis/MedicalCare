@@ -1,5 +1,7 @@
+package main;
+
 public enum Group {
-	Tricazen-Vicazen, Tricazen-Placebo, Vicazen-Placebo, Placebo-Placebo;
+	TricazenVicazen, TricazenPlacebo, VicazenPlacebo, PlaceboPlacebo;
 
 	/**
 	 * 

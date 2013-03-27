@@ -1,3 +1,5 @@
+package tests;
+
 public class EffortTest extends Analysis {
 
 	private int beforeEffort;
@@ -10,7 +12,7 @@ public class EffortTest extends Analysis {
 	 * @param after
 	 * @param oneMinAfter
 	 */
-	public EffortTest(int before, in after, int oneMinAfter) {
+	public EffortTest(int before, int after, int oneMinAfter) {
 		throw new UnsupportedOperationException();
 	}
 

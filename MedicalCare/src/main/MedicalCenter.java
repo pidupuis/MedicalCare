@@ -1,3 +1,5 @@
+package main;
+
 public class MedicalCenter {
 
 	private String name;

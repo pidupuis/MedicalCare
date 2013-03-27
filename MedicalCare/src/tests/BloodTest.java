@@ -1,3 +1,5 @@
+package tests;
+
 public class BloodTest extends Analysis {
 
 	private float[] results;
@@ -22,7 +24,7 @@ public class BloodTest extends Analysis {
 	 * 
 	 * @param results
 	 */
-	public void setResults(float[5] results) {
+	public void setResults(float[] results) {
 		throw new UnsupportedOperationException();
 	}
 

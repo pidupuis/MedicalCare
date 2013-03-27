@@ -1,3 +1,8 @@
+package main;
+
+import java.util.ArrayList;
+import tests.*;
+import persons.*;
 /**
  * A class that allows the core to access and modify data in the database.
  */
@@ -119,7 +124,7 @@ public class DB_connector {
 	 * 
 	 * @param sg
 	 */
-	public boolean addSubGroup(SubGroup sg) {
+	public boolean addSubGroup(Group sg) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -136,7 +141,7 @@ public class DB_connector {
 	 * @param p
 	 * @param g
 	 */
-	public void addPatientToGroup(Patient p, SubGroup g) {
+	public void addPatientToGroup(Patient p, Group g) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -144,7 +149,7 @@ public class DB_connector {
 	 * 
 	 * @param id
 	 */
-	public SubGroupe getInfoSubGroup(String id) {
+	public Group getInfoSubGroup(String id) {
 		throw new UnsupportedOperationException();
 	}
 

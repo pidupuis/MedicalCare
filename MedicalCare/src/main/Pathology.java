@@ -1,3 +1,5 @@
+package main;
+
 public enum Pathology {
 	Diabetes, Hypertension;
 
@@ -6,7 +8,7 @@ public enum Pathology {
 	 * @param mol
 	 */
 	public void addPathology(String pat) {
-		throw new UnsupportedOperationException();
+            System.out.println("pat : " + pat);
 	}
 
 	/**

@@ -1,3 +1,7 @@
+package tests;
+
+import java.util.Date;
+
 public class DailyTest {
 
 	private int[] bloodPressure;
@@ -15,7 +19,7 @@ public class DailyTest {
 	/**
 	 * Date of the test.
 	 */
-	private date dailyDate;
+	private Date dailyDate;
 	private String reasonExclusion;
 
 	/**
@@ -40,7 +44,7 @@ public class DailyTest {
 	 * 
 	 * @param bloodPressure
 	 */
-	public void setBloodPressure(int[2] bloodPressure) {
+	public void setBloodPressure(int[] bloodPressure) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -92,7 +96,7 @@ public class DailyTest {
 		this.checked = checked;
 	}
 
-	public date getDailyDate() {
+	public Date getDailyDate() {
 		return this.dailyDate;
 	}
 
@@ -100,7 +104,7 @@ public class DailyTest {
 	 * 
 	 * @param dailyDate
 	 */
-	public void setDailyDate(date dailyDate) {
+	public void setDailyDate(Date dailyDate) {
 		this.dailyDate = dailyDate;
 	}
 

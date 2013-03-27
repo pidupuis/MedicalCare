@@ -1,4 +1,4 @@
-
+package persons;
 
 public class CRA extends Actor {
 
@@ -9,7 +9,7 @@ public class CRA extends Actor {
 	 * @param lastName
 	 * @param password
 	 */
-	public CRA(String id, id firstName, String lastName, String password) {
+	public CRA(String id, String firstName, String lastName, String password) {
 		throw new UnsupportedOperationException();
 	}
 

@@ -1,4 +1,4 @@
-
+package persons;
 
 public class Doctor extends Actor {
 
