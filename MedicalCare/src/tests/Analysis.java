@@ -1,5 +1,3 @@
-package MedicalCare.tests;
-
 public abstract class Analysis {
 
 	private String observations;

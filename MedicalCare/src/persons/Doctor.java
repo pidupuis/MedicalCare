@@ -1,4 +1,4 @@
-package MedicalCare.persons;
+
 
 public class Doctor extends Actor {
 

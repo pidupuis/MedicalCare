@@ -1,5 +1,3 @@
-package MedicalCare.tests;
-
 public class EEG extends BloodTest {
 
 	private int result;

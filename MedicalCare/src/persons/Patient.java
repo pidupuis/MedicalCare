@@ -1,18 +1,12 @@
-package MedicalCare.persons;
-
-import MedicalCare.group.*;
-import MedicalCare.desease.*;
-
 public class Patient extends Actor {
 
-	Batch takes;
 	private String id;
 	private String firstName;
 	private String lastName;
 	private boolean sex;
 	private date birthDate;
 	private String roomNumber;
-	private boolean Exclusion;
+	private boolean excluded;
 
 	public Patient() {
 		throw new UnsupportedOperationException();
@@ -28,7 +22,7 @@ public class Patient extends Actor {
 	 * @param treatments
 	 */
 	public Patient(String firstname, String lastname, age age, boolean sex, ArrayList<Pathology> patho, ArrayList<Treatment> treatments) {
-
+		throw new UnsupportedOperationException();
 	}
 
 	public boolean getSex() {

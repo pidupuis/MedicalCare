@@ -1,4 +1,4 @@
-package MedicalCare.persons;
+
 
 /**
  * rôle de la personne sera récupéré dans la base et permettra le cast de l'objet Java dans le rôle adequat

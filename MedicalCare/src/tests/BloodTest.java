@@ -1,5 +1,3 @@
-package MedicalCare.tests;
-
 public class BloodTest extends Analysis {
 
 	private float[] results;

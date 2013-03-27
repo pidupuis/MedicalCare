@@ -1,5 +1,3 @@
-package MedicalCare.tests;
-
 public class EffortTest extends Analysis {
 
 	private int beforeEffort;
