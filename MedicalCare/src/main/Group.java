@@ -1,19 +1,39 @@
 package main;
 
+/**
+ *
+ * @author Cogotch
+ */
 public enum Group {
-	TricazenVicazen, TricazenPlacebo, VicazenPlacebo, PlaceboPlacebo;
+	/**
+     *
+     */
+    TricazenVicazen,
+    /**
+     *
+     */
+    TricazenPlacebo,
+    /**
+     *
+     */
+    VicazenPlacebo,
+    /**
+     *
+     */
+    PlaceboPlacebo;
 
 	/**
 	 * 
-	 * @param mol
-	 */
+         * 
+         * @param grp 
+         */
 	public void addGroup(String grp) {
 		throw new UnsupportedOperationException();
 	}
 
 	/**
 	 * 
-	 * @param mol
+         * @param grp 
 	 */
 	public void deleteGroup(Group grp) {
 		throw new UnsupportedOperationException();

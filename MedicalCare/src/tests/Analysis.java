@@ -1,10 +1,18 @@
 package tests;
 
+/**
+ *
+ * @author Cogotch
+ */
 public abstract class Analysis {
 
 	private String observations;
 
-	public String getObservations() {
+	/**
+     *
+     * @return
+     */
+    public String getObservations() {
 		return this.observations;
 	}
 
