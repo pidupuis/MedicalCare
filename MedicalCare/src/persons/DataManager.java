@@ -7,7 +7,7 @@ package persons;
 public class DataManager extends Actor {
         private String password;
         private String login;
-	/**
+	/** 
 	 * 
 	 * @param id
 	 * @param firstName
