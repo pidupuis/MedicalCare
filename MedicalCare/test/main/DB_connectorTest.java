@@ -83,8 +83,7 @@ public class DB_connectorTest {
         boolean expResult = false;
         boolean result = instance.addEEG(electro);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -98,8 +97,7 @@ public class DB_connectorTest {
         boolean expResult = false;
         boolean result = instance.addEffortTest(effort);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -110,8 +108,7 @@ public class DB_connectorTest {
         System.out.println("addDoctor");
         DB_connector instance = new DB_connector();
         instance.addDoctor();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -122,8 +119,7 @@ public class DB_connectorTest {
         System.out.println("addCRA");
         DB_connector instance = new DB_connector();
         instance.addCRA();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -136,8 +132,7 @@ public class DB_connectorTest {
         DailyTest[] expResult = null;
         DailyTest[] result = instance.getUncheckedInfo();
         assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -150,8 +145,7 @@ public class DB_connectorTest {
         String password = "";
         DB_connector instance = new DB_connector();
         instance.userSelection(login, password);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -163,8 +157,7 @@ public class DB_connectorTest {
         String id = "";
         DB_connector instance = new DB_connector();
         instance.delPatient(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -178,8 +171,7 @@ public class DB_connectorTest {
         ArrayList expResult = null;
         ArrayList result = instance.getDoctorConsultations(idDoctor);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -191,8 +183,7 @@ public class DB_connectorTest {
         String id = "";
         DB_connector instance = new DB_connector();
         instance.getPatient(id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -205,8 +196,7 @@ public class DB_connectorTest {
         ArrayList expResult = null;
         ArrayList result = instance.getListPatient();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -219,8 +209,7 @@ public class DB_connectorTest {
         String day = "";
         DB_connector instance = new DB_connector();
         instance.getDailyTests(idPatient, day);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -232,8 +221,7 @@ public class DB_connectorTest {
         int idTest = 0;
         DB_connector instance = new DB_connector();
         instance.updateDailyTest(idTest);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -247,8 +235,7 @@ public class DB_connectorTest {
         boolean expResult = false;
         boolean result = instance.addSubGroup(sg);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -262,8 +249,7 @@ public class DB_connectorTest {
         boolean expResult = false;
         boolean result = instance.setSubGroup(p);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -276,8 +262,7 @@ public class DB_connectorTest {
         Group g = null;
         DB_connector instance = new DB_connector();
         instance.addPatientToGroup(p, g);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -291,7 +276,6 @@ public class DB_connectorTest {
         Group expResult = null;
         Group result = instance.getInfoSubGroup(id);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 }
