@@ -16,6 +16,10 @@ public class BloodTest extends Analysis {
 		throw new UnsupportedOperationException();
 	}
 
+                        public BloodTest() {
+                           throw new UnsupportedOperationException("Not yet implemented");
+                       }
+
 	public float[] getResults() {
 		return this.results;
 	}
