@@ -1,22 +1,13 @@
 package main;
 
+/**
+ *
+ * @author Aurelie
+ */
 public enum Pathology {
-	Diabetes, Hypertension;
-
 	/**
-	 * 
-	 * @param mol
-	 */
-	public void addPathology(String pat) {
-            System.out.println("pat : " + pat);
-	}
-
-	/**
-	 * 
-	 * @param mol
-	 */
-	public void deletePathology(Pathology pat) {
-		throw new UnsupportedOperationException();
-	}
+     *
+     */
+    Diabetes_type_1, Diabetes_type_2 , Hypertension , viral_hepatitis , cancer , myocardial_infarction, Arthrite_rhumatoïde, Mucoviscidose, maladie_auto_immune, Maladie_de_Parkinson, Maladie_Alzheimer ; 
 
 }
