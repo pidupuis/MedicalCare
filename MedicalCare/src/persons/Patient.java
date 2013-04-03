@@ -31,7 +31,6 @@ public class Patient extends Actor {
      * @param gender - Gender of the patient (male = 1 and female = 0)
      */
     public Patient(String firstname, String lastname, int year, int month, int day, boolean gender) {
-        temp[] = 
         super(null, firstname.toLowerCase(), lastname.toUpperCase());
         this.gender = gender;
         this.birthDate = new GregorianCalendar(year, month - 1, day);

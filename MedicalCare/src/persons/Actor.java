@@ -18,7 +18,9 @@ public abstract class Actor {
 	 * @param lastName
 	 */
 	public Actor(String id, String firstName, String lastName) {
-		throw new UnsupportedOperationException();
+		this.id = "0";
+                this.firstName = firstName;
+                this.lastName = lastName;
 	}
 
         public Actor() {

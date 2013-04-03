@@ -161,3 +161,7 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+/MedicalCare/nbproject/private/
+/SheetsRegistering/nbproject/private/
+/HCI_Mock-up/nbproject/private/
+/mYtURTLE/nbproject/private/
