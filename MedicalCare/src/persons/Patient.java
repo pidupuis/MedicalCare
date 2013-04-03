@@ -1,6 +1,7 @@
 package persons;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import main.*;
 
 public class Patient extends Actor {
@@ -9,13 +10,9 @@ public class Patient extends Actor {
 	private String firstName;
 	private String lastName;
 	private boolean sex;
-	private Date birthDate;
+	private GregorianCalendar birthDate;
 	private String roomNumber;
 	private boolean excluded;
-
-	public Patient() {
-		throw new UnsupportedOperationException();
-	}
 
 	/**
 	 * 
@@ -26,8 +23,12 @@ public class Patient extends Actor {
 	 * @param patho
 	 * @param treatments
 	 */
-	public Patient(String firstname, String lastname, int age, boolean sex, Pathology patho) {
-		throw new UnsupportedOperationException();
+	public Patient(String firstname, String lastname, int year, int month, int day, boolean sex, Pathology patho) {
+            super(null, firstname, lastname);
+            this.sex = sex;
+            this.birthDate = new GregorianCalendar(year, month-1, day);
+            this.roomNumber = "001";
+            this.excluded = false;
 	}
 
 	public boolean getSex() {
@@ -39,18 +40,20 @@ public class Patient extends Actor {
 	 * @param sex
 	 */
 	public void setSex(boolean sex) {
-		this.sex = sex;
+            this.sex = sex;
 	}
 
-	public Date getBirthDate() {
-		return this.birthDate;
+	public GregorianCalendar getBirthDate() {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            System.out.println("  Patient was born : " + formatter.format(birthDate.getTime()));
+            return this.birthDate;
 	}
 
 	/**
 	 * 
 	 * @param birthDate
 	 */
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(GregorianCalendar birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -113,17 +116,15 @@ public class Patient extends Actor {
 	public void setExclusion(boolean Exclusion) {
 		throw new UnsupportedOperationException();
 	}
+	public boolean getExclusion() {
+		throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * 
 	 * @param id
 	 */
-	public void DeletPatient(String id) {
+	public void deletPatient(String id) {
 		throw new UnsupportedOperationException();
 	}
-
-	public boolean getExclusion() {
-		throw new UnsupportedOperationException();
-	}
-
 }

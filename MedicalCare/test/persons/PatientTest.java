@@ -72,7 +72,7 @@ public class PatientTest {
         System.out.println("getBirthDate");
         Patient instance = new Patient();
         Date expResult = null;
-        Date result = instance.getBirthDate();
+        int result = instance.getBirthDate();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -84,7 +84,7 @@ public class PatientTest {
     @Test
     public void testSetBirthDate() {
         System.out.println("setBirthDate");
-        Date birthDate = null;
+        int birthDate = null;
         Patient instance = new Patient();
         instance.setBirthDate(birthDate);
         // TODO review the generated test code and remove the default call to fail.
