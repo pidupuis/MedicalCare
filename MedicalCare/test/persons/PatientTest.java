@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 /**
  *
  * @author Cogotch
@@ -43,7 +42,7 @@ public class PatientTest {
     @Test
     public void testGetSex() {
         System.out.println("getSex");
-        Patient instance = new Patient();
+        Patient instance = new Patient( );
         boolean expResult = false;
         boolean result = instance.getSex();
         assertEquals(expResult, result);
