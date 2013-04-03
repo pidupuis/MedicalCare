@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import tests.*;
 import persons.*;
@@ -178,8 +179,8 @@ public class DB_connector {
      *
      * @param id
      */
-    public void getPatient(String id) {
-        throw new UnsupportedOperationException();
+    public void getPatient(String lastname, String firstname, Calendar birthday) {
+        
     }
 
     public ArrayList<Patient> getListPatient() {
