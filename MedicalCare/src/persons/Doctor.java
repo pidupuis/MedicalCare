@@ -17,12 +17,7 @@ public class Doctor extends Actor {
      */
     public Doctor(String firstName, String lastName) throws Exception {
         super(firstName, lastName);
-        this.login = firstName.substring(0, 1) + lastName;
-        this.login = this.login.replace(" ","");
-        this.login = this.login.replace("-","");
-        this.login = this.login.toLowerCase();
-        //System.out.println(this.login);
-        // Faire une boucle qui check si le login est bien unique et ajoute un chiffre si non.
+        this.generateLogin(firstName, lastName);
     }
 
     /**
@@ -61,6 +56,24 @@ public class Doctor extends Actor {
         }
         else {
             return true;
+        }
+    }
+    
+    private void generateLogin(String firstName, String lastName) {
+        String log = firstName.substring(0, 1) + lastName;
+        log = log.replace(" ","");
+        log = log.replace("-","");
+        log = log.toLowerCase();
+        this.login = log;
+        boolean continueLoop = true;
+        int i = 1;
+        while (continueLoop) {
+            if (main.db.checkUser(this.login)) {
+                this.login = log + String.valueOf(i);
+            }
+            else {
+                continueLoop = false;
+            }
         }
     }
 
