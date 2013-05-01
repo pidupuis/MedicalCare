@@ -56,7 +56,7 @@ public class Patient extends Actor {
             throw new Exception("Mois de naissance incorrect !");
         }
         else    {
-            m = month;        
+            m = month-1;        
        
             //check the day of the birthdate
             maxNbOfDays = (Integer)nbDayInMonth.get(String.valueOf(month));
@@ -96,12 +96,17 @@ public class Patient extends Actor {
     public Calendar getBirthDate() {
         return this.birthDate;
     }
+    
+    public int getAge() {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        return currentYear - this.birthDate.get(Calendar.YEAR);
+    }
 
     /**
      * This method permits to get the room number of a specific Patient using his/her identifier.
      * @return the room number of the Patient.
      */
-    public String getRoomNumber(String id) {
+    public String getRoomNumber() {
         return this.roomNumber;
     }
 
