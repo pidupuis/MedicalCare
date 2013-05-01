@@ -1,8 +1,7 @@
 package persons;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
-import main.*;
+import java.util.regex.*;
 
 /**
  * This class is about Patient and his/her information like the firstname, the lastname, the gender, the birthdate, the roomer number and the status of the Patient (if he/she is excluded or not)
@@ -30,11 +29,55 @@ public class Patient extends Actor {
      * @param day - Day of birth of the patient  
      * @param gender - Gender of the patient (male = 1 and female = 0)
      */
-    public Patient(String firstname, String lastname, int year, int month, int day, boolean gender) {
+    public Patient(String firstname, String lastname, int year, int month, int day, boolean gender) throws Exception {
         super(null, firstname.toLowerCase(), lastname.toUpperCase());
+        
+        int d, m, y, maxNbOfDays;
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        
+        HashMap nbDayInMonth = new HashMap<>();
+        nbDayInMonth.put("1", 31);
+        nbDayInMonth.put("2", 29);
+        nbDayInMonth.put("3", 31);
+        nbDayInMonth.put("4", 30);
+        nbDayInMonth.put("5", 31);
+        nbDayInMonth.put("6", 30);
+        nbDayInMonth.put("7", 31);
+        nbDayInMonth.put("8", 31);
+        nbDayInMonth.put("9", 30);
+        nbDayInMonth.put("10", 31);
+        nbDayInMonth.put("11", 30);
+        nbDayInMonth.put("12", 31);
+
         this.gender = gender;
-        this.birthDate = new GregorianCalendar(year, month - 1, day);
-        this.roomNumber = "001";
+        
+        //check the month of the birthdate
+        if (month<1 || month >12)   {
+            throw new Exception("Mois de naissance incorrect !");
+        }
+        else    {
+            m = month;        
+       
+            //check the day of the birthdate
+            maxNbOfDays = (Integer)nbDayInMonth.get(String.valueOf(month));
+            if (day<1 || day>maxNbOfDays)   {
+                throw new Exception("Jour de naissance incorrect !");
+            }
+            else    {
+                d = day;
+            }
+        }
+        
+        //check the year of the birthdate
+        if (year<(currentYear-65) || year > currentYear || year > (currentYear-25))   {
+            throw new Exception("Année de naissance non acceptable !");
+        }
+        else    {
+            y = year;
+        }
+        this.birthDate = new GregorianCalendar(y, m, d);
+        
+        this.roomNumber = "";
         this.excluded = false;
     }
 
@@ -50,16 +93,9 @@ public class Patient extends Actor {
      * This method returns the birthdate of the Patient.
      * @return a GregorianCalendar class which contains the birthdate of the Patient.
      */
-    public GregorianCalendar getBirthDate() {
+    public Calendar getBirthDate() {
         return this.birthDate;
     }
-
-    /**
-     *
-     * @param year - Year of the birthdate of the Patient.
-     * @param month - Month of the birthdate of the Patient.
-     * @param day - Day of the birthdate of the Patient.
-     */
 
     /**
      * This method permits to get the room number of a specific Patient using his/her identifier.
@@ -73,18 +109,23 @@ public class Patient extends Actor {
      * This method is used to set a room number for one Patient.
      * @param roomNumber - Corresponds to room number of the Patient.
      */
-    public void setRoomNumber(String roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setRoomNumber(String roomNumber) throws Exception {
+        Pattern p = Pattern.compile("\\d{3}+");
+        Matcher match = p.matcher(roomNumber);
+        
+        if (match.find())   {
+            this.roomNumber = roomNumber;
+        }
+        else    {
+            throw new Exception("Numéro de chambre non conforme !");
+        }
     }
-
-//    public boolean getPatientEligibility() {
-//        null;
-//    }
 
     /**
      * This method is allows the external program to get the Patient identifier.
      * @return the Patient identifier.
      */
+    @Override
     public String getId() {
         return this.id;
     }
@@ -94,15 +135,16 @@ public class Patient extends Actor {
      * @return the firstname of the Patient.
      */
     public String getFirstName() {
-        return this.firstName;
+        return super.getName();
     }
 
     /**
      * This method is allows the external program to get the lastname of the Patient.
      * @return the lastname of the Patient.
      */
+    @Override
     public String getLastName() {
-        return this.lastName;
+        return super.getLastName();
     }
     
     /**
@@ -110,7 +152,7 @@ public class Patient extends Actor {
      * @param Exclusion - Corresponds to the current status of a Patient (excluded or not).
      */
     public void setExclusion(boolean Exclusion) {
-        throw new UnsupportedOperationException();
+        this.excluded = true;
     }
 
     /**
@@ -118,6 +160,6 @@ public class Patient extends Actor {
      * @return the status of the patient.
      */
     public boolean getExclusion() {
-        throw new UnsupportedOperationException();
+        return excluded;
     }
 }
