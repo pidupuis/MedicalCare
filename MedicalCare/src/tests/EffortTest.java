@@ -1,5 +1,9 @@
 package tests;
 
+/**
+ *
+ * @author Vincent Emonet
+ */
 public class EffortTest extends Analysis {
 
 	private int beforeEffort;

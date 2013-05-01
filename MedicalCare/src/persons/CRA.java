@@ -1,5 +1,7 @@
 package persons;
 
+import main.*;
+
 public class CRA extends Actor {
 
     private String login;
@@ -12,15 +14,12 @@ public class CRA extends Actor {
      * @param lastName
      * @param password
      * @param login
+     * the constructor create a new CRA (Clinical Research Associate) in the database
      */
     public CRA( String firstName, String lastName, String password, String login) throws Exception {
         super(firstName, lastName);
-        this.login = firstName.substring(0, 1) + lastName;
-        this.login = this.login.replace(" ","");
-        this.login = this.login.replace("-","");
-        this.login = this.login.toLowerCase();
-        this.password = password;
-        this.login = login;
+        generateLogin( login, password);
+
     }
     
     /**
@@ -65,7 +64,7 @@ public class CRA extends Actor {
     }  
     /**
      *
-     * @return 
+     * @return the login of CRA (Clinical Research Associate)
      */
     public String getLogin() {
         return this.login;
@@ -93,5 +92,26 @@ public class CRA extends Actor {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    private void generateLogin(String firstName, String lastName) throws Exception {
+        String log = firstName.substring(0, 1) + lastName;
+
+        DB_connector db = DB_connector.getInstance();
+        
+        log = log.replace(" ","");
+        log = log.replace("-","");
+        log = log.toLowerCase();
+        this.login = log;
+        boolean continueLoop = true;
+        int i = 1;
+        while (continueLoop) {
+            if (db.checkUser(this.login)) {
+                this.login = log + String.valueOf(i);
+            }
+            else {
+                continueLoop = false;
+            }
+        }
     }
 }

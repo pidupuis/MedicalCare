@@ -1,6 +1,8 @@
 package persons;
 
 /**
+ * @author Vincent Emonet
+ * 
  * Role de la personne sera recupere dans la base et permettra le cast de 
  * l'objet Java dans le role adequat.
  */

@@ -1,15 +1,19 @@
 package persons;
 import main.*;
 
+/**
+ *
+ * @author Vincent Emonet
+ */
 public class Doctor extends Actor {
 
 	private String login;
 	private String password;
     
     /**
-     * 
      * Constructor of the doctor's class. It throws an exception if the names are 
      * not correct.
+     * 
      * @param id
      * @param firstName
      * @param lastName
@@ -19,6 +23,7 @@ public class Doctor extends Actor {
     public Doctor(String firstName, String lastName) throws Exception {
         super(firstName, lastName);
         this.generateLogin(firstName, lastName);
+        this.password = this.login;
     }
 
     /**
@@ -52,7 +57,7 @@ public class Doctor extends Actor {
     }
     
     private boolean checkPassword(String pass) {
-        if (pass.length() < 4 && pass.length() > 15) {
+        if (pass.length() < 4 || pass.length() > 15) {
             return false;
         }
         else {

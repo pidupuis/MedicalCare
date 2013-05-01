@@ -3,6 +3,10 @@ package tests;
 import java.util.Date;
 import persons.Patient;
 
+/**
+ *
+ * @author Vincent Emonet
+ */
 public class DailyTest extends Analysis {
 
 	private int[] bloodPressure;
@@ -29,6 +33,7 @@ public class DailyTest extends Analysis {
         private BloodTest bloodTest;
 
 	/**
+         * Constructor of the DailyTest class.
 	 * 
 	 * @param cystole
 	 * @param diastole
@@ -39,6 +44,7 @@ public class DailyTest extends Analysis {
 	 * @param prescBlood
 	 */
 	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood) throws Exception {
+            super(observations);
             if (this.checkBeat(heart) && this.checkPressure(cystole) && this.checkPressure(diastole)) {
                 this.heartBeats = heart;
                 this.prescBlood = prescBlood;
@@ -64,8 +70,14 @@ public class DailyTest extends Analysis {
 	 * 
 	 * @param bloodPressure
 	 */
-	public void setBloodPressure(int[] bloodPressure) {
-		throw new UnsupportedOperationException();
+	public void setBloodPressure(int cystole, int diastole) throws Exception {
+            if (this.checkPressure(cystole) && this.checkPressure(diastole)) {
+                this.bloodPressure[0] = cystole;
+                this.bloodPressure[1] = diastole;
+            }
+            else {
+                throw new Exception("Pression sanguine hors normes.");
+            }
 	}
 
 	public int getHeartBeats() {
@@ -76,8 +88,13 @@ public class DailyTest extends Analysis {
 	 * 
 	 * @param heartBeats
 	 */
-	public void setHeartBeats(int heartBeats) {
-		this.heartBeats = heartBeats;
+	public void setHeartBeats(int heartBeats) throws Exception {
+            if (this.checkBeat(heartBeats)) {
+                this.heartBeats = heartBeats;
+            }
+            else {
+                throw new Exception("Le poul n'est pas correct.");
+            }
 	}
 
 

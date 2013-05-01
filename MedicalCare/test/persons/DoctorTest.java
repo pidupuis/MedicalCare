@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package persons;
 
 import org.junit.After;
@@ -13,7 +9,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Cogotch
+ * @author Vincent Emonet
  */
 public class DoctorTest {
     
@@ -55,8 +51,8 @@ public class DoctorTest {
     public void testGetPassword() throws Exception {
         System.out.println("getPassword");
         Doctor instance = new Doctor("test", "test");
-        String expResult = "testpw";
         instance.setPassword("testpw");
+        String expResult = "testpw";
         String result = instance.getPassword();
         assertEquals(expResult, result);
     }
@@ -72,8 +68,16 @@ public class DoctorTest {
         instance.setPassword("testpw");
         String result = instance.getPassword();
         assertEquals(expResult, result);
-        expResult = "test2";
         instance.setPassword("test2");
+        result = instance.getPassword();
+        expResult = "test2";
+        assertEquals(expResult, result);
+        try {
+            instance.setPassword("tes");
+        }
+        catch (Exception e) {
+            
+        }
         result = instance.getPassword();
         assertEquals(expResult, result);
     }
