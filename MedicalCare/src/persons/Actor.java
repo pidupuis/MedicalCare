@@ -33,6 +33,14 @@ public abstract class Actor {
 	public String getId() {
 		return this.id;
 	}
+        
+        /**
+	 * Set a new id to the actor.
+	 * @param name
+	 */
+        public void setId(String id) {
+            this.id = id;
+	}
 
         /**
         * Returns the first name of the actor.
