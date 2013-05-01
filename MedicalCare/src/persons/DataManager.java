@@ -26,8 +26,8 @@ public class DataManager extends Actor {
      */
     public DataManager(String firstName, String lastName) throws Exception {
         super(firstName, lastName);
-        //this.password = password;
-        //this.login = login;
+        this.generateLogin(firstName, lastName);
+        this.password = this.login;
         this.assignment = false;
     }
 
@@ -102,7 +102,7 @@ public class DataManager extends Actor {
             int cptGlob,sizeP,cpt55;
             int age;
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-            ArrayList<Patient> listPatient = new ArrayList();
+            ArrayList<Patient> listPatient = new ArrayList<Patient>();
             listPatient = dbc.getListPatient();
             
             /* list of patients is shuffleling, it's right for the rondomization */
@@ -128,7 +128,7 @@ public class DataManager extends Actor {
                     }
                 }
                 else { //if patient is less of 55 years old we can attribute it for a group
-                    if ((cpt55)*2 <=(lG.getGroupe("TV").size())) { // this condition is use to bring homogenous groups
+                    if ((cpt55)/2 <=(lG.getGroupe("VPaltPP").size())) { // this condition is use to bring homogenous groups
                         switch (cptGlob) { 
                             case 1: 
                                 lG.getGroupe("PP1").add(listPatient.get(i));
@@ -221,4 +221,25 @@ public class DataManager extends Actor {
             System.out.println("L'assignement a déjà été effectué. Vous ne pouvez pas le relancer");
         }
     }
+    private void generateLogin(String firstName, String lastName) throws Exception {
+        String log = firstName.substring(0, 1) + lastName;
+
+        DB_connector db = DB_connector.getInstance();
+        
+        log = log.replace(" ","");
+        log = log.replace("-","");
+        log = log.toLowerCase();
+        this.login = log;
+        boolean continueLoop = true;
+        int i = 1;
+        while (continueLoop) {
+            if (db.checkUser(this.login)) {
+                this.login = log + String.valueOf(i);
+            }
+            else {
+                continueLoop = false;
+            }
+        }
+    }
+
 }
