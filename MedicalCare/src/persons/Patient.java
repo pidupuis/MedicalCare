@@ -135,6 +135,10 @@ public class Patient extends Actor {
         return this.id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     /**
      * This method is allows the external program to get the firstname of the Patient.
      * @return the firstname of the Patient.

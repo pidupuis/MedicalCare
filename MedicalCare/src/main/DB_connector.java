@@ -187,27 +187,26 @@ public class DB_connector {
     /**
      * Return all the daily informations that had not been checked.
      */
-    public DailyTest[] getUncheckedInfo() {
-        System.out.println("getUncheckedInfo");
-        throw new UnsupportedOperationException();
-    }
+//    public DailyTest[] getUncheckedInfo() {
+//        System.out.println("getUncheckedInfo");
+//        throw new UnsupportedOperationException();
+//    }
     
     /**
      *
      * @param user
      */
     public void addUser(String login, String password, String statut) throws SQLException {
-        System.out.println("INSERT INTO Testu VALUES ('" + login + "', '" + password + "', '" + statut + "')");
-        ResultSet query = this.connect.createStatement().executeQuery("INSERT INTO Testu VALUES ('" + login + "', '" + password + "', '" + statut + "')");
+        String query = "INSERT INTO Testu VALUES ('" + login + "', '" + password + "', '" + statut + "')";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
     }
     
     public boolean checkUser(String login) throws SQLException {
         String query = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
-        
         System.out.println(query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
-        
         if (rs.getInt("Total") >= 1)    {
             return true;
         }
@@ -221,18 +220,55 @@ public class DB_connector {
      * @param login
      * @param password
      */
-    public void userSelection(String login, String password) {
-        System.out.println("userSelection");
-        throw new UnsupportedOperationException();
+    public Actor userSelection(String login, String password) throws SQLException, Exception {
+        String query = "SELECT (*) FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+        System.out.println(query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        if (checkUser(login))    {
+            if (rs.getString("UTILISATEUR_STATUT").equals("ARC")) {
+                return new CRA(rs.getString("PRENOM"), rs.getString("NOM"), rs.getString("UTILISATEUR_PASSWORD"), rs.getString("UTILISATEUR_LOGIN"));
+            }
+            else if (rs.getString("UTILISATEUR_STATUT").equals("Médecin")) {
+                return new Doctor(rs.getString("PRENOM"), rs.getString("NOM"), rs.getString("UTILISATEUR_PASSWORD"), rs.getString("UTILISATEUR_LOGIN"));
+            }
+            else    {
+                return new DataManager(rs.getString("PRENOM"), rs.getString("NOM"), rs.getString("UTILISATEUR_PASSWORD"), rs.getString("UTILISATEUR_LOGIN"));
+            }
+        }
+        else    {
+            return null;
+        }
     }
 
     /**
-     *
+     * This method update the patient statut to exclude
      * @param id
      */
-    public void delPatient(String id) {
-        System.out.println("delPatient");
-        throw new UnsupportedOperationException();
+    public void excludePatient(String id, String why) throws SQLException, Exception {
+        String query = "SELECT COUNT (*) AS Total FROM Patient WHERE PK_ID_PERSONNE ='" + id + "'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        
+        try {
+            if (rs.getInt("Total") > 0)    {
+//                UPDATE [schéma.] Nom_Table [@DBLink]
+//                SET  column = expression | (subquery) 
+//                    (column1, column2,...) = (subquery)
+//             [WHERE (conditions)];
+                String update = "UPDATE Patient SET Statut = 0, CAUSE_EXCLU = '" + why + "'"
+                        + " WHERE PK_ID_PERSONNE = '" + id + "'";
+                System.out.println("update => " + update);
+                ResultSet rs2 = this.connect.createStatement().executeQuery(update);
+            }
+            else    {
+                throw new Exception("Erreur de date !");
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'exclusion du patient => " + ex);
+        }
     }
 
     /**
@@ -248,13 +284,76 @@ public class DB_connector {
      *
      * @param id
      */
-    public void getPatient(String lastname, String firstname, Calendar birthday) {
-        System.out.println("getPatient");
+    public Patient getPatient(String lastname, String firstname, String birthday) throws Exception {
+        Patient tmpPatient;
+        Boolean sexe, inclut;
+        int y, m, d;
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        
+        String query = "SELECT COUNT (*) AS Total FROM Patient WHERE NOM ='" + lastname + "'"
+                + " AND PRENOM = '" + firstname + "' AND DATE_NAISSANCE = '" + birthday + "'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        if (rs.getInt("Total") > 1)    {
+            throw new Exception("This patient is twice in the database !");
+        }
+        else    {
+        
+            String query2 = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient"
+                    + " WHERE NOM = '" + lastname + "' AND PRENOM = '" + firstname + "' AND DATE_NAISSANCE = '" + birthday + "'";
+
+            System.out.println("query2 => " + query2);
+            try {
+                ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+                rs2.next();
+                String id = rs2.getString("PK_ID_PERSONNE");
+                SimpleDateFormat birth = new SimpleDateFormat();
+                birth.applyPattern("dd/MM/yyyy");
+
+                Pattern p = Pattern.compile("(\\d{2})/(\\d{2})/(\\d{2}).*");
+                Matcher match = p.matcher(birthday);
+
+                if (match.find())   {
+                    d = Integer.parseInt(match.group(1));
+                    m = Integer.parseInt(match.group(2));
+                    y = Integer.parseInt(match.group(3));
+
+                    y = (y < (currentYear%100)) ? y + 2000 : y + 1900;
+                }
+                else    {
+                    throw new Exception("Erreur de date !");
+                }
+
+                if (rs2.getString("SEXE").equals("0"))    {
+                    sexe = false;
+                }
+                else    {
+                    sexe = true;
+                }
+                if (rs2.getString("STATUT").equals("0"))    {
+                    inclut = false;
+                }
+                else    {
+                    inclut = true;
+                }
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient.setInclusion(inclut);
+                tmpPatient.setId(id);
+
+                return tmpPatient;
+            }
+            catch (SQLException ex) {
+                System.out.println("Erreur lors de l'obtention du patient => " + ex);
+                return null;
+            }
+        }
     }
 
     public ArrayList<Patient> getListPatient() throws SQLException, Exception {
         ArrayList<Patient> tmpListPatients = new ArrayList<>();
-        String query = "SELECT PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient";
+        Boolean sexe, inclut;
+        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient";
         SimpleDateFormat birth = new SimpleDateFormat();
         birth.applyPattern("dd/MM/yyyy");
         
@@ -265,14 +364,14 @@ public class DB_connector {
             ResultSet rs = this.connect.createStatement().executeQuery(query);
 
             while (rs.next()) {
+                String id = rs.getString("PK_ID_PERSONNE");
                 String firstname = rs.getString("PRENOM");
                 String lastname = rs.getString("NOM");
-                Boolean sexe;
                 String birthdate = rs.getString("DATE_NAISSANCE");
-                String statut = rs.getString("STATUT");
                 String tabBirthdate[] = new String[3];
                 String tabBirthDay[] = new String[2];
                 int d, m, y;
+                Patient tmpPatient;
                 
                 Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}).*");
                 Matcher match = p.matcher(birthdate);
@@ -289,14 +388,23 @@ public class DB_connector {
                 tabBirthdate = birthdate.split("-");
                 tabBirthDay = tabBirthdate[2].split(" ");
                                
-                if (rs.getString("SEXE") == "0")    {
+                if (rs.getString("SEXE").equals("0"))    {
                     sexe = false;
                 }
                 else    {
                     sexe = true;
                 }
-
-                tmpListPatients.add(new Patient(firstname, lastname, y, m, d, sexe));
+                if (rs.getString("STATUT").equals("0"))    {
+                    inclut = false;
+                }
+                else    {
+                    inclut = true;
+                }
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient.setInclusion(inclut);
+                tmpPatient.setId(id);
+                
+                tmpListPatients.add(tmpPatient);
             }
             
             return tmpListPatients;
