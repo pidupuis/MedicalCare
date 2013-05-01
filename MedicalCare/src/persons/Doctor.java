@@ -50,7 +50,7 @@ public class Doctor extends Actor {
     }
     
     private boolean checkPassword(String pass) {
-        if (pass.length() < 4 && pass.length() > 15) {
+        if (pass.length() < 4 && pass.length() > 20) {
             return false;
         }
         else {

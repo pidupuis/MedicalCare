@@ -16,7 +16,6 @@ public abstract class Actor {
 	 * @param firstName
 	 * @param lastName
 	 */
-        /*
 	public Actor(String firstName, String lastName) throws Exception {
             if (this.checkName(firstName) && this.checkName(lastName)) {
                 this.firstName = firstName;
@@ -25,17 +24,6 @@ public abstract class Actor {
             else {
                 throw new Exception();
             }
-	}
-        
-        /**
-	 * Constructor of the actor's class. Needs 2 parameters : the first and the last name.
-         * It throws an exception if the names are not correct.
-	 * @param firstName
-	 * @param lastName
-	 */
-	public Actor(String firstName, String lastName) {
-            this.firstName = firstName;
-            this.lastName = lastName;
 	}
         
         /**
@@ -93,12 +81,9 @@ public abstract class Actor {
 	 * @param lastName
          * @return String
 	 */
-        public boolean checkName(String name) { // remettre en private après test
-            if (name.matches("^[a-zA-Z]*$")) {
-                //^[a-zA-Z]$
-                //^[a-zA-Z0-9_\-\().]*$
-                // || name.matches("^[a-zA-Z\-]*$")
-                // "^(([a-zA-Z][- ]{1})+){2,50}$" Celle de Katia
+        private boolean checkName(String name) { // remettre en private après test
+            if (name.matches("^[a-zA-Z][a-zA-Z -]{2,50}$")) {
+                // "^(([a-zA-Z][- ]{1})+){2,50}$" Par Katia.
                 return true;
             }
             else {
