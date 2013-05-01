@@ -11,6 +11,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import tests.*;
 import persons.*;
@@ -250,9 +252,59 @@ public class DB_connector {
         System.out.println("getPatient");
     }
 
-    public ArrayList<Patient> getListPatient() {
-        System.out.println("getListPatient");
-        throw new UnsupportedOperationException();
+    public ArrayList<Patient> getListPatient() throws SQLException, Exception {
+        ArrayList<Patient> tmpListPatients = new ArrayList<>();
+        String query = "SELECT PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient";
+        SimpleDateFormat birth = new SimpleDateFormat();
+        birth.applyPattern("dd/MM/yyyy");
+        
+        System.out.println("query => " + query);
+        
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String firstname = rs.getString("PRENOM");
+                String lastname = rs.getString("NOM");
+                Boolean sexe;
+                String birthdate = rs.getString("DATE_NAISSANCE");
+                String statut = rs.getString("STATUT");
+                String tabBirthdate[] = new String[3];
+                String tabBirthDay[] = new String[2];
+                int d, m, y;
+                
+                Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}).*");
+                Matcher match = p.matcher(birthdate);
+
+                if (match.find())   {
+                    y = Integer.parseInt(match.group(1));
+                    m = Integer.parseInt(match.group(2));
+                    d = Integer.parseInt(match.group(3));
+                }
+                else    {
+                    throw new Exception("Erreur de date !");
+                }
+                
+                tabBirthdate = birthdate.split("-");
+                tabBirthDay = tabBirthdate[2].split(" ");
+                               
+                if (rs.getString("SEXE") == "0")    {
+                    sexe = false;
+                }
+                else    {
+                    sexe = true;
+                }
+
+                tmpListPatients.add(new Patient(firstname, lastname, y, m, d, sexe));
+            }
+            
+            return tmpListPatients;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
     }
 
     /**
@@ -300,6 +352,7 @@ public class DB_connector {
     public void addPatientToGroup(Patient p, Group g) {
         System.out.println("addPatientGroup");
         throw new UnsupportedOperationException();
+        //faire attention, plus valable quand assignement des groupes
     }
 
     /**
