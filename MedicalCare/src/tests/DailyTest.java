@@ -2,11 +2,10 @@ package tests;
 
 import java.util.Date;
 
-public class DailyTest {
+public class DailyTest extends Analysis {
 
 	private int[] bloodPressure;
 	private int heartBeats;
-	private String observations;
 	/**
 	 * The datamanager writes notes about which informations are not correct and need to be modified by the CRA.
 	 */
@@ -21,6 +20,12 @@ public class DailyTest {
 	 */
 	private Date dailyDate;
 	private String reasonExclusion;
+        private boolean prescEffort;
+        private boolean prescEEG;
+        private boolean prescBlood;
+        private EEG EEGTest;
+        private EffortTest effortTest;
+        private BloodTest bloodTest;
 
 	/**
 	 * 
@@ -32,8 +37,17 @@ public class DailyTest {
 	 * @param prescEEG
 	 * @param prescBlood
 	 */
-	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood) {
-		throw new UnsupportedOperationException();
+	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood) throws Exception {
+            if (this.checkBeat(heart) && this.checkPressure(cystole) && this.checkPressure(diastole)) {
+                this.heartBeats = heart;
+                this.prescBlood = prescBlood;
+                this.prescEffort = prescEffort;
+                this.prescEEG = prescEEG;
+                
+            }
+            else {
+                throw new Exception("Erreur dans l'entrée des infos pour le test quotidien.");
+            }
 	}
 
 	public int[] getBloodPressure() {
@@ -60,17 +74,6 @@ public class DailyTest {
 		this.heartBeats = heartBeats;
 	}
 
-	public String getObservations() {
-		return this.observations;
-	}
-
-	/**
-	 * 
-	 * @param observations
-	 */
-	public void setObservations(String observations) {
-		this.observations = observations;
-	}
 
 	public String getCheckNotes() {
 		return this.checkNotes;
@@ -123,5 +126,71 @@ public class DailyTest {
 	public void displayInformations() {
 		throw new UnsupportedOperationException();
 	}
+        
+        
+        private boolean checkPressure(int pressure) {
+            if (pressure < 0 || pressure > 25) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        
+        private boolean checkBeat(int beat) {
+            if (beat < 20 || beat > 250) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        
+        /**
+	 * 
+	 * @param r1
+         * @param r2
+         * @param r3
+         * @param r4
+         * @param r5
+	 */
+	public void addBlood(int r1, int r2, int r3, int r4, int r5) {
+		this.bloodTest = new BloodTest(r1, r2, r3, r4, r5);
+	}
+        
+        /**
+	 * 
+	 * @param result
+	 */
+	public void addEEG(int result) throws Exception {
+		this.EEGTest = new EEG(result);
+	}
+        
+        /**
+	 * 
+	 * @param later
+         * @param after
+         * @param before
+	 */
+	public void addEffort(int before, int after, int later) throws Exception {
+		this.effortTest = new EffortTest(before, after, later);
+	}
+        
+        /**
+	 * A method that checks if the tests have been entered when there are
+         * prescriptions.
+	 * 
+	 */
+        public void checkTest() throws Exception {
+            if (this.prescEffort == true && this.effortTest == null) {
+                throw new Exception("Le test effort n'a pas été entré.");
+            }
+            if (this.prescEEG == true && this.EEGTest == null) {
+                throw new Exception("Le test EEG n'a pas été entré.");
+            }
+            if (this.prescBlood == true && this.bloodTest == null) {
+                throw new Exception("Les analyses de sang n'ont pas été entrées.");
+            }
+        }
 
 }

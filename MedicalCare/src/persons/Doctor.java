@@ -12,7 +12,7 @@ public class Doctor extends Actor {
                         * @param login  
 	 */
 	public Doctor(String id, String firstName, String lastName, String password, String login) {
-		super(id, firstName, lastName);
+		super(firstName, lastName);
                 this.password=password;
                 this.login=login;
 	}
