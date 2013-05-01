@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package res;
+package tests;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,8 +16,8 @@ import org.junit.runners.Suite;
  * @author Vincent
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({})
-public class ResSuite {
+@Suite.SuiteClasses({tests.AnalysisTest.class, tests.DailyTestTest.class, tests.EEGTest.class, tests.EffortTestTest.class, tests.BloodTestTest.class})
+public class TestsSuite {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
