@@ -8,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -45,7 +46,8 @@ public class DB_connector {
     private void getServerConfig() throws IOException {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_home.cfg")));
+            //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException();
@@ -94,12 +96,53 @@ public class DB_connector {
     
 
     /**
-     *
-     * @param p
+     * When we add a new patient, we suppose that the database manage the auto-incrementation of the id
+     * @param p Patient that is going to be recorded into the database 
      */
-    public boolean addPatient(Patient p) {
-        System.out.println("INSERT INTO Patient VALUES ('', '', '', '', '"+ p.getFirstName() +"', '"+ p.getLastName() +"')");
-        return true;
+    public void addPatient(Patient p) throws SQLException {
+        String query;
+        String d, m, y = "";
+        query = "";
+        SimpleDateFormat birthdate = new SimpleDateFormat();
+        
+        birthdate.applyPattern("dd/MM/y");
+        d = String.valueOf(p.getBirthDate().get(Calendar.DAY_OF_MONTH));
+        m = String.valueOf(p.getBirthDate().get(Calendar.MONTH)+1);
+        y = String.valueOf(p.getBirthDate().get(Calendar.YEAR));
+        y = y.substring(2);
+        
+        int sexe = (p.getGender()) ? 0 : 1;
+        int inclusion = (p.getInclusion()) ? 1 : 0;
+        
+//        Recap of the table called Patient
+//        PK_ID_PERSONNE
+//        PK_ID_GROUPE
+//        MED_PK_ID_PERSONNE
+//        NOM
+//        PRENOM
+//        DATE_NAISSANCE DD/MM/YY
+//        SEXE 0/1
+//        NUM_CHAMBRE
+//        STATUT 0/1
+//        CAUSE_EXCLU
+                
+        try {        
+            query = "INSERT INTO Patient (NOM, PRENOM, DATE_NAISSANCE, SEXE, STATUT) VALUES ("
+                    + "'"+ p.getLastName() +"',"
+                    + "'"+ p.getFirstName() +"',"
+                    + "'"+ d+"/"+m+"/"+y +"', "
+                    + "'"+ sexe +"', "
+                    + "'"+ inclusion +"'"
+                    + ")";
+            
+            System.out.println("query : " + query);
+
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'insertion du patient => " + ex);
+            
+        }
     }
 
     /**
@@ -107,6 +150,7 @@ public class DB_connector {
      * @param bt
      */
     public boolean addBloodTest(BloodTest bt) {
+        System.out.println("addBloodTest");
         throw new UnsupportedOperationException();
     }
 
@@ -115,6 +159,7 @@ public class DB_connector {
      * @param electro
      */
     public boolean addEEG(EEG electro) {
+        System.out.println("addEEG");
         throw new UnsupportedOperationException();
     }
 
@@ -123,14 +168,17 @@ public class DB_connector {
      * @param effort
      */
     public boolean addEffortTest(EffortTest effort) {
+        System.out.println("addEffortTest");
         throw new UnsupportedOperationException();
     }
 
     public void addDoctor() {
+        System.out.println("addDoctor");
         throw new UnsupportedOperationException();
     }
 
     public void addCRA() {
+        System.out.println("addCRA");
         throw new UnsupportedOperationException();
     }
 
@@ -138,6 +186,7 @@ public class DB_connector {
      * Return all the daily informations that had not been checked.
      */
     public DailyTest[] getUncheckedInfo() {
+        System.out.println("getUncheckedInfo");
         throw new UnsupportedOperationException();
     }
     
@@ -150,12 +199,28 @@ public class DB_connector {
         ResultSet query = this.connect.createStatement().executeQuery("INSERT INTO Testu VALUES ('" + login + "', '" + password + "', '" + statut + "')");
     }
     
+    public boolean checkUser(String login) throws SQLException {
+        String query = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+        
+        System.out.println(query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        
+        if (rs.getInt("Total") >= 1)    {
+            return true;
+        }
+        else    {
+            return false;
+        }
+    }
+    
     /**
      *
      * @param login
      * @param password
      */
     public void userSelection(String login, String password) {
+        System.out.println("userSelection");
         throw new UnsupportedOperationException();
     }
 
@@ -164,6 +229,7 @@ public class DB_connector {
      * @param id
      */
     public void delPatient(String id) {
+        System.out.println("delPatient");
         throw new UnsupportedOperationException();
     }
 
@@ -172,6 +238,7 @@ public class DB_connector {
      * @param idDoctor
      */
     public ArrayList<Patient> getDoctorConsultations(int idDoctor) {
+        System.out.println("getDoctorConsultations");
         throw new UnsupportedOperationException();
     }
 
@@ -180,10 +247,11 @@ public class DB_connector {
      * @param id
      */
     public void getPatient(String lastname, String firstname, Calendar birthday) {
-        
+        System.out.println("getPatient");
     }
 
     public ArrayList<Patient> getListPatient() {
+        System.out.println("getListPatient");
         throw new UnsupportedOperationException();
     }
 
@@ -193,6 +261,7 @@ public class DB_connector {
      * @param day
      */
     public void getDailyTests(String idPatient, String day) {
+        System.out.println("getDailyTests");
         throw new UnsupportedOperationException();
     }
 
@@ -201,6 +270,7 @@ public class DB_connector {
      * @param idTest
      */
     public void updateDailyTest(int idTest) {
+        System.out.println("updateDailyTest");
         throw new UnsupportedOperationException();
     }
 
@@ -209,6 +279,7 @@ public class DB_connector {
      * @param sg
      */
     public boolean addSubGroup(Group sg) {
+        System.out.println("addSubGroup");
         throw new UnsupportedOperationException();
     }
 
@@ -217,6 +288,7 @@ public class DB_connector {
      * @param p
      */
     public boolean setSubGroup(Patient p) {
+        System.out.println("setSubGroup");
         throw new UnsupportedOperationException();
     }
 
@@ -226,6 +298,7 @@ public class DB_connector {
      * @param g
      */
     public void addPatientToGroup(Patient p, Group g) {
+        System.out.println("addPatientGroup");
         throw new UnsupportedOperationException();
     }
 
@@ -234,6 +307,7 @@ public class DB_connector {
      * @param id
      */
     public Group getInfoSubGroup(String id) {
+        System.out.println("getInfoSubGroup");
         throw new UnsupportedOperationException();
     }
 }

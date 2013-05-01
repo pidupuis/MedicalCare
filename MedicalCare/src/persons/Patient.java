@@ -18,7 +18,7 @@ public class Patient extends Actor {
     private boolean gender;
     private GregorianCalendar birthDate;
     private String roomNumber;
-    private boolean excluded;
+    private boolean included;
 
     /**
      *
@@ -78,7 +78,7 @@ public class Patient extends Actor {
         this.birthDate = new GregorianCalendar(y, m, d);
         
         this.roomNumber = "";
-        this.excluded = false;
+        this.included = true;
     }
 
     /**
@@ -139,8 +139,9 @@ public class Patient extends Actor {
      * This method is allows the external program to get the firstname of the Patient.
      * @return the firstname of the Patient.
      */
+    @Override
     public String getFirstName() {
-        return super.getName();
+        return super.getFirstName();
     }
 
     /**
@@ -156,15 +157,15 @@ public class Patient extends Actor {
      * This method is used to update the current status of a Patient (excluded or not).
      * @param Exclusion - Corresponds to the current status of a Patient (excluded or not).
      */
-    public void setExclusion(boolean Exclusion) {
-        this.excluded = true;
+    public void setInclusion(boolean Exclusion) {
+        this.included = true;
     }
 
     /**
      * This method is used to get the current status of a Patient (excluded or not).
      * @return the status of the patient.
      */
-    public boolean getExclusion() {
-        return excluded;
+    public boolean getInclusion() {
+        return included;
     }
 }
