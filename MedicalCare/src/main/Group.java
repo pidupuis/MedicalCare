@@ -20,6 +20,9 @@ public class Group {
     private ArrayList<Patient> PP1 = new ArrayList();
     private ArrayList<Patient> PP2 = new ArrayList();
 
+    /**
+     *
+     */
     public Group() {
         listeGroupe.put("TV", TV);
         listeGroupe.put("TValtPP", TValtPP);
@@ -31,10 +34,20 @@ public class Group {
         listeGroupe.put("PP2", PP2);
     }
 
+    /**
+     *
+     * @param groupe
+     * @param nouveau
+     */
     public void setGroupe(String groupe, ArrayList nouveau) { 
         listeGroupe.put(groupe, nouveau);
     }
 
+    /**
+     *
+     * @param groupe
+     * @return
+     */
     public ArrayList getGroupe(String groupe) {
         Iterator<String> it = listeGroupe.keySet().iterator();
 	//ArrayList<ArrayList> aL = new ArrayList();
