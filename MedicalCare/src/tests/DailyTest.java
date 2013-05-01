@@ -44,6 +44,11 @@ public class DailyTest extends Analysis {
                 this.prescEffort = prescEffort;
                 this.prescEEG = prescEEG;
                 
+                this.bloodPressure = new int[2];
+                this.bloodPressure[0] = cystole;
+                this.bloodPressure[1] = diastole;
+                
+                this.checked = false;
             }
             else {
                 throw new Exception("Erreur dans l'entrée des infos pour le test quotidien.");
