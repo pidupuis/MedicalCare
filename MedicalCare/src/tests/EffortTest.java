@@ -93,7 +93,7 @@ public class EffortTest extends Analysis {
          * @return boolean
 	 */
         private boolean checkEffort(int x) {
-            if (x > 30 || x < 220) {
+            if (x < 30 || x > 220) {
                 return false;
             }
             else {

@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import persons.Patient;
 
 /**
@@ -23,7 +24,7 @@ public class DailyTest extends Analysis {
 	/**
 	 * Date of the test.
 	 */
-	private Date dailyDate;
+	private GregorianCalendar dailyDate;
 	private String reasonExclusion;
         private boolean prescEffort;
         private boolean prescEEG;
@@ -43,13 +44,14 @@ public class DailyTest extends Analysis {
 	 * @param prescEEG
 	 * @param prescBlood
 	 */
-	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood) throws Exception {
+	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood, GregorianCalendar dailyDate) throws Exception {
             super(observations);
             if (this.checkBeat(heart) && this.checkPressure(cystole) && this.checkPressure(diastole)) {
                 this.heartBeats = heart;
                 this.prescBlood = prescBlood;
                 this.prescEffort = prescEffort;
                 this.prescEEG = prescEEG;
+                this.dailyDate = dailyDate;
                 
                 this.bloodPressure = new int[2];
                 this.bloodPressure[0] = cystole;
@@ -122,7 +124,7 @@ public class DailyTest extends Analysis {
 		this.checked = checked;
 	}
 
-	public Date getDailyDate() {
+	public GregorianCalendar getDailyDate() {
 		return this.dailyDate;
 	}
 
@@ -130,7 +132,7 @@ public class DailyTest extends Analysis {
 	 * 
 	 * @param dailyDate
 	 */
-	public void setDailyDate(Date dailyDate) {
+	public void setDailyDate(GregorianCalendar dailyDate) {
 		this.dailyDate = dailyDate;
 	}
 
@@ -139,18 +141,19 @@ public class DailyTest extends Analysis {
 	}
 
 	/**
+         * Set the reason of the exclusion of a patient.
 	 * 
 	 * @param reasonExclusion
 	 */
 	public void setReasonExclusion(String reasonExclusion) {
 		this.reasonExclusion = reasonExclusion;
-	}
-
-	public void displayInformations() {
-		throw new UnsupportedOperationException();
-	}
+	}        
         
-        
+        /**
+         * Checks if the pressure is correct.
+	 * 
+	 * @param pressure
+	 */
         private boolean checkPressure(int pressure) {
             if (pressure < 0 || pressure > 25) {
                 return false;
@@ -160,6 +163,11 @@ public class DailyTest extends Analysis {
             }
         }
         
+        /**
+         * Checks if the beat is correct.
+	 * 
+	 * @param beat
+	 */
         private boolean checkBeat(int beat) {
             if (beat < 20 || beat > 250) {
                 return false;
@@ -170,6 +178,16 @@ public class DailyTest extends Analysis {
         }
         
         /**
+         * Returns the daily blood test.
+	 * 
+	 * @return BloodTest
+	 */
+        public BloodTest getBloodTest() {
+		return this.bloodTest;
+	}
+        
+        /**
+         * Add a blood test to the daily tests.
 	 * 
 	 * @param Hb
          * @param GR
@@ -182,7 +200,19 @@ public class DailyTest extends Analysis {
 		this.bloodTest = new BloodTest(Hb, GR, GB, hemato, P, p);
 	}
         
+        
         /**
+         * Returns the daily EEG test.
+	 * 
+	 * @return EEG
+	 */
+        public EEG getEEGTest() {
+		return this.EEGTest;
+	}
+        
+        
+        /**
+         * Add a EEG test to the daily tests.
 	 * 
 	 * @param result
 	 */
@@ -190,7 +220,19 @@ public class DailyTest extends Analysis {
 		this.EEGTest = new EEG(result);
 	}
         
+        
         /**
+         * Returns the daily effort test.
+	 * 
+	 * @return EffortTest
+	 */
+        public EffortTest getEffortTest() {
+		return this.effortTest;
+	}
+        
+        
+        /**
+         * Add an effort test to the daily tests.
 	 * 
 	 * @param later
          * @param after
