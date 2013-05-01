@@ -95,7 +95,7 @@ public class DataManager extends Actor {
      * @throws Exception
      */
     public void assignment() throws Exception {
-        
+        DB_connector dbc = DB_connector.getInstance();
         if (this.assignment== false) { // if the assignement is on false we can do it
             /* declaration zone */
             int i =0;
@@ -103,7 +103,7 @@ public class DataManager extends Actor {
             int age;
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
             ArrayList<Patient> listPatient = new ArrayList();
-            listPatient = DB_connector.getListPatient();
+            listPatient = dbc.getListPatient();
             
             /* list of patients is shuffleling, it's right for the rondomization */
             Collections.shuffle(listPatient);
@@ -128,7 +128,7 @@ public class DataManager extends Actor {
                     }
                 }
                 else { //if patient is less of 55 years old we can attribute it for a group
-                    if (cpt55 <=(lG.getGroupe("TV").size())) { // this condition is use to bring homogenous groups
+                    if ((cpt55)*2 <=(lG.getGroupe("TV").size())) { // this condition is use to bring homogenous groups
                         switch (cptGlob) { 
                             case 1: 
                                 lG.getGroupe("PP1").add(listPatient.get(i));
@@ -206,6 +206,16 @@ public class DataManager extends Actor {
                     }
                 }
             }
+        System.out.println("Cpt55 : "+cpt55);
+        System.out.println("Cptglob : "+cptGlob);
+        System.out.println("PP1 : "+lG.getGroupe("PP1").size());
+        System.out.println("PP2 : "+lG.getGroupe("PP2").size());
+        System.out.println("TP : "+lG.getGroupe("TP").size());
+        System.out.println("TV : "+lG.getGroupe("TV").size());
+        System.out.println("VP : "+lG.getGroupe("TValtPP").size());
+        System.out.println("TPaltPP : "+lG.getGroupe("TPaltPP").size());
+        System.out.println("VPalPP : "+lG.getGroupe("VPaltPP").size());
+        System.out.println("TValtPP : "+lG.getGroupe("TValtPP").size());
         } 
         else {
             System.out.println("L'assignement a déjà été effectué. Vous ne pouvez pas le relancer");
