@@ -28,7 +28,7 @@ public class DB_connector {
      * modify one parameters of this class, we modify all the objects of this
      * class.
      */
-    private static DB_connector Instance;
+    static DB_connector Instance;
     private Actor tempActor;
     private Analysis tempAnalysis;
     private String url, user, password;
