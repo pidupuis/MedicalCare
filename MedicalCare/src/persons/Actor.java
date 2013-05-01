@@ -13,6 +13,7 @@ public abstract class Actor {
 	/**
 	 * Constructor of the actor's class. Needs 2 parameters : the first and the last name.
          * It throws an exception if the names are not correct.
+         * 
 	 * @param firstName
 	 * @param lastName
 	 */
@@ -28,10 +29,20 @@ public abstract class Actor {
         
         /**
         * Returns the id of the actor.
+        * 
         * @return String
         */
 	public String getId() {
 		return this.id;
+	}
+        
+        /**
+	 * Set a new id to the actor.
+         * 
+	 * @param name
+	 */
+        public void setId(String id) {
+            this.id = id;
 	}
 
         /**
@@ -81,7 +92,7 @@ public abstract class Actor {
 	 * @param lastName
          * @return String
 	 */
-        private boolean checkName(String name) { // remettre en private après test
+        private boolean checkName(String name) {
             if (name.matches("^[a-zA-Z][a-zA-Z -]{2,50}$")) {
                 // "^(([a-zA-Z][- ]{1})+){2,50}$" Par Katia.
                 return true;

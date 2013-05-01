@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.Date;
+import persons.Patient;
 
 public class DailyTest extends Analysis {
 
@@ -153,14 +154,15 @@ public class DailyTest extends Analysis {
         
         /**
 	 * 
-	 * @param r1
-         * @param r2
-         * @param r3
-         * @param r4
-         * @param r5
+	 * @param Hb
+         * @param GR
+         * @param GB
+         * @param hemato
+         * @param P
+         * @param p
 	 */
-	public void addBlood(int r1, int r2, int r3, int r4, int r5) {
-		this.bloodTest = new BloodTest(r1, r2, r3, r4, r5);
+	public void addBlood(float Hb, float GR, float GB, float hemato, float P, Patient p) {
+		this.bloodTest = new BloodTest(Hb, GR, GB, hemato, P, p);
 	}
         
         /**
