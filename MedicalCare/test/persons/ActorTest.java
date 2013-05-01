@@ -46,8 +46,28 @@ public class ActorTest {
         String expResult = null;
         String result = instance.getId();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of setId method, of class Actor.
+     */
+    @Test
+    public void testSetId() throws Exception {
+        System.out.println("setId");
+        String idTest = "test";
+        Actor instance = new ActorTest.ActorImpl("testfirst", idTest);
+        instance.setLastName(idTest);
+        String expResult = idTest;
+        String result = instance.getId();
+        assertEquals(expResult, result);
+        try 
+        {
+            instance.setLastName("i");
+        }
+        catch (Exception e) {}
+        
+        result = instance.getLastName();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -60,8 +80,6 @@ public class ActorTest {
         String expResult = "test";
         String result = instance.getFirstName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -84,8 +102,6 @@ public class ActorTest {
         
         result = instance.getFirstName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
     
     /**
@@ -98,8 +114,6 @@ public class ActorTest {
         String expResult = "test";
         String result = instance.getLastName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -122,8 +136,6 @@ public class ActorTest {
         
         result = instance.getLastName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -137,8 +149,6 @@ public class ActorTest {
         boolean result = instance.checkName("test");
         boolean expResult = true;
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
     * */
 

@@ -33,8 +33,13 @@ public class MedicalCenter {
 	 * 
 	 * @param name
 	 */
-	public void setName(String name) {
-            this.name = name;
+	public void setName(String name) throws Exception {
+            if (this.checkName(name)) {
+                this.name = name;
+            }
+            else {
+                throw new Exception("Nom du centre médical non conformes.");
+            }
 	}
 
 	public String getAddress() {
@@ -45,8 +50,13 @@ public class MedicalCenter {
 	 * Set the address
 	 * @param address
 	 */
-	public void setAddress(String address) {
-            this.address = address;
+	public void setAddress(String address) throws Exception {
+            if (this.checkName(address)) {
+                this.address = address;
+            }
+            else {
+                throw new Exception("Addresse du centre médical non conformes.");
+            }
 	}
         
         /**
@@ -56,7 +66,6 @@ public class MedicalCenter {
 	 */
         private boolean checkName(String name) {
             if (name.length() < 2 || name.length() > 250) {
-                // || name.matches("^[a-zA-Z0-9_]*$")
                 return false;
             }
             else {
@@ -71,7 +80,6 @@ public class MedicalCenter {
         private boolean checkAddress(String ad) {
             if (ad.length() < 2 || ad.length() > 1000) {
                 return false;
-                // || ad.matches("^[a-zA-Z0-9_]*$")
             }
             else {
                 return true;

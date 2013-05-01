@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
 import org.junit.After;
@@ -42,12 +38,10 @@ public class MedicalCenterTest {
     @Test
     public void testGetName() throws Exception {
         System.out.println("getName");
-        MedicalCenter instance = new MedicalCenter("test", "test");
-        String expResult = "test";
+        MedicalCenter instance = new MedicalCenter("test name", "test");
+        String expResult = "test name";
         String result = instance.getName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -56,13 +50,22 @@ public class MedicalCenterTest {
     @Test
     public void testSetName() throws Exception {
         System.out.println("setName");
-        MedicalCenter instance = new MedicalCenter("test", "test");
-        instance.setName("reset");
+        MedicalCenter instance = new MedicalCenter("testname", "test");
+        try {
+            instance.setName("reset");
+        }
+        catch (Exception e) {}
         String expResult = "reset";
         String result = instance.getName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        try {
+            instance.setName("r");
+            
+        }
+        catch (Exception e) {}
+        expResult = "reset";
+        result = instance.getName();
+        assertEquals(expResult, result);
     }
 
     /**
@@ -75,8 +78,6 @@ public class MedicalCenterTest {
         String expResult = "17 rue Montaigne";
         String result = instance.getAddress();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
     }
 
     /**
@@ -85,13 +86,24 @@ public class MedicalCenterTest {
     @Test
     public void testSetAddress() throws Exception {
         System.out.println("setAddress");
-        String address = "30 route du val de Gorbio";
-        MedicalCenter instance = new MedicalCenter("test", "17 rue Montaigne");
-        instance.setAddress(address);
-        String expResult = address;
-        String result = instance.getAddress();
+        MedicalCenter instance = new MedicalCenter("test name", "test");
+        try {
+            instance.setName("r");
+        }
+        catch (Exception e) {
+            
+        }
+        String expResult = "test name";
+        String result = instance.getName();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        try {
+            instance.setName("40 avenue des Champignons");
+        }
+        catch (Exception e) {
+            
+        }
+        expResult = "40 avenue des Champignons";
+        result = instance.getName();
+        assertEquals(expResult, result);
     }
 }
