@@ -1,49 +1,61 @@
 package persons;
 
 public class Doctor extends Actor {
-                      private String login;
+
+	private String login;
 	private String password;
-	/**
-	 * 
-	 * @param id
-	 * @param firstName
-	 * @param lastName
-                       * @param password
-                        * @param login  
-	 */
-	public Doctor(String id, String firstName, String lastName, String password, String login) {
-		super(firstName, lastName);
-                this.password=password;
-                this.login=login;
-	}
-        
-                /**
-     *
-     * @return
+    
+    /**
+     * Constructor of the doctor's class. It throws an exception if the names are 
+     * not correct.
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param password
+     * @param login  
      */
-    public String getLogin(){
-            return this.login;
-        }
-        /**
+    public Doctor(String firstName, String lastName) throws Exception {
+        super(firstName, lastName);
+        this.login = firstName.substring(0, 1) + lastName.substring(0, 2);
+    }
+
+    /**
      *
-     * @param login
+     * @return String
      */
-    public void setLogin(String login){
-            this.login=login;
-        }
-        /**
+    public String getLogin() {
+        return login;
+    }
+
+    /**
      *
-     * @return
+     * @return String
      */
-    public String getPassword(){
-            return this.password;
-        }
-        /**
+    public String getPassword() {
+        return password;
+    }
+
+    /**
      *
      * @param password
      */
-    public void setPassword(String password){
-            this.password=password;
+    public void setPassword(String password) throws Exception {
+        if (this.checkPassword(password)) {
+            this.password = password;
         }
+        else 
+        {
+            throw new Exception("Mot de passe non conforme");
+        }
+    }
+    
+    private boolean checkPassword(String pass) {
+        if (pass.length() < 4 && pass.length() > 15) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 
 }
