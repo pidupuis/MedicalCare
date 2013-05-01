@@ -170,18 +170,50 @@ public class DB_connector {
      * @param effort
      */
     public boolean addEffortTest(EffortTest effort) {
+//        Recap of the table Analyseeffort
+//        PK_ID_ANALYSEEFFORT
+//        PK_ID_FICHEQUOTIDIENNE
+//        RYTHME_AVANT
+//        RYTHME_APRES
+//        RYTHME_1MIN_APRES
+//        OBSERVATIONS_EFFORT
         System.out.println("addEffortTest");
         throw new UnsupportedOperationException();
     }
 
-    public void addDoctor() {
-        System.out.println("addDoctor");
-        throw new UnsupportedOperationException();
+    public void addDoctor(Doctor d, MedicalCenter centre, CRA c) throws SQLException {
+//        Recap of the table Medecin
+//        PK_ID_PERSONNE
+//        PK_NOM_CENTRE
+//        ARC_PK_ID_PERSONNE
+//        NOM
+//        PRENOM
+        String query = "INSERT INTO Medecin VALUES ('', '"+centre.getName()+"', '"+c.getId()+"', '"+c.getLastName()+"', '"+c.getFirstName()+"')";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
     }
 
-    public void addCRA() {
-        System.out.println("addCRA");
-        throw new UnsupportedOperationException();
+    public void addCRA(CRA c, DataManager dm) throws SQLException {
+//        Recap of the table ARC
+//        PK_ID_PERSONNE
+//        DAT_PK_ID_PERSONNE
+//        NOM
+//        PRENOM
+        String query = "INSERT INTO ARC VALUES ('', '"+dm.getId()+"', '"+c.getLastName()+"', '"+c.getFirstName()+"')";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        
+    }
+
+    public void addDataManager(DataManager dm) throws SQLException {
+//        Recap of the table ARC
+//        PK_ID_PERSONNE
+//        NOM
+//        PRENOM
+        String query = "INSERT INTO ARC VALUES ('', '"+dm.getLastName()+"', '"+dm.getFirstName()+"')";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        
     }
 
     /**
@@ -196,8 +228,29 @@ public class DB_connector {
      *
      * @param user
      */
-    public void addUser(String login, String password, String statut) throws SQLException {
-        String query = "INSERT INTO Testu VALUES ('" + login + "', '" + password + "', '" + statut + "')";
+    public void addUser(String id, String login, String password, String statut) throws SQLException {
+        String query = "INSERT INTO UTILISATEUR VALUES ('',";
+        if (statut.equals("Data Manager"))  {
+            query += "'"+ id +"',"
+                    + "'',"
+                    + "'', ";
+        }
+        else if (statut.equals("ARC"))  {
+            query += "'',"
+                    + "'"+ id +"',"
+                    + "'', ";
+        }
+        else {
+            query += "'',"
+                    + "'',"
+                    + "'"+ id +"', ";            
+        }
+            
+        query += "'"+ login +"',"
+                    + "'"+ password +"',"
+                    + "'"+ statut +"')";
+        
+            
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
     }
@@ -221,19 +274,39 @@ public class DB_connector {
      * @param password
      */
     public Actor userSelection(String login, String password) throws SQLException, Exception {
-        String query = "SELECT (*) FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+        String query = "SELECT * FROM UTILISATEUR WHERE UTILISATEUR_LOGIN = '" + login + "' AND UTILISATEUR_PASSWORD = '" + password + "'";
         System.out.println(query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
+        System.out.println("Statut : " + rs.getString("UTILISATEUR_STATUT"));
+        
         if (checkUser(login))    {
-            if (rs.getString("UTILISATEUR_STATUT").equals("ARC")) {
-                return new CRA(rs.getString("PRENOM"), rs.getString("NOM"), rs.getString("UTILISATEUR_PASSWORD"), rs.getString("UTILISATEUR_LOGIN"));
-            }
-            else if (rs.getString("UTILISATEUR_STATUT").equals("Médecin")) {
-                return new Doctor(rs.getString("PRENOM"), rs.getString("NOM"), rs.getString("UTILISATEUR_PASSWORD"), rs.getString("UTILISATEUR_LOGIN"));
-            }
-            else    {
-                return new DataManager(rs.getString("PRENOM"), rs.getString("NOM"), rs.getString("UTILISATEUR_PASSWORD"), rs.getString("UTILISATEUR_LOGIN"));
+            String query2;
+            switch (rs.getString("UTILISATEUR_STATUT")) {
+                case "ARC":
+                    {
+                        query2 = "SELECT * FROM ARC WHERE PK_ID_PERSONNE = '" + rs.getString("ARC_ID") +  "'";
+                        System.out.println("query2 => " + query2);
+                        ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+                        rs2.next();
+                        return new CRA(rs2.getString("PRENOM"), rs2.getString("NOM"));
+                    }
+                case "Médecin":
+                    {
+                        query2 = "SELECT * FROM MEDECIN WHERE PK_ID_PERSONNE = '" + rs.getString("Medecin_ID") +  "'";
+                        System.out.println("query2 => " + query2);
+                        ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+                        rs2.next();
+                        return new Doctor(rs2.getString("PRENOM"), rs2.getString("NOM"));
+                    }
+                default:
+                    {
+                        query2 = "SELECT * FROM DATAMANAGER WHERE PK_ID_PERSONNE = '" + rs.getString("DM_ID") +  "'";
+                        System.out.println("query2 => " + query2);
+                        ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+                        rs2.next();
+                        return new DataManager(rs2.getString("PRENOM"), rs2.getString("NOM"));
+                    }
             }
         }
         else    {
