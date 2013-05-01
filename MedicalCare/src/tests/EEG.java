@@ -2,36 +2,54 @@ package tests;
 
 public class EEG extends Analysis {
 
-    private int result;
+	private int result;
 
-    /**
-     *
-     * @param res
-     */
-    public EEG(int res) {
-        this.result = res;
-    }
+	/**
+	 * Constructor of the EffortTest class. It needs one integer between 0 and 10.
+	 * 
+	 * @param result
+	 */
+	public EEG(int result) throws Exception {
+            if (this.checkEEG(result))
+            {
+                this.result = result;
+            }
+            else {
+                throw new Exception("Erreur de saisie pour les résultats des tests d'EEG.");
+            }
+	}
 
-    public int getResult() {
-        return this.result;
-    }
+	public int getResult() {
+		return this.result;
+	}
 
-    /**
-     *
-     * @param Result
-     */
-    public void setResult(int result) {
-        if ((result > 0) && (result <= 10)) {
-            this.result = result;
+	/**
+	 * 
+	 * @param Result
+	 */
+	public void setResult(int result) throws Exception {
+            if (this.checkEEG(result))
+            {
+                this.result = result;
+            }
+            else {
+                throw new Exception("Erreur de saisie pour les résultats des tests d'EEG.");
+            }
+	}
+        
+        
+        /**
+	 * Method that check if the integer entered is correct.
+	 * @param x
+         * @return boolean
+	 */
+        private boolean checkEEG(int x) {
+            if (x > 10 || x < 0) {
+                return false;
+            }
+            else {
+                return true;
+            }
         }
-        else    {
-            System.out.println("Le résultat doit être compris entre 1 et 10.");
-        }
-    }
-    
-    public boolean checkEEG()   {
-        String query = "";
-        query = "SELECT * FROM ANALYSE_EEG WHERE rownum < 4 ORDER BY ANALYSE_EEG_RESULTAT DESC";
-        return false;
-    }
+
 }
