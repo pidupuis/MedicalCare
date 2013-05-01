@@ -1,4 +1,5 @@
 package persons;
+import main.*;
 
 public class Doctor extends Actor {
 
@@ -59,8 +60,11 @@ public class Doctor extends Actor {
         }
     }
     
-    private void generateLogin(String firstName, String lastName) {
+    private void generateLogin(String firstName, String lastName) throws Exception {
         String log = firstName.substring(0, 1) + lastName;
+
+        DB_connector db = DB_connector.getInstance();
+        
         log = log.replace(" ","");
         log = log.replace("-","");
         log = log.toLowerCase();
@@ -68,7 +72,7 @@ public class Doctor extends Actor {
         boolean continueLoop = true;
         int i = 1;
         while (continueLoop) {
-            if (main.db.checkUser(this.login)) {
+            if (db.checkUser(this.login)) {
                 this.login = log + String.valueOf(i);
             }
             else {
