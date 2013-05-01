@@ -1,5 +1,6 @@
 package tests;
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import persons.Patient;
 
