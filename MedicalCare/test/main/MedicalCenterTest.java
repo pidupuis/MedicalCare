@@ -9,7 +9,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Cogotch
+ * @author Vincent Emonet
  */
 public class MedicalCenterTest {
     

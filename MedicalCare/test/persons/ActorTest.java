@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package persons;
 
 import org.junit.After;
@@ -13,7 +9,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Cogotch
+ * @author Vincent Emonet
  */
 public class ActorTest {
     
@@ -56,17 +52,9 @@ public class ActorTest {
         System.out.println("setId");
         String idTest = "test";
         Actor instance = new ActorTest.ActorImpl("testfirst", idTest);
-        instance.setLastName(idTest);
+        instance.setId(idTest);
         String expResult = idTest;
         String result = instance.getId();
-        assertEquals(expResult, result);
-        try 
-        {
-            instance.setLastName("i");
-        }
-        catch (Exception e) {}
-        
-        result = instance.getLastName();
         assertEquals(expResult, result);
     }
 
@@ -99,7 +87,6 @@ public class ActorTest {
             instance.setFirstName("i");
         }
         catch (Exception e) {}
-        
         result = instance.getFirstName();
         assertEquals(expResult, result);
     }
@@ -130,27 +117,13 @@ public class ActorTest {
         assertEquals(expResult, result);
         try 
         {
-            instance.setLastName("i");
+            instance.setLastName("tre2");
         }
         catch (Exception e) {}
         
         result = instance.getLastName();
         assertEquals(expResult, result);
     }
-
-    /**
-     * Test of checkName method, of class Actor.
-     */
-    /*
-    @Test
-    public void testCheckName() throws Exception {
-        System.out.println("testCheckName");
-        Actor instance = new ActorImpl("test", "test");
-        boolean result = instance.checkName("test");
-        boolean expResult = true;
-        assertEquals(expResult, result);
-    }
-    * */
 
     public class ActorImpl extends Actor {
         

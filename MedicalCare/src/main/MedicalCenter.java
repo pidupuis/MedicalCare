@@ -1,5 +1,9 @@
 package main;
 
+/**
+ *
+ * @author Vincent Emonet
+ */
 public class MedicalCenter {
 
 	private String name;
