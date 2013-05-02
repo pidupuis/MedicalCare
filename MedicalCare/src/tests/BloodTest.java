@@ -4,6 +4,7 @@ import persons.*;
 /*
  * this class allows
  */
+
 public class BloodTest extends Analysis {
 
     private float[] results;
@@ -47,7 +48,13 @@ public class BloodTest extends Analysis {
      * @throws Exception
      */
     public void checkResult(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
-        if (p.getGender() == false) {
+        if (P >= 150.0 || P <= 400.0) {
+            throw new Exception("the result given was not included in the physiologic norms");
+        }
+        if (GB >= 4.0 || GB <= 10.0) {
+            throw new Exception("the result given was not included in the physiologic norms");
+        } else if (p.getGender() == false) {
+            
             if (Hb >= 12.5 || Hb <= 15.5) {
                 throw new Exception("the result given was not included in the physiologic norms");
             }
@@ -57,11 +64,9 @@ public class BloodTest extends Analysis {
             if (hemato >= 37.0 || hemato <= 46.0) {
                 throw new Exception("the result given was not included in the physiologic norms");
             }
+
         } else {
 
-            if (GB >= 4.0 || GB <= 10.0) {
-                throw new Exception("the result given was not included in the physiologic norms");
-            }
             if (Hb >= 14.0 || Hb <= 17.0) {
                 throw new Exception("the result given was not included in the physiologic norms");
             }
@@ -71,9 +76,7 @@ public class BloodTest extends Analysis {
             if (hemato >= 40.0 || hemato <= 52.0) {
                 throw new Exception("the result given was not included in the physiologic norms");
             }
-            if (P >= 150.0 || P <= 400.0) {
-                throw new Exception("the result given was not included in the physiologic norms");
-            }
+
         }
     }
 
