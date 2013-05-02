@@ -1,15 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package tests;
 
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -40,14 +36,12 @@ public class EEGTest {
      * Test of getResult method, of class EEG.
      */
     @Test
-    public void testGetResult() {
+    public void testGetResult() throws Exception {
         System.out.println("getResult");
-        EEG instance = null;
-        int expResult = 0;
+        EEG instance = new EEG(5);
+        int expResult = 5;
         int result = instance.getResult();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -56,10 +50,19 @@ public class EEGTest {
     @Test
     public void testSetResult() throws Exception {
         System.out.println("setResult");
-        int result_2 = 0;
-        EEG instance = null;
-        instance.setResult(result_2);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        EEG instance = new EEG(5);
+        try {
+            instance.setResult(7);
+        }
+        catch (Exception e) {}
+        int expResult = 7;
+        int result = instance.getResult();
+        assertEquals(expResult, result);
+        try {
+            instance.setResult(11);
+        }
+        catch (Exception e) {}
+        result = instance.getResult();
+        assertEquals(expResult, result);
     }
 }

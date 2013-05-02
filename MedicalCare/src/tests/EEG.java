@@ -44,6 +44,7 @@ public class EEG extends Analysis {
         
         /**
 	 * Method that check if the integer entered is correct.
+         * 
 	 * @param x
          * @return boolean
 	 */
