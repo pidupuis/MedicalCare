@@ -96,9 +96,9 @@ public class BloodTest extends Analysis {
      * @param results
      */
     public void setResults(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
-        this.results[0] = GB;
+        this.results[0] = Hb;
         this.results[1] = GR;
-        this.results[2] = Hb;
+        this.results[2] = GB;
         this.results[3] = hemato;
         this.results[4] = P;
         try {
