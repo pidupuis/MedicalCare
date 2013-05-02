@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests;
+package main;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,9 +15,9 @@ import static org.junit.Assert.*;
  *
  * @author Vincent
  */
-public class EEGTest {
+public class PathologyTest {
     
-    public EEGTest() {
+    public PathologyTest() {
     }
     
     @BeforeClass
@@ -37,28 +37,39 @@ public class EEGTest {
     }
 
     /**
-     * Test of getResult method, of class EEG.
+     * Test of values method, of class Pathology.
      */
     @Test
-    public void testGetResult() {
-        System.out.println("getResult");
-        EEG instance = null;
-        int expResult = 0;
-        int result = instance.getResult();
+    public void testValues() {
+        System.out.println("values");
+        Pathology[] expResult = null;
+        Pathology[] result = Pathology.values();
+        assertArrayEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of valueOf method, of class Pathology.
+     */
+    @Test
+    public void testValueOf() {
+        System.out.println("valueOf");
+        String name = "";
+        Pathology expResult = null;
+        Pathology result = Pathology.valueOf(name);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of setResult method, of class EEG.
+     * Test of affichePatho method, of class Pathology.
      */
     @Test
-    public void testSetResult() throws Exception {
-        System.out.println("setResult");
-        int result_2 = 0;
-        EEG instance = null;
-        instance.setResult(result_2);
+    public void testAffichePatho() {
+        System.out.println("affichePatho");
+        Pathology.affichePatho();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

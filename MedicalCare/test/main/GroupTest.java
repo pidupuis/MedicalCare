@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests;
+package main;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -15,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author Vincent
  */
-public class EEGTest {
+public class GroupTest {
     
-    public EEGTest() {
+    public GroupTest() {
     }
     
     @BeforeClass
@@ -37,28 +38,30 @@ public class EEGTest {
     }
 
     /**
-     * Test of getResult method, of class EEG.
+     * Test of setGroupe method, of class Group.
      */
     @Test
-    public void testGetResult() {
-        System.out.println("getResult");
-        EEG instance = null;
-        int expResult = 0;
-        int result = instance.getResult();
-        assertEquals(expResult, result);
+    public void testSetGroupe() {
+        System.out.println("setGroupe");
+        String groupe = "";
+        ArrayList nouveau = null;
+        Group instance = new Group();
+        instance.setGroupe(groupe, nouveau);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of setResult method, of class EEG.
+     * Test of getGroupe method, of class Group.
      */
     @Test
-    public void testSetResult() throws Exception {
-        System.out.println("setResult");
-        int result_2 = 0;
-        EEG instance = null;
-        instance.setResult(result_2);
+    public void testGetGroupe() {
+        System.out.println("getGroupe");
+        String groupe = "";
+        Group instance = new Group();
+        ArrayList expResult = null;
+        ArrayList result = instance.getGroupe(groupe);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
