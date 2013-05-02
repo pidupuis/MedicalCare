@@ -16,7 +16,7 @@ public class CRA extends Actor {
      * @param login
      * the constructor create a new CRA (Clinical Research Associate) in the database
      */
-    public CRA( String firstName, String lastName, String password, String login) throws Exception {
+    public CRA( String firstName, String lastName) throws Exception {
         super(firstName, lastName);
         generateLogin( login, password);
 
@@ -93,6 +93,8 @@ public class CRA extends Actor {
     public void setPassword(String password) {
         this.password = password;
     }
+    
+    
     
     private void generateLogin(String firstName, String lastName) throws Exception {
         String log = firstName.substring(0, 1) + lastName;
