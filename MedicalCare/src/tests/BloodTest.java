@@ -22,7 +22,7 @@ public class BloodTest extends Analysis {
      * @param hemato
      * @param P
      */
-    public BloodTest(float Hb, float GR, float GB, float hemato, float P, Patient p) {
+    public BloodTest(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
         this.results = new float[5];
 
         this.results[0] = Hb;
@@ -34,8 +34,9 @@ public class BloodTest extends Analysis {
         try {
             checkResult(Hb, GR, GB, hemato, P, p);
         } catch (Exception e) {
-            System.out.println("The results is not good!");
+            throw new Exception ("The results is not good!");
         }
+
     }
 
     /**
