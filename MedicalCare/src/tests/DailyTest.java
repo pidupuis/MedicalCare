@@ -195,7 +195,7 @@ public class DailyTest extends Analysis {
          * @param P
          * @param p
 	 */
-	public void addBlood(float Hb, float GR, float GB, float hemato, float P, Patient p) {
+	public void addBlood(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
 		this.bloodTest = new BloodTest(Hb, GR, GB, hemato, P, p);
 	}
         
