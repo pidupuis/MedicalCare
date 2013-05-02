@@ -1,7 +1,9 @@
 package tests;
 
 import persons.*;
-
+/*
+ * this class allows
+ */
 public class BloodTest extends Analysis {
 
     private float[] results;
