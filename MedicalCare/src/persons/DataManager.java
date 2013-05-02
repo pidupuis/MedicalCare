@@ -128,7 +128,7 @@ public class DataManager extends Actor {
                     }
                 }
                 else { //if patient is less of 55 years old we can attribute it for a group
-                    if ((cpt55)/2 <=(lG.getGroupe("VPaltPP").size())) { // this condition is use to bring homogenous groups
+                    if (lG.getGroupe("PP1").size()<=(lG.getGroupe("TV").size())){ // this condition is use to bring homogenous groups
                         switch (cptGlob) { 
                             case 1: 
                                 lG.getGroupe("PP1").add(listPatient.get(i));
@@ -208,6 +208,7 @@ public class DataManager extends Actor {
             }
         System.out.println("Cpt55 : "+cpt55);
         System.out.println("Cptglob : "+cptGlob);
+        System.out.println("sizeP : "+sizeP);
         System.out.println("PP1 : "+lG.getGroupe("PP1").size());
         System.out.println("PP2 : "+lG.getGroupe("PP2").size());
         System.out.println("TP : "+lG.getGroupe("TP").size());

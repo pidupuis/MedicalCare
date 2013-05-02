@@ -45,11 +45,15 @@ public class DB_connector {
         state = connect.createStatement();
     }
     
+    /**
+     * This method is used to get the configuration of the server which is stocked into a file.
+     * @throws IOException 
+     */
     private void getServerConfig() throws IOException {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_home.cfg")));
-            //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
+            //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_home.cfg")));
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException();
@@ -103,7 +107,7 @@ public class DB_connector {
      */
     public void addPatient(Patient p) throws SQLException {
         String query;
-        String d, m, y = "";
+        String d, m, y;
         query = "";
         SimpleDateFormat birthdate = new SimpleDateFormat();
         
@@ -127,7 +131,7 @@ public class DB_connector {
 //        NUM_CHAMBRE
 //        STATUT 0/1
 //        CAUSE_EXCLU
-                
+            
         try {        
             query = "INSERT INTO Patient (NOM, PRENOM, DATE_NAISSANCE, SEXE, STATUT) VALUES ("
                     + "'"+ p.getLastName() +"',"
@@ -180,7 +184,14 @@ public class DB_connector {
         System.out.println("addEffortTest");
         throw new UnsupportedOperationException();
     }
-
+    
+    /**
+     * This method is called to add a new doctor into the database.
+     * @param d Reference to the doctor which contains all information that the database needed.
+     * @param centre Reference to the center because the doctor is linked to a medical center
+     * @param c Reference to the CRA who is the manager of the doctor
+     * @throws SQLException to lead the errors until the main program
+     */
     public void addDoctor(Doctor d, MedicalCenter centre, CRA c) throws SQLException {
 //        Recap of the table Medecin
 //        PK_ID_PERSONNE
@@ -192,7 +203,13 @@ public class DB_connector {
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
     }
-
+    
+    /**
+     * This method is called to add a new CRA into the database
+     * @param c Reference to the CRA which contains all information needed
+     * @param dm Reference to the data manager who is the manager of the CRA
+     * @throws SQLException to lead the errors until the main program
+     */
     public void addCRA(CRA c, DataManager dm) throws SQLException {
 //        Recap of the table ARC
 //        PK_ID_PERSONNE
@@ -204,7 +221,12 @@ public class DB_connector {
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         
     }
-
+    
+    /**
+     * This method is called to add a new data manager into the database
+     * @param dm Reference to the data manager which contains all information needed
+     * @throws SQLException to lead the errors until the main program
+     */
     public void addDataManager(DataManager dm) throws SQLException {
 //        Recap of the table ARC
 //        PK_ID_PERSONNE
@@ -225,25 +247,35 @@ public class DB_connector {
 //    }
     
     /**
-     *
-     * @param user
+     * 
+     * This method allows the DB_connector to add a new user who is could be a doctor or a cra or a data manager. Use it cautiously.
+     * @param id Caution : this parameter has to be getted before. This identifier is the id of the user (CRA, doctor, data manager). It corresponds to the identifier which is saved in the corresponding table (CRA, doctor or data manager).
+     * @param login Caution : this parameter has also been created when a CRA or a doctor or a data manager is created. You have to give this login as parameter.
+     * @param password Caution : this parameter has also been created when a CRA or a doctor or a data manager is created. You have to give this password as parameter.
+     * @param statut Indicate the status of the user (CRA or doctor or data manager). This is the correspondance : 1 => Data Manager    ;   2 => CRA    ;   3 => Doctor
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicate to the main program when the status is wrong
      */
-    public void addUser(String id, String login, String password, String statut) throws SQLException {
+    public void addUser(String id, String login, String password, int statut) throws SQLException, Exception {
         String query = "INSERT INTO UTILISATEUR VALUES ('',";
-        if (statut.equals("Data Manager"))  {
+        
+        if (statut == 1)  {
             query += "'"+ id +"',"
                     + "'',"
                     + "'', ";
         }
-        else if (statut.equals("ARC"))  {
+        else if (statut == 2)  {
             query += "'',"
                     + "'"+ id +"',"
                     + "'', ";
         }
-        else {
+        else if (statut == 3)   {
             query += "'',"
                     + "'',"
                     + "'"+ id +"', ";            
+        }
+        else    {
+            throw new Exception("This status does not exists !");
         }
             
         query += "'"+ login +"',"
@@ -255,6 +287,12 @@ public class DB_connector {
         ResultSet rs = this.connect.createStatement().executeQuery(query);
     }
     
+    /**
+     * This method indicates if the login given in parameter already exists or not
+     * @param login This is the login of the user which is created by the constructor of child of Actor class (CRA, doctor, data manager)
+     * @return a boolean : true if the login is already taken, else false.
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     */
     public boolean checkUser(String login) throws SQLException {
         String query = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
         System.out.println(query);
@@ -269,9 +307,12 @@ public class DB_connector {
     }
     
     /**
-     *
-     * @param login
-     * @param password
+     * This method returns an Actor (CRA or doctor or data manager). It could be used by the HCI to know which interface display to the user thanks to the status which is recorded into the database.
+     * @param login This is the login of the user
+     * @param password This is the password of the user
+     * @return Actor which could be a CRA() or a Doctor() or a DataManager()
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicates to the main program if the user does not exist
      */
     public Actor userSelection(String login, String password) throws SQLException, Exception {
         String query = "SELECT * FROM UTILISATEUR WHERE UTILISATEUR_LOGIN = '" + login + "' AND UTILISATEUR_PASSWORD = '" + password + "'";
@@ -310,13 +351,16 @@ public class DB_connector {
             }
         }
         else    {
-            return null;
+            throw new Exception ("This user does not exists into the database !");
         }
     }
 
     /**
-     * This method update the patient statut to exclude
-     * @param id
+     * This method is used to exclude a Patient from the clinical trial.
+     * @param id This is the identifier of the Patient which has been getted from the database. You have to get it before called this method
+     * @param why This is the reason of the exclusion.
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicates to the main program when there is a problem during the exclusion of the patient
      */
     public void excludePatient(String id, String why) throws SQLException, Exception {
         String query = "SELECT COUNT (*) AS Total FROM Patient WHERE PK_ID_PERSONNE ='" + id + "'";
@@ -354,8 +398,12 @@ public class DB_connector {
     }
 
     /**
-     *
-     * @param id
+     * This method is used to get only one patient using his/her lastname, firstname and birthdate
+     * @param lastname lastname of the patient
+     * @param firstname firstname of the patient
+     * @param birthday birth date of the patient. Caution with it : the parameter is a String() type, not a Calendar() or GregorianCalendar() or Date(), etc
+     * @return an object Patient() with all information
+     * @throws Exception to indicates to the main program when there is a problem during the getting of the patient
      */
     public Patient getPatient(String lastname, String firstname, String birthday) throws Exception {
         Patient tmpPatient;
@@ -422,7 +470,13 @@ public class DB_connector {
             }
         }
     }
-
+    
+    /**
+     * This method is used by the DataManager() class to get all the patients which are recoreded into the database
+     * @return This method returns an ArrayList of Patients which contains all information about Patient
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicates if there is a problem during the getting of all patients
+     */
     public ArrayList<Patient> getListPatient() throws SQLException, Exception {
         ArrayList<Patient> tmpListPatients = new ArrayList<>();
         Boolean sexe, inclut;
