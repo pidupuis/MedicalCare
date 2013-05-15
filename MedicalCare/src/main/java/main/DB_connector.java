@@ -1086,7 +1086,6 @@ public class DB_connector {
                 tmpPatient = new Patient(firstname, lastname, id);
                 
                 ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
-                myAnalysis.add(new DailyTest());
                 if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
                 	myAnalysis.add(new BloodTest());
                 if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
