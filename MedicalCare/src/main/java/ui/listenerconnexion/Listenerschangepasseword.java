@@ -8,16 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ui.loginframe.LoginFrame;
+import ui.loginframe.panels.PasswordRecoveryPane;
 
 /**
  *
  * @author Julien_Lavigne
  */
 public class Listenerschangepasseword implements ActionListener {
-    private LoginFrame connexion;
+    private PasswordRecoveryPane connexion;
     
     
-    public Listenerschangepasseword(LoginFrame interf)
+    public Listenerschangepasseword(PasswordRecoveryPane interf)
     {
         connexion = interf;
         
