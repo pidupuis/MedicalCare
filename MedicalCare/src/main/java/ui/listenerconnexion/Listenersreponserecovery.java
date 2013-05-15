@@ -8,16 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ui.loginframe.LoginFrame;
+import ui.loginframe.panels.PasswordRecoveryPane;
 
 /**
  *
  * @author Julien_Lavigne
  */
 public class Listenersreponserecovery implements ActionListener{
-	private LoginFrame connexion;
+	private PasswordRecoveryPane connexion;
 
 
-	public Listenersreponserecovery(LoginFrame interf)
+	public Listenersreponserecovery(PasswordRecoveryPane interf)
 	{
 		connexion = interf;
 	}
@@ -28,7 +29,7 @@ public class Listenersreponserecovery implements ActionListener{
 			//String pass = connexion.setReponse();
 			//String login = connexion.setLogin2();
 		} catch (Exception ex) {
-			connexion.displayError(ex.getMessage());
+			//connexion.displayError(ex.getMessage());
 		}
 	}
 }

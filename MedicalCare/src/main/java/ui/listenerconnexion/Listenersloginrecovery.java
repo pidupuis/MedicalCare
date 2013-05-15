@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ui.loginframe.panels.LoginPane;
+import ui.loginframe.panels.PasswordRecoveryPane;
 
 /**
  *
@@ -15,9 +16,9 @@ import ui.loginframe.panels.LoginPane;
  */
 public class Listenersloginrecovery implements ActionListener {
 
-	private LoginPane connexion;
+	private PasswordRecoveryPane connexion;
 
-	public Listenersloginrecovery (LoginPane interf)
+	public Listenersloginrecovery (PasswordRecoveryPane interf)
 	{
 		connexion = interf;        
 	}
