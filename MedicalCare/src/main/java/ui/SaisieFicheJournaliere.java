@@ -19,6 +19,7 @@ public class SaisieFicheJournaliere extends JPanel {
 	public SaisieFicheJournaliere() {
 		//partie de gauche de mon panel
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Root");
+		
 		DefaultMutableTreeNode child1 = new DefaultMutableTreeNode("Child 1");
 		root.add(child1);
 		DefaultMutableTreeNode child2 = new DefaultMutableTreeNode("Child 2");
