@@ -5,6 +5,8 @@
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import main.*;
 import persons.*;
 
@@ -18,6 +20,7 @@ public class Main {
         Patient p = new Patient("aurelien", "JORON", 1980, 2, 8, true);
         DataManager dm = new DataManager("katia", "chiron");
         Actor tmp;
+        ArrayList<Patient> tmpListPatient = new ArrayList<Patient>();
         
         try {
             db = DB_connector.getInstance();
@@ -28,6 +31,12 @@ public class Main {
         }
         
         tmp = db.getUser(db.getUserId("katia", "chiron", 1), 1);
+        tmpListPatient = db.getListPatientFromDoctor("1");
+        
+        for(Patient pat : tmpListPatient){
+        	System.out.println(pat.getFirstName());
+        }
+        
         //db.addDataManager(dm);
         //db.getUserId("katia", "chiron", 1);
         //db.addPatient(p);

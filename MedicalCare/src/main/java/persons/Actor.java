@@ -28,6 +28,24 @@ public abstract class Actor {
                 throw new Exception();
             }
 	}
+	
+	/**
+	 * Constructor of the actor's class. Needs 3 parameters : the first, the last name and the ID.
+         * It throws an exception if the names are not correct.
+         * 
+	 * @param firstName
+	 * @param lastName
+	 */
+	public Actor(String firstName, String lastName, String id) throws Exception {
+            if (this.checkName(firstName) && this.checkName(lastName)) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.id = id;
+            }
+            else {
+                throw new Exception();
+            }
+	}
         
         /**
         * Returns the id of the actor.

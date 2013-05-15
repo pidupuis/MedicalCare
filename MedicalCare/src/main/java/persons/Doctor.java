@@ -25,6 +25,22 @@ public class Doctor extends Actor {
         this.generateLogin(firstName, lastName);
         this.password = this.login;
     }
+    
+    /**
+     * Constructor of the doctor's class with the ID. It throws an exception if the names are 
+     * not correct.
+     * 
+     * @param id
+     * @param firstName
+     * @param lastName
+     * @param password
+     * @param login  
+     */
+    public Doctor(String firstName, String lastName, String id) throws Exception {
+        super(firstName, lastName, id);
+        this.generateLogin(firstName, lastName);
+        this.password = this.login;
+    }
 
     /**
      *

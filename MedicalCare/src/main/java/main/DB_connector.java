@@ -608,6 +608,111 @@ public class DB_connector {
         }
     }
     
+    
+    /**
+     * This method allow us to get all the patients which are recoreded into the database and followed by a doctor
+     * @return This method returns an ArrayList of Patients which contains all information about Patient
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicates if there is a problem during the getting of all patients
+     */
+    public ArrayList<Patient> getListPatientFromDoctor(String idDoc) throws SQLException, Exception {
+        ArrayList<Patient> tmpListPatients= new ArrayList<Patient>();
+        Boolean sexe, inclut;
+        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient WHERE Med_pk_id_personne='" + Integer.parseInt(idDoc) + "'";
+        SimpleDateFormat birth = new SimpleDateFormat();
+        birth.applyPattern("dd/MM/yyyy");
+        
+        System.out.println("query => " + query);
+        
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("PK_ID_PERSONNE");
+                String firstname = rs.getString("PRENOM");
+                String lastname = rs.getString("NOM");
+                String birthdate = rs.getString("DATE_NAISSANCE");
+                String tabBirthdate[] = new String[3];
+                String tabBirthDay[] = new String[2];
+                int d, m, y;
+                Patient tmpPatient;
+                
+                Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}).*");
+                Matcher match = p.matcher(birthdate);
+
+                if (match.find())   {
+                    y = Integer.parseInt(match.group(1));
+                    m = Integer.parseInt(match.group(2));
+                    d = Integer.parseInt(match.group(3));
+                }
+                else    {
+                    throw new Exception("Erreur de date !");
+                }
+                
+                tabBirthdate = birthdate.split("-");
+                tabBirthDay = tabBirthdate[2].split(" ");
+                               
+                if (rs.getString("SEXE").equals("0"))    {
+                    sexe = false;
+                }
+                else    {
+                    sexe = true;
+                }
+                if (rs.getString("STATUT").equals("0"))    {
+                    inclut = false;
+                }
+                else    {
+                    inclut = true;
+                }
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient.setInclusion(inclut);
+                tmpPatient.setId(id);
+                
+                tmpListPatients.add(tmpPatient);
+            }
+            
+            return tmpListPatients;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
+    }
+    
+    /**
+     * This method is used to select all the doctors which works wich the loged ARC
+     * @return This method returns an ArrayList of Doctor which contains all information about Doctor
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicates if there is a problem during the getting of all doctor
+     */
+    public ArrayList<Doctor> getListDoctor(String idARC) throws SQLException, Exception {
+        ArrayList<Doctor> tmpListDoctor= new ArrayList<Doctor>();
+        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + Integer.parseInt(idARC) + "'";
+        System.out.println("query => " + query);
+        
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("pk_id_personne");
+                String firstname = rs.getString("prenom");
+                String lastname = rs.getString("nom");
+
+                Doctor tmpDoctor;
+                tmpDoctor = new Doctor(firstname, lastname, id);                
+                tmpListDoctor.add(tmpDoctor);
+            }
+            
+            return tmpListDoctor;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
+    }
+    
     public void addDailyTest(DailyTest instance) throws SQLException, Exception {
         
         int verifiee;
