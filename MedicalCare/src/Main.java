@@ -2,12 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import main.*;
 import persons.*;
 
 /**
@@ -38,6 +36,5 @@ public class Main {
         //db.addUser(tmp.getId(), "kchiron", "kchiron", 1);
         //db.getGroupId("TP");
         
-        db.addPatientToGroup(dm.assignment(), dm);
     }
 }

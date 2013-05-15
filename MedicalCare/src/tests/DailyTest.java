@@ -1,6 +1,7 @@
 package tests;
 
 import java.util.GregorianCalendar;
+import persons.Doctor;
 import persons.Patient;
 
 /**
@@ -9,6 +10,9 @@ import persons.Patient;
  */
 public class DailyTest extends Analysis {
 
+        private Patient patientTested;
+        private Doctor med;
+        
 	private int[] bloodPressure;
 	private int heartBeats;
 	/**
@@ -43,7 +47,7 @@ public class DailyTest extends Analysis {
 	 * @param prescEEG
 	 * @param prescBlood
 	 */
-	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood, GregorianCalendar dailyDate) throws Exception {
+	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood, GregorianCalendar dailyDate, Patient p, Doctor med) throws Exception {
             super(observations);
             if (this.checkBeat(heart) && this.checkPressure(cystole) && this.checkPressure(diastole)) {
                 this.heartBeats = heart;
@@ -51,6 +55,8 @@ public class DailyTest extends Analysis {
                 this.prescEffort = prescEffort;
                 this.prescEEG = prescEEG;
                 this.dailyDate = dailyDate;
+                this.patientTested = p;
+                this.med = med;
                 
                 this.bloodPressure = new int[2];
                 this.bloodPressure[0] = cystole;
@@ -63,8 +69,28 @@ public class DailyTest extends Analysis {
             }
 	}
 
+        /**
+	 * Returns the blood pressure.
+	 * @return int[]
+	 */
 	public int[] getBloodPressure() {
 		return this.bloodPressure;
+	}
+        
+        /**
+	 * Returns the cystole pressure.
+	 * @return int
+	 */
+	public int getCystole() {
+		return this.bloodPressure[0];
+	}
+        
+        /**
+	 * Returns the diastole pressure.
+	 * @return int
+	 */
+	public int getDiastole() {
+		return this.bloodPressure[1];
 	}
 
 	/**
@@ -176,6 +202,53 @@ public class DailyTest extends Analysis {
             }
         }
         
+        
+        /**
+         * Returns the patient tested.
+	 * 
+	 * @return Patient
+	 */
+        public Patient getPatient() {
+		return this.patientTested;
+	}
+        
+        /**
+         * Returns the doctor.
+	 * 
+	 * @return Doctor
+	 */
+        public Doctor getMed() {
+            return this.med;
+        }
+        
+        /**
+         * Returns if there is a blood test prescription.
+	 * 
+	 * @return boolean
+	 */
+        public boolean getPrescEffort() {
+            return this.prescEffort;
+        }
+        
+        /**
+         * Returns if there is a blood test prescription.
+	 * 
+	 * @return boolean
+	 */
+        public boolean getPrescBlood() {
+            return this.prescBlood;
+        }
+        
+        /**
+         * Returns if there is an EEG test prescription.
+	 * 
+	 * @return boolean
+	 */
+        public boolean getPrescEEG() {
+            return this.prescEEG;
+        }
+        
+        
         /**
          * Returns the daily blood test.
 	 * 
@@ -195,7 +268,7 @@ public class DailyTest extends Analysis {
          * @param P
          * @param p
 	 */
-	public void addBlood(float Hb, float GR, float GB, float hemato, float P, Patient p) {
+	public void addBlood(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
 		this.bloodTest = new BloodTest(Hb, GR, GB, hemato, P, p);
 	}
         

@@ -11,11 +11,12 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import tests.*;
 import persons.*;
+import tests.*;
 
 /**
  * This class allows the core to access and modify data in the database. It also using a design pattern called singleton.
@@ -52,8 +53,8 @@ public class DB_connector {
     private void getServerConfig() throws IOException {
         BufferedReader br = null;
         try {
-            //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_home.cfg")));
-            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_home.cfg")));
+            //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException();
@@ -156,6 +157,18 @@ public class DB_connector {
      * @param bt
      */
     public boolean addBloodTest(BloodTest bt) {
+        String query = "";
+//        Recap of the table ANALYSESANG
+//        PK_ID_ANALYSESANG
+//        PK_ID_FICHEQUOTIDIENNE
+//        HEMOGLOBINE
+//        TAUX_GLOBULES_ROUGE
+//        HEMATOCRITE
+//        TAUX_GLOBULES_BLANC
+//        PLAQUETTES
+//        OBSERVATIONS_SANG
+//        CORRECT_SANG
+        
         System.out.println("addBloodTest");
         throw new UnsupportedOperationException();
     }
@@ -232,7 +245,7 @@ public class DB_connector {
 //        PK_ID_PERSONNE
 //        NOM
 //        PRENOM
-        String query = "INSERT INTO ARC VALUES ('', '"+dm.getLastName()+"', '"+dm.getFirstName()+"')";
+        String query = "INSERT INTO DATAMANAGER VALUES ('', '"+dm.getLastName()+"', '"+dm.getFirstName()+"')";
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         
@@ -258,21 +271,25 @@ public class DB_connector {
      */
     public void addUser(String id, String login, String password, int statut) throws SQLException, Exception {
         String query = "INSERT INTO UTILISATEUR VALUES ('',";
+        String job = "";
         
         if (statut == 1)  {
             query += "'"+ id +"',"
                     + "'',"
                     + "'', ";
+            job = "Data Manager";
         }
         else if (statut == 2)  {
             query += "'',"
                     + "'"+ id +"',"
-                    + "'', ";
+                    + "'', ";   
+            job = "ARC";
         }
         else if (statut == 3)   {
             query += "'',"
                     + "'',"
-                    + "'"+ id +"', ";            
+                    + "'"+ id +"', ";       
+            job = "Médecin";
         }
         else    {
             throw new Exception("This status does not exists !");
@@ -280,7 +297,7 @@ public class DB_connector {
             
         query += "'"+ login +"',"
                     + "'"+ password +"',"
-                    + "'"+ statut +"')";
+                    + "'"+ job +"')";
         
             
         System.out.println("query => " + query);
@@ -306,6 +323,42 @@ public class DB_connector {
         }
     }
     
+    public int getUserId(String firstname, String lastname, int statut) throws SQLException, Exception {
+        String table = "";
+        if (statut == 1) {
+            table = "DATAMANAGER";
+        }
+        else if (statut == 2) {
+            table = "ARC";
+        }
+        else if (statut == 3) {
+            table = "MEDECIN";
+        }
+        else    {
+            throw new Exception("This status does not exists !");
+        }
+        
+        String query = "SELECT COUNT (*) AS Total FROM "+ table +" WHERE "
+                + "NOM ='" + lastname + "' AND PRENOM = '" + firstname + "'";
+        System.out.println(query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        if (rs.getInt("Total") == 1)    {
+            String query2 = "SELECT PK_ID_PERSONNE FROM "+ table +" WHERE "
+                + "NOM ='" + lastname + "' AND PRENOM = '" + firstname + "'";
+            System.out.println(query2);
+            ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+            rs2.next();
+            return rs2.getInt("PK_ID_PERSONNE");
+        }
+        else if (rs.getInt("Total") == 0)    {
+            throw new Exception("This user does not exist ! ");
+        }
+        else    {
+            throw new Exception("CAUTION : This user exists twice at least !");
+        }
+    }
+    
     /**
      * This method returns an Actor (CRA or doctor or data manager). It could be used by the HCI to know which interface display to the user thanks to the status which is recorded into the database.
      * @param login This is the login of the user
@@ -314,44 +367,54 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates to the main program if the user does not exist
      */
-    public Actor userSelection(String login, String password) throws SQLException, Exception {
-        String query = "SELECT * FROM UTILISATEUR WHERE UTILISATEUR_LOGIN = '" + login + "' AND UTILISATEUR_PASSWORD = '" + password + "'";
+    public Actor getUser(int id, int statut) throws SQLException, Exception {
+        String table = "";
+        String query = "SELECT COUNT (*) AS Total FROM ";
+        if (statut == 1) {
+            table += "DATAMANAGER ";
+        }
+        else if (statut == 2) {
+            table += "ARC ";
+        }
+        else if (statut == 3) {
+            table += "MEDECIN  ";
+        }
+        else    {
+            throw new Exception("This status does not exists !");
+        }
+        
+        query += table + " WHERE PK_ID_PERSONNE = '" + id + "'";
         System.out.println(query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
-        System.out.println("Statut : " + rs.getString("UTILISATEUR_STATUT"));
         
-        if (checkUser(login))    {
-            String query2;
-            switch (rs.getString("UTILISATEUR_STATUT")) {
-                case "ARC":
-                    {
-                        query2 = "SELECT * FROM ARC WHERE PK_ID_PERSONNE = '" + rs.getString("ARC_ID") +  "'";
-                        System.out.println("query2 => " + query2);
-                        ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
-                        rs2.next();
-                        return new CRA(rs2.getString("PRENOM"), rs2.getString("NOM"));
-                    }
-                case "Médecin":
-                    {
-                        query2 = "SELECT * FROM MEDECIN WHERE PK_ID_PERSONNE = '" + rs.getString("Medecin_ID") +  "'";
-                        System.out.println("query2 => " + query2);
-                        ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
-                        rs2.next();
-                        return new Doctor(rs2.getString("PRENOM"), rs2.getString("NOM"));
-                    }
-                default:
-                    {
-                        query2 = "SELECT * FROM DATAMANAGER WHERE PK_ID_PERSONNE = '" + rs.getString("DM_ID") +  "'";
-                        System.out.println("query2 => " + query2);
-                        ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
-                        rs2.next();
-                        return new DataManager(rs2.getString("PRENOM"), rs2.getString("NOM"));
-                    }
+        if (rs.getInt("Total") == 1) {
+            String query2 = "SELECT * FROM " + table + " WHERE PK_ID_PERSONNE = '" + id + "'";
+            System.out.println(query2);
+            ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+            rs2.next();
+            
+            if (statut == 1)    {
+                DataManager tmpDM = new DataManager(rs2.getNString("PRENOM"), rs2.getNString("NOM"));
+                tmpDM.setId(rs2.getNString("PK_ID_PERSONNE"));
+                return tmpDM;
+            }
+            else if (statut == 2)    {
+                CRA tmpCRA = new CRA(rs2.getNString("PRENOM"), rs2.getNString("NOM"));
+                tmpCRA.setId(rs2.getNString("PK_ID_PERSONNE"));
+                return tmpCRA;
+            }
+            else    {
+                Doctor tmpDoctor = new Doctor(rs2.getNString("PRENOM"), rs2.getNString("NOM"));
+                tmpDoctor.setId(rs2.getNString("PK_ID_PERSONNE"));
+                return tmpDoctor;
             }
         }
+        else if (rs.getInt("Total") == 0) {
+            throw new Exception("This user does not exist !");
+        }
         else    {
-            throw new Exception ("This user does not exists into the database !");
+            throw new Exception("This user exists twice at least !");
         }
     }
 
@@ -419,13 +482,16 @@ public class DB_connector {
         if (rs.getInt("Total") > 1)    {
             throw new Exception("This patient is twice in the database !");
         }
+        if (rs.getInt("Total") == 0) {
+            throw new Exception("This patient does not exist in the database !");            
+        }
         else    {
+            try {
         
-            String query2 = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient"
+                String query2 = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient"
                     + " WHERE NOM = '" + lastname + "' AND PRENOM = '" + firstname + "' AND DATE_NAISSANCE = '" + birthday + "'";
 
-            System.out.println("query2 => " + query2);
-            try {
+                System.out.println("query2 => " + query2);
                 ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
                 rs2.next();
                 String id = rs2.getString("PK_ID_PERSONNE");
@@ -541,6 +607,71 @@ public class DB_connector {
             return null;
         }
     }
+    
+    public void addDailyTest(DailyTest instance) throws SQLException, Exception {
+        
+        int verifiee;
+        if (instance.getChecked()) {
+            verifiee = 1;
+        }
+        else {
+            verifiee = 0;
+        }
+        
+        GregorianCalendar dateTest = instance.getDailyDate();
+        
+        String strDate = String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.YEAR));
+        String idTest = String.valueOf(instance.getPatient().getId());
+        
+        while (idTest.length() < 4) {
+            idTest = "0" + idTest;
+        }
+            // Formate l'id pour qu'il fasse bien 4 caracteres.
+            
+        String numLot = idTest + String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH));
+        
+        String query_fiche = "insert into FICHEQUOTIDIENNE "
+                + "(PK_ID_FICHEQUOTIDIENNE, PK_NUM_LOT, DATE_FICHE, PRESSION_SYSTOLIQUE, "
+                + " PRESSION_DIASTOLIQUE, RYTHME_CARDIAQUE, OBSERVATIONS_QUOTIDIENNES, VERIFIE) "
+                + "values (null, " + numLot + ", " + strDate + ", " + instance.getCystole() + ", "
+                + instance.getDiastole() + ", " + instance.getHeartBeats() + ", " + instance.getObservations() + ", " + verifiee + ")";
+        // Format date : '26/12/2014'
+        System.out.println(query_fiche);
+        ResultSet rs_fiche = this.connect.createStatement().executeQuery(query_fiche);
+        rs_fiche.next();
+        
+        String query_rempli = "insert into REMPLI_FICHE (PK_ID_PERSONNE, PK_ID_FICHEQUOTIDIENNE, MED_PK_ID_PERSONNE) values "
+                + "(" + String.valueOf(instance.getPatient().getId()) + ", " + rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") + ", " + instance.getMed().getId() + ")" ;
+
+        System.out.println(query_rempli);
+        ResultSet rs_rempli = this.connect.createStatement().executeQuery(query_rempli);
+        rs_rempli.next();
+        
+        if (instance.getPrescBlood()) {
+            String query_blood = "insert into ANALYSESANG (PK_ID_ANALYSESANG, PK_ID_FICHEQUOTIDIENNE, HEMOGLOBINE, TAUX_GLOBULES_ROUGE, HEMATOCRITE, TAUX_GLOBULES_BLANC, PLAQUETTES, OBSERVATIONS_SANG, CORRECT_SANG) values "
+                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getBloodTest().getResults(0) +", "+ instance.getBloodTest().getResults(1) +","
+                    + " "+ instance.getBloodTest().getResults(3) +", "+ instance.getBloodTest().getResults(2) +", "+ instance.getBloodTest().getResults(4) +", "+ instance.getBloodTest().getObservations() +", null)";
+            
+            System.out.println(query_blood);
+            ResultSet rs_blood = this.connect.createStatement().executeQuery(query_blood);
+            rs_blood.next();
+        }
+        if (instance.getPrescEEG()) {
+            String query_eeg = "insert into ANALYSEEEG (PK_ID_ANALYSEEEG, PK_ID_FICHEQUOTIDIENNE, RESULTAT_EEG, OBSERVATIONS_EEG) values "
+                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEEGTest().getResult() +", "+ instance.getEEGTest().getObservations() +")";                    
+                    
+            System.out.println(query_eeg);
+            ResultSet rs_eeg = this.connect.createStatement().executeQuery(query_eeg);
+            rs_eeg.next();
+        }
+        if (instance.getPrescEffort()) {
+            String query_effort = "insert into ANALYSEEFFORT (PK_ID_ANALYSEEFFORT, PK_ID_FICHEQUOTIDIENNE, RYTHME_AVANT, RYTHME_APRES, RYTHME_1MIN_APRES, OBSERVATIONS_EFFORT) values "
+                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEffortTest().getBeforeEffort() +", "+ instance.getEffortTest().getPostEffort() +" , "+ instance.getEffortTest().getTimePlusOne() +", "+ instance.getEffortTest().getObservations() +")";
+            System.out.println(query_effort);
+            ResultSet rs_effort = this.connect.createStatement().executeQuery(query_effort);
+            rs_effort.next();
+        }
+    }
 
     /**
      *
@@ -584,10 +715,84 @@ public class DB_connector {
      * @param p
      * @param g
      */
-    public void addPatientToGroup(Patient p, Group g) {
-        System.out.println("addPatientGroup");
-        throw new UnsupportedOperationException();
-        //faire attention, plus valable quand assignement des groupes
+    public void addPatientToGroup(Group g, DataManager dm) throws Exception {
+        if (dm.getAssignment()) {
+            throw new Exception("All the patients has already a group !");
+        }
+        else    {
+            String query = "";
+            HashMap<String, ArrayList> groups = g.getListeGroupe();
+            HashMap<String, Integer> names = new HashMap<>();
+            names.put("PP1", getGroupId("PP1"));
+            names.put("PP2", names.get("PP1"));
+            names.put("VPaltPP", getGroupId("VPaltPP"));
+            names.put("VP", getGroupId("VP"));
+            names.put("TPaltPP", getGroupId("TPaltPP"));
+            names.put("TP", getGroupId("TP"));
+            names.put("TValtPP", getGroupId("TValtPP"));
+            names.put("TV", getGroupId("TV"));
+                        
+            for (String groupName : groups.keySet()) {
+                //System.out.println("groupName : " + groupName);
+                //System.out.println("WTF ? " + groups.get(groupName));
+                for (Patient p : (ArrayList<Patient>)groups.get(groupName)) {
+                    query = "UPDATE Patient SET PK_ID_GROUPE = '"+ names.get(groupName) +"'"
+                        + " WHERE PK_ID_PERSONNE = '" + p.getId() + "'";
+                    System.out.println("query => " + query);
+                    ResultSet rs2 = this.connect.createStatement().executeQuery(query);
+                }
+            }
+        }
+    }
+    
+    public int getGroupId(String g) throws Exception    {
+        String query = "";
+        String mol1, mol2, alt = "";
+        if (g.equals("PP1") || g.equals("PP2")) {
+            mol1 = "placebo";
+            mol2 = mol1;
+            alt = "0";
+        }
+        else if (g.equals("TV")) {
+            mol1 = "vicazen";
+            mol2 = "tricazen";
+            alt = "0";
+        }
+        else if (g.equals("TValtPP")) {
+            mol1 = "vicazen";
+            mol2 = "tricazen";
+            alt = "1";
+        }
+        else if (g.equals("TP")) {
+            mol1 = "tricazen";
+            mol2 = "placebo";
+            alt = "0";
+        }
+        else if (g.equals("TPaltPP")) {
+            mol1 = "tricazen";
+            mol2 = "placebo";
+            alt = "1";
+        }
+        else if (g.equals("VP")) {
+            mol1 = "vicazen";
+            mol2 = "placebo";
+            alt = "0";
+        }
+        else if (g.equals("VPaltPP")) {
+            mol1 = "vicazen";
+            mol2 = "placebo";
+            alt = "1";
+        }
+        else    {
+            throw new Exception("This group does not exist !");
+        }
+        
+        query = "SELECT PK_ID_GROUPE FROM GROUPE WHERE MOL1 = '"+mol1+"' AND MOL2 = '"+mol2+"' AND ALTERNATIF = '"+alt+"' ";
+        System.out.println("query : " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        
+        return Integer.parseInt(rs.getString("PK_ID_GROUPE"));
     }
 
     /**

@@ -18,48 +18,22 @@ public class CRA extends Actor {
      */
     public CRA( String firstName, String lastName) throws Exception {
         super(firstName, lastName);
-        generateLogin( login, password);
+        this.generateLogin(firstName, lastName);
+       this.password = this.login;
 
     }
-    
-    /**
-     *
-     * @param login
-     * @return
-     */
-    public boolean CreateLogin(String login) {
-        if( (this.login.length() >= 2)){
-                return true;
-                
-        }
-        else 
-            return false;
-    }
-        /**
-     *
-     * @param password
-     * @return
-     */
-    public boolean CreatePassword(String password) {
-        if( (this.password.length() >= 4) && (this.password.length() <= 15)){
-            password = login ;
-                return true;
-        }
-        else 
-            return false;
-    }
-
     /**
      *
      * @param login
      * @param password
      * @return
      */
-    public boolean CheckLogin(String login, String password) {
-        if ((this.login.equals(login)) && (this.password == password)) {
+    public boolean CheckPassword( String password)  throws Exception{
+        if (password.length() < 4 || password.length() > 15) {
+            this.password =password;
             return true;
-        } else {
-            return false;
+        } else {   
+            throw new Exception("password is not good!");
         }
     }  
     /**

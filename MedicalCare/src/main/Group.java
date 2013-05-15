@@ -59,4 +59,8 @@ public class Group {
 
 	//return aL;
     }
+
+    public HashMap<String, ArrayList> getListeGroupe() {
+        return listeGroupe;
+    }
 }
