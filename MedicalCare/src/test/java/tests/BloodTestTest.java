@@ -44,7 +44,8 @@ public class BloodTestTest {
     public void testCheckResult() throws Exception {
         System.out.println("checkResult");
         /* POUR UN HOMME */
-        Patient p = new Patient("prenom","nom",1980,12,12,true);
+        
+        Patient p = new Patient("prenom","nom",1980,12,12,true, null);
         Boolean expRes;
         Boolean Res=true;
         
@@ -102,7 +103,7 @@ public class BloodTestTest {
     
     
      /* POUR UNE FEMME */
-        p = new Patient("prenom","nom",1980,12,12,false);
+        p = new Patient("prenom","nom",1980,12,12,false, null);
         
         /* cas où toutes les valeurs sont dans les notmes physiologiques*/
         Hb = 15.0F;
@@ -136,7 +137,8 @@ public class BloodTestTest {
         float expResult;
         float result;
         int i;
-        Patient p = new Patient("prenom","nom",1980,12,12,false);
+        
+        Patient p = new Patient("prenom","nom",1980,12,12,false, null);
         BloodTest instance = new BloodTest( Hb,  GR,  GB,  hemato,  P,  p);
         for (i=0;i<5;i++){
             if (i==0){
@@ -189,7 +191,8 @@ public class BloodTestTest {
         results[3] = hemato;
         results[4] = P;        
         P = 300F;
-        Patient p = new Patient("prenom","nom",1980,12,12,true);
+        
+        Patient p = new Patient("prenom","nom",1980,12,12,true, null);
         BloodTest instance = new BloodTest( 17,  6,  6,  46, 350,  p);
         instance.setResults( Hb,  GR,  GB,  hemato,  P,  p);
         expResult = 15.0F;

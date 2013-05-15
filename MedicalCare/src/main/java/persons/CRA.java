@@ -15,29 +15,32 @@ public class CRA extends Actor {
      */
     private String password;
     /**
-     * The exclusion list is a hashmap with patient as key and exclusion justification as value
+     * The exclusion list is a hashmap with patient as key and exclusion
+     * justification as value
      */
     private HashMap<Patient, String> exclusionList = new HashMap<Patient, String>();
 
+    public CRA(String id, String firstName, String lastName) throws Exception {
+        super(id, firstName, lastName);
+    }
+
     /**
+     * Create a new CRA.
      *
-     * @param id
      * @param firstName
      * @param lastName
-     * @param password
-     * @param login the constructor create a new CRA (Clinical Research
-     * Associate) in the database
+     * @throws Exception
      */
     public CRA(String firstName, String lastName) throws Exception {
         super(firstName, lastName);
-        this.generateLogin(firstName, lastName);
+        this.generateLogin();
         this.password = this.login;
-
     }
 
     /**
      * Get the exclusion list. This is a HashMap<Patient, String>.
-     * @return 
+     *
+     * @return
      */
     public HashMap<Patient, String> getExclusionList() {
         return exclusionList;
@@ -45,6 +48,7 @@ public class CRA extends Actor {
 
     /**
      * Get the exclusion list size.
+     *
      * @return size of hashmap = number of patient
      */
     public int size() {
@@ -53,6 +57,7 @@ public class CRA extends Actor {
 
     /**
      * Get a justification for a specific patient.
+     *
      * @param key
      * @return justification as String
      */
@@ -62,18 +67,20 @@ public class CRA extends Actor {
 
     /**
      * Add a patient and justification to exclusion list.
+     *
      * @param pat
      * @param justif
-     * @return 
+     * @return
      */
-    public String put(Patient pat, String justif) {
+    public String exclude(Patient pat, String justif) {
         return exclusionList.put(pat, justif);
     }
 
     /**
      * Remove a patient from exclusion list.
+     *
      * @param pat
-     * @return 
+     * @return
      */
     public String remove(Patient pat) {
         return exclusionList.remove(pat);
@@ -88,19 +95,20 @@ public class CRA extends Actor {
 
     /**
      * Get the list of patient
+     *
      * @return Set<Patient>
      */
     public Set<Patient> keySet() {
         return exclusionList.keySet();
     }
-    
+
     /**
      *
      * @param login
      * @param password
      * @return
      */
-    public boolean CheckPassword(String password) throws Exception {
+    public boolean checkPassword(String password) throws Exception {
         if (password.length() < 4 || password.length() > 15) {
             return true;
         } else {
@@ -140,8 +148,13 @@ public class CRA extends Actor {
         this.password = password;
     }
 
-    private void generateLogin(String firstName, String lastName) throws Exception {
-        String log = firstName.substring(0, 1) + lastName;
+    /**
+     * Auto generate the CRA login.
+     *
+     * @throws Exception
+     */
+    private void generateLogin() throws Exception {
+        String log = super.getFirstName().substring(0, 1) + super.getLastName();
 
         DB_connector db = DB_connector.getInstance();
 

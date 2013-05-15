@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import persons.*;
@@ -368,7 +369,7 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates to the main program if the user does not exist
      */
-    public Actor getUser(int id, int statut) throws SQLException, Exception {
+    public Actor getUserById(int id, int statut) throws SQLException, Exception {
         String table = "";
         String query = "SELECT COUNT (*) AS Total FROM ";
         if (statut == 1) {
@@ -406,16 +407,94 @@ public class DB_connector {
                 return tmpCRA;
             }
             else    {
-                Doctor tmpDoctor = new Doctor(rs2.getNString("PRENOM"), rs2.getNString("NOM"));
+                Doctor tmpDoctor = new Doctor(rs2.getNString("PRENOM"), rs2.getNString("NOM"), rs2.getNString("PK_ID_PERSONNE"), null);
                 tmpDoctor.setId(rs2.getNString("PK_ID_PERSONNE"));
                 return tmpDoctor;
             }
         }
         else if (rs.getInt("Total") == 0) {
-            throw new Exception("This user does not exist !");
+            throw new Exception("This user does not exist!");
         }
         else    {
-            throw new Exception("This user exists twice at least !");
+            throw new Exception("This user exists twice at least!");
+        }
+    }
+    
+    /**
+     * 
+     * @param login
+     * @param password
+     * @param user
+     * @return 
+     */
+    public Actor connectionUser(String login, String password, String user) throws SQLException, Exception  {
+        int id, statut;
+        String queryCount = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+        System.out.println(queryCount);
+        ResultSet rsCount = this.connect.createStatement().executeQuery(queryCount);
+        rsCount.next();
+        
+        //if there is no user with this login
+        if (rsCount.getInt("Total") == 0)    {
+            throw new Exception("There is no user with this login!");
+        }
+        //else if there more than 1 user with this login
+        else if (rsCount.getInt("Total") > 1)    {
+            throw new Exception("There are two users at least with this login!");
+        }
+        //if there is one user
+        else    {
+            String queryPass = "SELECT UTILISATEUR_PASSWORD FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+            System.out.println(queryPass);
+            ResultSet rsPass = this.connect.createStatement().executeQuery(queryPass);
+            rsPass.next();
+
+            //if the password is not correct
+            if (!(rsPass.getString("UTILISATEUR_PASSWORD").equals(password)))  {
+                throw new Exception("The password is not correct!");
+            }
+            //if the password is correct
+            else    {
+                String querySelect = "SELECT * FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+                System.out.println(querySelect);
+                ResultSet rsSelect = this.connect.createStatement().executeQuery(querySelect);
+                rsSelect.next();
+
+                if (user.equals("Data Manager")) {
+                    //if the user is a data manager but the login is not corresponding to a data manager
+                    if (rsSelect.getString("DM_ID") == null) {
+                        throw new Exception("You are not a Data Manager!");
+                    }
+                    else    {
+                        id = Integer.parseInt(rsSelect.getString("DM_ID"));
+                        statut = 1;
+                    }
+                }
+                else if (user.equals("Assistant de recherche clinique")) {
+                    //if the user is a cra but the login is not corresponding to a cra
+                    if (rsSelect.getString("ARC_ID") == null) {
+                        throw new Exception("You are not a CRA!");
+                    }
+                    else    {
+                        id = Integer.parseInt(rsSelect.getString("ARC_ID"));
+                        statut = 2;
+                    }
+                }
+                else if (user.equals("Médecin")) {
+                    //if the user is a doctor but the login is not corresponding to a doctor
+                    if (rsSelect.getString("MEDECIN_ID") == null) {
+                        throw new Exception("You are not a Doctor!");
+                    }
+                    else    {
+                        id = Integer.parseInt(rsSelect.getString("MEDECIN_ID"));
+                        statut = 3;
+                    }
+                }
+                else    {
+                    throw new Exception("This job is not correct!");
+                }
+                return getUserById(id, statut);
+            }
         }
     }
     
@@ -450,6 +529,47 @@ public class DB_connector {
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
         return rs.getString("UTILISATEUR_QUESTION");
+    }
+    
+    /**
+     * This method permits to check if the answer given by the user is correct or not.
+     * @param answer String which contains the answer of the user.
+     * @return Boolean to know if the answer is correct or not.
+     */
+    public boolean checkUserAnswer(String answer, Actor user) throws SQLException, Exception   {
+        String question = "";
+        String column = "";
+        String reponse = "";
+        int id;
+        
+        if (user instanceof CRA)    {
+            column = "Arc_Id";
+        }
+        else if (user instanceof DataManager)   {
+            column = "Dm_Id";
+        }
+        else if (user instanceof Doctor)    {
+            column = "Medecin_Id";
+        }
+        else    {
+            throw new Exception("This Actor could not access to the database!");
+        }
+        
+        String query = "SELECT UTILISATEUR_REPONSE FROM Utilisateur WHERE "
+                + column +
+                " = "
+                + "'" + user.getId() + "'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        reponse = rs.getString("UTILISATEUR_REPONSE");
+        
+        if (reponse.equals(answer)) {
+            return true;
+        }
+        else    {
+            return false;
+        }
     }
    
     /**
@@ -558,7 +678,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
 
@@ -627,7 +747,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
                 
@@ -635,6 +755,111 @@ public class DB_connector {
             }
             
             return tmpListPatients;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
+    }
+    
+    
+    /**
+     * This method allow us to get all the patients which are recoreded into the database and followed by a doctor
+     * @return This method returns an ArrayList of Patients which contains all information about Patient
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicates if there is a problem during the getting of all patients
+     */
+    public ArrayList<Patient> getListPatientFromDoctor(String idDoc) throws SQLException, Exception {
+        ArrayList<Patient> tmpListPatients= new ArrayList<Patient>();
+        Boolean sexe, inclut;
+        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient WHERE Med_pk_id_personne='" + Integer.parseInt(idDoc) + "'";
+        SimpleDateFormat birth = new SimpleDateFormat();
+        birth.applyPattern("dd/MM/yyyy");
+        
+        System.out.println("query => " + query);
+        
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("PK_ID_PERSONNE");
+                String firstname = rs.getString("PRENOM");
+                String lastname = rs.getString("NOM");
+                String birthdate = rs.getString("DATE_NAISSANCE");
+                String tabBirthdate[] = new String[3];
+                String tabBirthDay[] = new String[2];
+                int d, m, y;
+                Patient tmpPatient;
+                
+                Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}).*");
+                Matcher match = p.matcher(birthdate);
+
+                if (match.find())   {
+                    y = Integer.parseInt(match.group(1));
+                    m = Integer.parseInt(match.group(2));
+                    d = Integer.parseInt(match.group(3));
+                }
+                else    {
+                    throw new Exception("Erreur de date !");
+                }
+                
+                tabBirthdate = birthdate.split("-");
+                tabBirthDay = tabBirthdate[2].split(" ");
+                               
+                if (rs.getString("SEXE").equals("0"))    {
+                    sexe = false;
+                }
+                else    {
+                    sexe = true;
+                }
+                if (rs.getString("STATUT").equals("0"))    {
+                    inclut = false;
+                }
+                else    {
+                    inclut = true;
+                }
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
+                tmpPatient.setInclusion(inclut);
+                tmpPatient.setId(id);
+                
+                tmpListPatients.add(tmpPatient);
+            }
+            
+            return tmpListPatients;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
+    }
+    
+    /**
+     * This method is used to select all the doctors which works wich the loged ARC
+     * @return This method returns an ArrayList of Doctor which contains all information about Doctor
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicates if there is a problem during the getting of all doctor
+     */
+    public ArrayList<Doctor> getListDoctor(String idARC) throws SQLException, Exception {
+        ArrayList<Doctor> tmpListDoctor= new ArrayList<Doctor>();
+        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + Integer.parseInt(idARC) + "'";
+        System.out.println("query => " + query);
+        
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("pk_id_personne");
+                String firstname = rs.getString("prenom");
+                String lastname = rs.getString("nom");
+
+                Doctor tmpDoctor;
+                tmpDoctor = new Doctor(firstname, lastname, id, null);                
+                tmpListDoctor.add(tmpDoctor);
+            }
+            
+            return tmpListDoctor;
         }
         catch (SQLException ex) {
             System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
@@ -837,4 +1062,45 @@ public class DB_connector {
         System.out.println("getInfoSubGroup");
         throw new UnsupportedOperationException();
     }
+    
+    public LinkedHashMap<Patient, ArrayList<Analysis>> getPatientsWithAnalysis() throws SQLException, Exception {
+    	
+    	LinkedHashMap<Patient, ArrayList<Analysis>> tmpPatientsWithAnalysis = new LinkedHashMap<Patient, ArrayList<Analysis>>();
+    	
+    	String date_jour = String.valueOf(Calendar.getInstance().get(Calendar.DATE))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.MONTH))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        String query = "SELECT PK_ID_PERSONNE, NOM, PRENOM, Date_sang, Date_eeg, Date_effort FROM Patient INNER JOIN PlanningPatient ON (Personne.PK_ID_PERSONNE = Planning.PK_ID_PERSONNE) WHERE date_sang = "+date_jour+" OR date_eeg = "+date_jour+" OR date_effort = "+date_jour;
+        
+        //System.out.println("query => " + query);
+        
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("PK_ID_PERSONNE");
+                String firstname = rs.getString("NOM");
+                String lastname = rs.getString("PRENOM");
+
+                Patient tmpPatient;
+                
+                tmpPatient = new Patient(firstname, lastname, id);
+                
+                ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
+                if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
+                	myAnalysis.add(new BloodTest());
+                if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
+                	myAnalysis.add(new EEG());
+                if (rs.getString("Date_effort").equalsIgnoreCase(date_jour))
+                	myAnalysis.add(new EffortTest());
+                tmpPatientsWithAnalysis.put(tmpPatient, myAnalysis);
+            }
+            
+            return tmpPatientsWithAnalysis;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
+    }
+    
 }
