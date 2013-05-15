@@ -54,7 +54,7 @@ public class DB_connector {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/server_home.cfg")));
-            //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
+            //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/server_gphy.cfg")));
         } catch (Exception e) {
             e.printStackTrace();
             throw new IOException();
@@ -269,7 +269,7 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicate to the main program when the status is wrong
      */
-    public void addUser(String id, String login, String password, int statut) throws SQLException, Exception {
+    public void addUser(String id, String login, String password, int statut, String question) throws SQLException, Exception {
         String query = "INSERT INTO UTILISATEUR VALUES ('',";
         String job = "";
         
@@ -289,7 +289,7 @@ public class DB_connector {
             query += "'',"
                     + "'',"
                     + "'"+ id +"', ";       
-            job = "M��decin";
+            job = "Médecin";
         }
         else    {
             throw new Exception("This status does not exists !");
@@ -297,9 +297,9 @@ public class DB_connector {
             
         query += "'"+ login +"',"
                     + "'"+ password +"',"
-                    + "'"+ job +"')";
+                    + "'"+ job +"',"
+                    + "'"+ question +"')";
         
-            
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
     }
@@ -417,7 +417,40 @@ public class DB_connector {
             throw new Exception("This user exists twice at least !");
         }
     }
-
+    
+    /**
+     * This method return the secret question to reinitialize the password.
+     * @param user Actor who want to reinitialize his/her password.
+     * @return The question in String format.
+     */
+    public String getUserQuestion(Actor user) throws SQLException, Exception   {
+        String question = "";
+        String column = "";
+        int id;
+        
+        if (user instanceof CRA)    {
+            column = "Arc_Id";
+        }
+        else if (user instanceof DataManager)   {
+            column = "Dm_Id";
+        }
+        else if (user instanceof Doctor)    {
+            column = "Medecin_Id";
+        }
+        else    {
+            throw new Exception("This Actor could not access to the database!");
+        }
+        
+        String query = "SELECT UTILISATEUR_QUESTION FROM Utilisateur WHERE "
+                + column +
+                " = "
+                + "'" + user.getId() + "'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        return rs.getString("UTILISATEUR_QUESTION");
+    }
+   
     /**
      * This method is used to exclude a Patient from the clinical trial.
      * @param id This is the identifier of the Patient which has been getted from the database. You have to get it before called this method
@@ -433,7 +466,7 @@ public class DB_connector {
         
         try {
             if (rs.getInt("Total") > 0)    {
-//                UPDATE [sch��ma.] Nom_Table [@DBLink]
+//                UPDATE [schéma.] Nom_Table [@DBLink]
 //                SET  column = expression | (subquery) 
 //                    (column1, column2,...) = (subquery)
 //             [WHERE (conditions)];
@@ -544,7 +577,7 @@ public class DB_connector {
      * @throws Exception to indicates if there is a problem during the getting of all patients
      */
     public ArrayList<Patient> getListPatient() throws SQLException, Exception {
-        ArrayList<Patient> tmpListPatients= new ArrayList<Patient>();
+        ArrayList<Patient> tmpListPatients = new ArrayList<Patient>();
         Boolean sexe, inclut;
         String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient";
         SimpleDateFormat birth = new SimpleDateFormat();
