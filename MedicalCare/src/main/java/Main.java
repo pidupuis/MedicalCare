@@ -49,5 +49,6 @@ public class Main {
         //System.out.println("Question : " + db.getUserQuestion(tmp));
         //System.out.println("Correct ? " + db.checkUserAnswer("pataate", tmp));
         //tmp = db.connectionUser("kchiron", "kchiron", "Data Manager");
+        System.out.println("Test");
     }
 }
