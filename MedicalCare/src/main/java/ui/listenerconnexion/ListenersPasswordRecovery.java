@@ -6,6 +6,7 @@ package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import main.DB_connector;
 
 import ui.loginframe.panels.LoginPane;
 import ui.loginframe.panels.PasswordRecoveryPane;
@@ -25,12 +26,59 @@ public class ListenersPasswordRecovery implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		try {
-			// String login = connexion.getLogin2();
-			//connexion.setQuestion(DB_connector.getInstance().getUserQuestion(login);
+            if(0==connexion.getScreen())
+            {
+                try {
+			String login = connexion.getLogin();
+                        String question =DB_connector.getInstance().getUserQuestion(login);
+			if(question!=null)
+                        {
+                            connexion.displayQuestion(question);
+                        }
 
 		} catch (Exception ex) {
-			//connexion.displayError2(ex.getMessage());
+			connexion.displayError(ex.getMessage());
 		}
+            }
+            else if(1==connexion.getScreen())
+            {
+                try {
+			String login = connexion.getLogin();
+			String answer = connexion.getAnswer();
+                        
+                        if(DB_connector.getInstance().checkUserAnswer(answer, login))
+                        {
+                            connexion.displayPassword();
+                        }
+                        else
+                        {
+                            connexion.displayError("La réponse est fausse !");
+                        }
+                        
+
+		} catch (Exception ex) {
+			connexion.displayError(ex.getMessage());
+		}
+            }
+            else
+            {
+                try {
+                       String login = connexion.getLogin();
+                        String pass = connexion.getNewPasswd();
+                        String pass2 = connexion.getNewPasswd2();
+                        if(pass==pass2)
+                        {
+                            DB_connector.getInstance().setChangePassword(pass,login);
+                        }
+                        else
+                        {
+                            connexion.displayError("Les deux password ne sont pas identique");
+                        }
+                        
+
+		} catch (Exception ex) {
+			connexion.displayError(ex.getMessage());
+		}
+            }
 	}
 }
