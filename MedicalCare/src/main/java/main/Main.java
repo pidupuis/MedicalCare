@@ -65,4 +65,11 @@ public class Main {
         return user;
     }
     
+    /**
+     * 
+     */
+    public static void exit() {
+    	System.exit(0);
+    }
+    
 }
