@@ -676,7 +676,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
 
@@ -745,7 +745,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
                 
