@@ -44,7 +44,7 @@ public class LoginFrame extends JFrame {
 	 */
 	public LoginFrame() {
 
-		String[] roles = {"Médecin", "Assistant de recherche clinique"};
+		String[] roles = {"Médecin", "Assistant de recherche clinique", "Data Manager"};
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 446, 294);
@@ -118,6 +118,10 @@ public class LoginFrame extends JFrame {
 	}
 
 	public void resetError() {
+		
+	}
+	
+	public void displaySuccess() {
 		
 	}
 }
