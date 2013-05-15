@@ -1,30 +1,21 @@
 package ui.loginframe;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 
 import javax.swing.JPasswordField;
 
-import ui.listenerconnexion.Listenersconnexion;
-import ui.listenerconnexion.Listenersrecovery;
 import ui.loginframe.panels.LoginPane;
-
-import javax.swing.BoxLayout;
-import java.awt.Component;
+import ui.loginframe.panels.PasswordRecoveryPane;
 
 public class LoginFrame extends JFrame {
 
@@ -35,6 +26,7 @@ public class LoginFrame extends JFrame {
 	private JComboBox comboBox;
 	
 	private LoginPane loginPane;
+	private PasswordRecoveryPane psswdPane;
 	
 
 	/**
@@ -54,11 +46,10 @@ public class LoginFrame extends JFrame {
 		lblMedicalCareConnect.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblMedicalCareConnect, "cell 0 0,grow");
 		
-		/**	 */
 		loginPane =  new LoginPane();
+		psswdPane = new PasswordRecoveryPane();
 		contentPane.add(loginPane, "cell 0 1,growx,aligny center");
 		
-		//this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
@@ -72,10 +63,16 @@ public class LoginFrame extends JFrame {
 		
 	}
 
+	/**
+	 * 
+	 */
 	public void resetError() {
 		
 	}
 	
+	/**
+	 * 
+	 */
 	public void displaySuccess() {
 		
 	}

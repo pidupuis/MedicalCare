@@ -10,12 +10,12 @@ import ui.loginframe.panels.LoginPane;
  *
  * @author Julien_Lavigne
  */
-public class Listenersconnexion implements ActionListener {
+public class ListenersButtonConnexion implements ActionListener {
 
 	private LoginPane connexion;
 
 
-	public Listenersconnexion(LoginPane interf)
+	public ListenersButtonConnexion(LoginPane interf)
 	{
 		connexion = interf;
 

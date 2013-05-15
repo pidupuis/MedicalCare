@@ -69,7 +69,9 @@ public class DailyTest extends Analysis {
             }
 	}
 
-        /**
+        public DailyTest() {}
+
+		/**
 	 * Returns the blood pressure.
 	 * @return int[]
 	 */
