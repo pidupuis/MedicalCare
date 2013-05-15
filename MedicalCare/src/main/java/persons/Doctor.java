@@ -1,5 +1,6 @@
 package persons;
 
+import java.util.ArrayList;
 import main.*;
 
 /**
@@ -20,6 +21,10 @@ public class Doctor extends Actor {
      * The CRA whose supervise this Doctor
      */
     private CRA cra;
+    /**
+     * List of patients supervised by the doctor
+     */
+    private ArrayList<Patient> patientList = new ArrayList<Patient>();
 
     /**
      * Constructor of the doctor's class. It throws an exception if the names
@@ -139,5 +144,24 @@ public class Doctor extends Actor {
      */
     public void setCra(CRA cra) {
         this.cra = cra;
+    }
+
+    /**
+     * Get the list of patient supervised by the doctor.
+     *
+     * @return
+     */
+    public ArrayList<Patient> getPatientList() {
+        return patientList;
+    }
+
+    /**
+     * Add a patient to the doctor's patient list.
+     *
+     * @param p
+     * @return
+     */
+    public boolean add(Patient p) {
+        return patientList.add(p);
     }
 }
