@@ -158,8 +158,7 @@ public class DB_connector {
      *
      * @param bt
      */
-    public boolean addBloodTest(BloodTest bt) {
-        String query = "";
+    private boolean addBloodTest(BloodTest bt) {
 //        Recap of the table ANALYSESANG
 //        PK_ID_ANALYSESANG
 //        PK_ID_FICHEQUOTIDIENNE
@@ -170,16 +169,16 @@ public class DB_connector {
 //        PLAQUETTES
 //        OBSERVATIONS_SANG
 //        CORRECT_SANG
-        
-        System.out.println("addBloodTest");
+    	System.out.println("addBloodTest");
         throw new UnsupportedOperationException();
+    	
     }
 
     /**
      *
      * @param electro
      */
-    public boolean addEEG(EEG electro) {
+    private boolean addEEG(EEG electro) {
         System.out.println("addEEG");
         throw new UnsupportedOperationException();
     }
@@ -188,7 +187,7 @@ public class DB_connector {
      *
      * @param effort
      */
-    public boolean addEffortTest(EffortTest effort) {
+    private boolean addEffortTest(EffortTest effort) {
 //        Recap of the table Analyseeffort
 //        PK_ID_ANALYSEEFFORT
 //        PK_ID_FICHEQUOTIDIENNE
@@ -1063,12 +1062,12 @@ public class DB_connector {
         throw new UnsupportedOperationException();
     }
     
-    public LinkedHashMap<Patient, ArrayList<Analysis>> getPatientsWithAnalysis() throws SQLException, Exception {
+    public LinkedHashMap<Patient, ArrayList<Analysis>> getPatientsWithAnalysis(String idMedecin) throws SQLException, Exception {
     	
     	LinkedHashMap<Patient, ArrayList<Analysis>> tmpPatientsWithAnalysis = new LinkedHashMap<Patient, ArrayList<Analysis>>();
     	
     	String date_jour = String.valueOf(Calendar.getInstance().get(Calendar.DATE))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.MONTH))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        String query = "SELECT PK_ID_PERSONNE, NOM, PRENOM, Date_sang, Date_eeg, Date_effort FROM Patient INNER JOIN PlanningPatient ON (Personne.PK_ID_PERSONNE = Planning.PK_ID_PERSONNE) WHERE date_sang = "+date_jour+" OR date_eeg = "+date_jour+" OR date_effort = "+date_jour;
+        String query = "SELECT PK_ID_PERSONNE, NOM, PRENOM, Date_sang, Date_eeg, Date_effort FROM Patient INNER JOIN PlanningPatient ON (Personne.PK_ID_PERSONNE = Planning.PK_ID_PERSONNE) WHERE Med_pk_id_personne = "+idMedecin;
         
         System.out.println("Query => " + query);
         
@@ -1088,6 +1087,7 @@ public class DB_connector {
                 tmpPatient = new Patient(firstname, lastname, id);
                 
                 ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
+                myAnalysis.add(new DailyTest());
                 if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
                 	myAnalysis.add(new BloodTest());
                 if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
