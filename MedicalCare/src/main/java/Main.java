@@ -16,6 +16,7 @@ import ui.LoginFrame;
  * @author Katia
  */
 public class Main {
+    private static Actor user;
     
     public static void main (String[] args) throws Exception {
     	new LoginFrame();
@@ -55,4 +56,13 @@ public class Main {
         //tmp = db.connectionUser("kchiron", "kchiron", "Data Manager");
         System.out.println("Test");
     }
+
+    public static void setUser(Actor user) {
+        Main.user = user;
+    }
+
+    public static Actor getUser() {
+        return user;
+    }
+    
 }

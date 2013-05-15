@@ -1,3 +1,4 @@
+package ui.listenerconnexion;
 import java.awt.*;
  import java.awt.event.*;
 import java.io.IOException;
@@ -6,6 +7,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.DB_connector;
+import persons.Actor;
  import ui.LoginFrame;
  /**
   *
@@ -29,8 +31,12 @@ import main.DB_connector;
         String mdp = connexion.getPassword();
         String role = connexion.getRole();
         try {
-             DB_connector.getInstance().connectionUser(login,mdp,role);
-        } catch (IOException ex) {
+             Actor act =DB_connector.getInstance().connectionUser(login,mdp,role);
+             if(act != null)
+             {
+                // Main.setUser(act);
+             }
+            } catch (Exception ex) {
             connexion.displayError(ex.getMessage());
         }
    
