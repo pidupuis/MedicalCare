@@ -26,59 +26,59 @@ public class ListenersPasswordRecovery implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) 
 	{
-            if(0==connexion.getScreen())
-            {
-                try {
-			String login = connexion.getLogin();
-                        String question =DB_connector.getInstance().getUserQuestion(login);
-			if(question!=null)
-                        {
-                            connexion.displayQuestion(question);
-                        }
+		if(0==connexion.getScreen())
+		{
+			try {
+				String login = connexion.getLogin();
+				String question =DB_connector.getInstance().getUserQuestion(login);
+				if(question!=null)
+				{
+					connexion.displayQuestion(question);
+				}
 
-		} catch (Exception ex) {
-			connexion.displayError(ex.getMessage());
+			} catch (Exception ex) {
+				connexion.displayError(ex.getMessage());
+			}
 		}
-            }
-            else if(1==connexion.getScreen())
-            {
-                try {
-			String login = connexion.getLogin();
-			String answer = connexion.getAnswer();
-                        
-                        if(DB_connector.getInstance().checkUserAnswer(answer, login))
-                        {
-                            connexion.displayPassword();
-                        }
-                        else
-                        {
-                            connexion.displayError("La réponse est fausse !");
-                        }
-                        
+		else if(1==connexion.getScreen())
+		{
+			try {
+				String login = connexion.getLogin();
+				String answer = connexion.getAnswer();
 
-		} catch (Exception ex) {
-			connexion.displayError(ex.getMessage());
-		}
-            }
-            else
-            {
-                try {
-                       String login = connexion.getLogin();
-                        String pass = connexion.getNewPasswd();
-                        String pass2 = connexion.getNewPasswd2();
-                        if(pass==pass2)
-                        {
-                            DB_connector.getInstance().resetPassword(pass,login);
-                        }
-                        else
-                        {
-                            connexion.displayError("Les deux password ne sont pas identique");
-                        }
-                        
+				if(DB_connector.getInstance().checkUserAnswer(answer, login))
+				{
+					connexion.displayPassword();
+				}
+				else
+				{
+					connexion.displayError("La réponse est fausse !");
+				}
 
-		} catch (Exception ex) {
-			connexion.displayError(ex.getMessage());
+
+			} catch (Exception ex) {
+				connexion.displayError(ex.getMessage());
+			}
 		}
-            }
+		else
+		{
+			try {
+				String login = connexion.getLogin();
+				String pass = connexion.getNewPasswd();
+				String pass2 = connexion.getNewPasswd2();
+				if(pass==pass2)
+				{
+					DB_connector.getInstance().setChangePassword(pass,login);
+				}
+				else
+				{
+					connexion.displayError("Les deux password ne sont pas identique");
+				}
+
+
+			} catch (Exception ex) {
+				connexion.displayError(ex.getMessage());
+			}
+		}
 	}
 }
