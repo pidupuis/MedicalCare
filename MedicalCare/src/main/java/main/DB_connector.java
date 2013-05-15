@@ -685,8 +685,6 @@ public class DB_connector {
             }
         }
     }
-       
-    
 
     
     /**
