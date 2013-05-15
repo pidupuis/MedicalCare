@@ -22,7 +22,7 @@ public class Main {
         try {
             db = DB_connector.getInstance();
             System.out.println("Connection !");
-        } catch (SQLException | IOException ex) {
+        } catch (Exception ex) {
             System.out.println("Connection failed !");
             //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

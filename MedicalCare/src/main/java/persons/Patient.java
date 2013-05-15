@@ -35,7 +35,7 @@ public class Patient extends Actor {
         int d, m, y, maxNbOfDays;
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         
-        HashMap nbDayInMonth = new HashMap<>();
+        HashMap<String, Integer> nbDayInMonth = new HashMap<String, Integer>();
         nbDayInMonth.put("1", 31);
         nbDayInMonth.put("2", 29);
         nbDayInMonth.put("3", 31);
