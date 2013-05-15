@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import main.*;
 import persons.*;
+import ui.LoginFrame;
 
 /**
  *
@@ -14,6 +15,8 @@ import persons.*;
  */
 public class Main {
     public static void main (String[] args) throws Exception {
+    	new LoginFrame();
+    	
         DB_connector db = null;
         Patient p = new Patient("aurelien", "JORON", 1980, 2, 8, true);
         DataManager dm = new DataManager("katia", "chiron");
