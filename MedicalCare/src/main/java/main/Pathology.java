@@ -1,7 +1,6 @@
 package main;
 
 /**
- *
  * @author Aurelie
  */
 public enum Pathology {
@@ -12,16 +11,18 @@ public enum Pathology {
     viral_hepatitis ("Hepathite viral"),
     cancer ("Cancer"),
     myocardial_infarction( "infarctus du myocarde"),
-    Arthrite_rhumatoïde ( "Arthrite rhumatoide"),
+    Arthrite_rhumatoide ( "Arthrite rhumatoide"),
     Mucoviscidose ("Mucoviscidose"),
     maladie_auto_immune ("maladie auto-immune"),
     Maladie_de_Parkinson ("Maladie de Parkinson"),
     Maladie_Alzheimer ("Maladie d'Alheimer"); 
 
     private String description;
+    
     private Pathology (String description){
         this.description = description;
     }
+    
     public static void affichePatho (){
         Pathology [] patho = Pathology.values();
         System.out.println("\n Liste des pathologies:");

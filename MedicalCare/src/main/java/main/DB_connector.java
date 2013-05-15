@@ -53,7 +53,7 @@ public class DB_connector {
     private void getServerConfig() throws IOException {
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_home.cfg")));
+            br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/server_home.cfg")));
             //br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/res/server_gphy.cfg")));
         } catch (Exception e) {
             e.printStackTrace();
@@ -289,7 +289,7 @@ public class DB_connector {
             query += "'',"
                     + "'',"
                     + "'"+ id +"', ";       
-            job = "Médecin";
+            job = "M��decin";
         }
         else    {
             throw new Exception("This status does not exists !");
@@ -433,7 +433,7 @@ public class DB_connector {
         
         try {
             if (rs.getInt("Total") > 0)    {
-//                UPDATE [schéma.] Nom_Table [@DBLink]
+//                UPDATE [sch��ma.] Nom_Table [@DBLink]
 //                SET  column = expression | (subquery) 
 //                    (column1, column2,...) = (subquery)
 //             [WHERE (conditions)];
