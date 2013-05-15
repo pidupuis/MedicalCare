@@ -1,5 +1,7 @@
 package persons;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Set;
 import main.*;
@@ -72,8 +74,21 @@ public class CRA extends Actor {
      * @param justif
      * @return
      */
-    public String exclude(Patient pat, String justif) {
-        return exclusionList.put(pat, justif);
+    public void askForExclusion(Patient pat, String justif) {
+        this.exclusionList.put(pat, justif);
+    }
+    
+    
+    /**
+     * confirm the exclusion for a patient.
+     * @param pat
+     * @throws SQLException
+     * @throws Exception 
+     */
+    public void confirmExclusion(Patient pat) throws SQLException, Exception {
+        pat.setInclusion(true);
+        DB_connector.getInstance().excludePatient(pat.getId(), this.exclusionList.get(pat));
+        this.remove(pat);
     }
 
     /**
@@ -82,8 +97,8 @@ public class CRA extends Actor {
      * @param pat
      * @return
      */
-    public String remove(Patient pat) {
-        return exclusionList.remove(pat);
+    public void remove(Patient pat) {
+       this.exclusionList.remove(pat);
     }
 
     /**

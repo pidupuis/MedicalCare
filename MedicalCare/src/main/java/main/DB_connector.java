@@ -761,6 +761,7 @@ public class DB_connector {
     
     /**
      * This method allow us to get all the patients which are recoreded into the database and followed by a doctor
+     * @param Doctor who supervise all the patient
      * @return This method returns an ArrayList of Patients which contains all information about Patient
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates if there is a problem during the getting of all patients
