@@ -99,9 +99,7 @@ public class DB_connector {
             System.err.println("Error while disconnecting : " + ex.getLocalizedMessage());
         }
     }
-    
-    
-
+       
     /**
      * When we add a new patient, we suppose that the database manage the auto-incrementation of the id
      * @param p Patient that is going to be recorded into the database 
@@ -603,14 +601,6 @@ public class DB_connector {
         }
     }
 
-    /**
-     *
-     * @param idDoctor
-     */
-    public ArrayList<Patient> getDoctorConsultations(int idDoctor) {
-        System.out.println("getDoctorConsultations");
-        throw new UnsupportedOperationException();
-    }
 
     /**
      * This method is used to get only one patient using his/her lastname, firstname and birthdate
@@ -759,7 +749,6 @@ public class DB_connector {
             return null;
         }
     }
-    
     
     /**
      * This method allow us to get all the patients which are recoreded into the database and followed by a doctor
