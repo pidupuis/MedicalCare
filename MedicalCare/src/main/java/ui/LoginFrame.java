@@ -15,7 +15,12 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPasswordField;
+
+import ui.listenerconnexion.Listenersconnexion;
+import ui.listenerconnexion.Listenersrecovery;
 
 public class LoginFrame extends JFrame {
 
@@ -24,6 +29,7 @@ public class LoginFrame extends JFrame {
 	private JPanel loginPane;
 	private JTextField txtLogin;
 	private JPasswordField passwordField;
+	private JComboBox comboBox;
 	
 
 	/**
@@ -78,7 +84,7 @@ public class LoginFrame extends JFrame {
 		JLabel lblRle = new JLabel("R\u00F4le");
 		loginPane.add(lblRle, "cell 0 3");
 		lblRle.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
-		JComboBox comboBox = new JComboBox(roles);
+		comboBox = new JComboBox(roles);
 		loginPane.add(comboBox, "cell 1 3,growx");
 		
 		JLabel lblError = new JLabel("Error Label");
@@ -89,9 +95,11 @@ public class LoginFrame extends JFrame {
 		JButton btnConnexion = new JButton("Connexion");
 		loginPane.add(btnConnexion, "cell 1 6,alignx right");
 		btnConnexion.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
+		btnConnexion.addActionListener(new Listenersconnexion(this));
 		
-		JLabel lblNewLabel_1 = new JLabel("?");
-		loginPane.add(lblNewLabel_1, "cell 2 6");
+		JButton btnRecovery = new JButton("?");
+		loginPane.add(btnRecovery, "cell 2 6");
+		btnRecovery.addActionListener((ActionListener) new Listenersrecovery(this));
 		
 	}
 	
@@ -101,6 +109,10 @@ public class LoginFrame extends JFrame {
 
 	public String getPassword() {
 		return new String(passwordField.getPassword());
+	}
+	
+	public String getRole() {
+		return (String)comboBox.getSelectedItem();
 	}
 	
 	/**

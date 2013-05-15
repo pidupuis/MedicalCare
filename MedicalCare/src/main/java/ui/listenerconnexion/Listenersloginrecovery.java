@@ -13,7 +13,7 @@ import ui.LoginFrame;
  *
  * @author Julien_Lavigne
  */
-public class Listenersloginrecovery {
+public class Listenersloginrecovery implements ActionListener{
  
     private JFrame connexion;
     
