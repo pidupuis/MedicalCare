@@ -21,44 +21,58 @@ public abstract class Actor {
      */
     private String lastName;
 
-    /**
-     * Constructor of the actor's class. Needs 2 parameters : the first and the
-     * last name. It throws an exception if the names are not correct.
-     *
-     * @param firstName
-     * @param lastName
-     */
-    public Actor(String firstName, String lastName) throws Exception {
-        if (this.checkName(firstName) && this.checkName(lastName)) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-        } else {
-            throw new Exception();
-        }
-    }
-
-    public Actor(String id, String firstName, String lastName) throws Exception {
-        this(firstName, lastName);
-        this.id = id;
-    }
-
-    /**
-     * Returns the id of the actor.
-     *
-     * @return String
-     */
-    public String getId() {
-        return this.id;
-    }
-
-    /**
-     * Set a new id to the actor.
-     *
-     * @param name
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
+	/**
+	 * Constructor of the actor's class. Needs 2 parameters : the first and the last name.
+         * It throws an exception if the names are not correct.
+         * 
+	 * @param firstName
+	 * @param lastName
+	 */
+	public Actor(String firstName, String lastName) throws Exception {
+            if (this.checkName(firstName) && this.checkName(lastName)) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+            }
+            else {
+                throw new Exception();
+            }
+	}
+	
+	/**
+	 * Constructor of the actor's class. Needs 3 parameters : the first, the last name and the ID.
+         * It throws an exception if the names are not correct.
+         * 
+	 * @param firstName
+	 * @param lastName
+	 */
+	public Actor(String firstName, String lastName, String id) throws Exception {
+            if (this.checkName(firstName) && this.checkName(lastName)) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.id = id;
+            }
+            else {
+                throw new Exception();
+            }
+	}
+        
+        /**
+        * Returns the id of the actor.
+        * 
+        * @return String
+        */
+	public String getId() {
+		return this.id;
+	}
+        
+        /**
+	 * Set a new id to the actor.
+         * 
+	 * @param name
+	 */
+        public void setId(String id) {
+            this.id = id;
+	}
 
     /**
      * Returns the first name of the actor.
@@ -104,18 +118,18 @@ public abstract class Actor {
         }
     }
 
-    /**
-     * Method that check if the name contains only acceptable caracters.
-     *
-     * @param lastName
-     * @return String
-     */
-    private boolean checkName(String name) {
-        if (name.matches("^[a-zA-Z][a-zA-Z -]{2,50}$")) {
-            // "^(([a-zA-Z][- ]{1})+){2,50}$" Par Katia.
-            return true;
-        } else {
-            return false;
+        /**
+	 * Method that check if the name contains only acceptable caracters.
+	 * @param lastName
+         * @return String
+	 */
+        private boolean checkName(String name) {
+            if (name.matches("^[a-zA-Z][a-zA-Z -]{2,50}$")) {
+                // "^(([a-zA-Z][- ]{1})+){2,50}$" Par Katia.
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-    }
 }
