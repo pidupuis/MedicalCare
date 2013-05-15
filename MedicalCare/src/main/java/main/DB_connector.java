@@ -765,10 +765,10 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates if there is a problem during the getting of all patients
      */
-    public ArrayList<Patient> getListPatientFromDoctor(String idDoc) throws SQLException, Exception {
+    public ArrayList<Patient> getListPatientFromDoctor(Doctor Doc) throws SQLException, Exception {
         ArrayList<Patient> tmpListPatients= new ArrayList<Patient>();
         Boolean sexe, inclut;
-        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient WHERE Med_pk_id_personne='" + Integer.parseInt(idDoc) + "'";
+        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient WHERE Med_pk_id_personne='" + Integer.parseInt(Doc.getId()) + "'";
         SimpleDateFormat birth = new SimpleDateFormat();
         birth.applyPattern("dd/MM/yyyy");
         
@@ -815,7 +815,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, Doc);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
                 
@@ -836,9 +836,9 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates if there is a problem during the getting of all doctor
      */
-    public ArrayList<Doctor> getListDoctor(String idARC) throws SQLException, Exception {
+    public ArrayList<Doctor> getListDoctor(CRA cra) throws SQLException, Exception {
         ArrayList<Doctor> tmpListDoctor= new ArrayList<Doctor>();
-        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + Integer.parseInt(idARC) + "'";
+        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + Integer.parseInt(cra.getId()) + "'";
         System.out.println("query => " + query);
         
         try {
@@ -851,7 +851,8 @@ public class DB_connector {
                 String lastname = rs.getString("nom");
 
                 Doctor tmpDoctor;
-                tmpDoctor = new Doctor(firstname, lastname, id, null);                
+                tmpDoctor = new Doctor(firstname, lastname, id, cra); 
+                tmpDoctor.setPatientList(this.getListPatientFromDoctor(tmpDoctor));
                 tmpListDoctor.add(tmpDoctor);
             }
             
