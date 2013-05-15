@@ -700,7 +700,7 @@ public class DB_connector {
             String lastname = rs.getString("nom");
             
             Doctor tmp = new Doctor(firstname, lastname, id, cra);
-            tmp.setPatientList(this.getListPatients(tmp));
+            //tmp.setPatientList(this.getListPatients(tmp));
             
             array.add(tmp);   
         }
