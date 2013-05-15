@@ -1070,7 +1070,7 @@ public class DB_connector {
     	String date_jour = String.valueOf(Calendar.getInstance().get(Calendar.DATE))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.MONTH))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
         String query = "SELECT PK_ID_PERSONNE, NOM, PRENOM, Date_sang, Date_eeg, Date_effort FROM Patient INNER JOIN PlanningPatient ON (Personne.PK_ID_PERSONNE = Planning.PK_ID_PERSONNE) WHERE date_sang = "+date_jour+" OR date_eeg = "+date_jour+" OR date_effort = "+date_jour;
         
-        //System.out.println("query => " + query);
+        System.out.println("Query => " + query);
         
         try {
         
@@ -1080,6 +1080,8 @@ public class DB_connector {
                 String id = rs.getString("PK_ID_PERSONNE");
                 String firstname = rs.getString("NOM");
                 String lastname = rs.getString("PRENOM");
+                
+                System.out.println(rs.getString("NOM"));
 
                 Patient tmpPatient;
                 

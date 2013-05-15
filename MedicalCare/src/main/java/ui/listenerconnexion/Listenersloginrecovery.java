@@ -23,7 +23,6 @@ public class Listenersloginrecovery implements ActionListener {
 		connexion = interf;        
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) 
 	{
 		try {
