@@ -68,7 +68,7 @@ public class ListenersPasswordRecovery implements ActionListener {
                         String pass2 = connexion.getNewPasswd2();
                         if(pass==pass2)
                         {
-                            DB_connector.getInstance().setChangePassword(pass,login);
+                            DB_connector.getInstance().resetPassword(pass,login);
                         }
                         else
                         {
