@@ -7,27 +7,29 @@ package ui.listenerconnexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import ui.LoginFrame;
+
+import ui.loginframe.LoginFrame;
+import ui.loginframe.panels.LoginPane;
 
 /**
  *
  * @author Julien_Lavigne
  */
 public class Listenersrecovery {
-    private LoginFrame connexion;
-    
-    
-    public Listenersrecovery(LoginFrame interf)
-    {
-        connexion = interf;
-        
-    }
+	private LoginPane connexion;
 
-    public void actionPerformed(ActionEvent e) 
-    {
-           
-       
-    }
+
+	public Listenersrecovery(LoginPane interf)
+	{
+		connexion = interf;
+
+	}
+
+	public void actionPerformed(ActionEvent e) 
+	{
+
+
+	}
 }
 
 

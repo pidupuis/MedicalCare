@@ -6,7 +6,8 @@ package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
-import ui.LoginFrame;
+
+import ui.loginframe.LoginFrame;
 
 /**
  *

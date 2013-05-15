@@ -7,13 +7,14 @@ package ui.listenerconnexion;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import ui.LoginFrame;
+
+import ui.loginframe.LoginFrame;
 
 /**
  *
  * @author Julien_Lavigne
  */
-public class Listenersloginrecovery {
+public class Listenersloginrecovery implements ActionListener {
  
     private LoginFrame connexion;
     

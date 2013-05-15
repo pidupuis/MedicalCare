@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import main.*;
 import persons.*;
-import ui.LoginFrame;
+import ui.loginframe.LoginFrame;
 
 /**
  *
