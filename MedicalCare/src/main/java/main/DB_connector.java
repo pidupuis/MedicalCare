@@ -503,28 +503,12 @@ public class DB_connector {
      * @param user Actor who want to reinitialize his/her password.
      * @return The question in String format.
      */
-    public String getUserQuestion(Actor user) throws SQLException, Exception   {
+    public String getUserQuestion(String login) throws SQLException, Exception   {
         String question = "";
         String column = "";
-        int id;
         
-        if (user instanceof CRA)    {
-            column = "Arc_Id";
-        }
-        else if (user instanceof DataManager)   {
-            column = "Dm_Id";
-        }
-        else if (user instanceof Doctor)    {
-            column = "Medecin_Id";
-        }
-        else    {
-            throw new Exception("This Actor could not access to the database!");
-        }
-        
-        String query = "SELECT UTILISATEUR_QUESTION FROM Utilisateur WHERE "
-                + column +
-                " = "
-                + "'" + user.getId() + "'";
+        String query = "SELECT UTILISATEUR_QUESTION FROM Utilisateur WHERE Utilisateur_login = "
+                + "'" + login + "'";
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
@@ -536,29 +520,13 @@ public class DB_connector {
      * @param answer String which contains the answer of the user.
      * @return Boolean to know if the answer is correct or not.
      */
-    public boolean checkUserAnswer(String answer, Actor user) throws SQLException, Exception   {
+    public boolean checkUserAnswer(String answer, String login) throws SQLException, Exception   {
         String question = "";
         String column = "";
         String reponse = "";
-        int id;
         
-        if (user instanceof CRA)    {
-            column = "Arc_Id";
-        }
-        else if (user instanceof DataManager)   {
-            column = "Dm_Id";
-        }
-        else if (user instanceof Doctor)    {
-            column = "Medecin_Id";
-        }
-        else    {
-            throw new Exception("This Actor could not access to the database!");
-        }
-        
-        String query = "SELECT UTILISATEUR_REPONSE FROM Utilisateur WHERE "
-                + column +
-                " = "
-                + "'" + user.getId() + "'";
+        String query = "SELECT UTILISATEUR_REPONSE FROM Utilisateur WHERE Utilisateur_login = "
+                + "'" + login + "'";
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();

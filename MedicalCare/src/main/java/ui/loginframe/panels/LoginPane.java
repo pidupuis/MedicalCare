@@ -1,7 +1,6 @@
 package ui.loginframe.panels;
 
 import java.awt.Font;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -13,8 +12,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import ui.listenerconnexion.Listenersconnexion;
-import ui.listenerconnexion.Listenersrecovery;
+import ui.listenerconnexion.ListenersButtonConnexion;
+import ui.listenerconnexion.ListenersButtonRecovery;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -22,7 +21,8 @@ public class LoginPane extends JPanel {
 
 	private JTextField txtLogin;
 	private JPasswordField passwordField;
-	private JComboBox comboBox;
+	private JComboBox<String> cbRole;
+	private JLabel lblError;
 
 	/**
 	 * Create the panel.
@@ -31,7 +31,7 @@ public class LoginPane extends JPanel {
 		String[] roles = {"Médecin", "Assistant de recherche clinique", "Data Manager"};
 		
 		this.setBorder(BorderFactory.createEmptyBorder());
-		this.setLayout(new MigLayout("inset 5", "[120px:n][grow][]", "[grow][][grow][][grow][][grow][][grow][][grow]"));
+		this.setLayout(new MigLayout("inset 5", "[120px:n][grow][]", "[grow][][grow][][grow][][grow][][grow][]"));
 		
 		JLabel lblUtilisateur = new JLabel("Utilisateur");
 		this.add(lblUtilisateur, "cell 0 1");
@@ -51,10 +51,10 @@ public class LoginPane extends JPanel {
 		JLabel lblRle = new JLabel("R\u00F4le");
 		this.add(lblRle, "cell 0 5");
 		lblRle.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
-		comboBox = new JComboBox(roles);
-		this.add(comboBox, "cell 1 5,growx");
+		cbRole = new JComboBox(roles);
+		this.add(cbRole, "cell 1 5,growx");
 		
-		JLabel lblError = new JLabel("Error Label");
+		lblError = new JLabel("Error Label");
 		this.add(lblError, "cell 0 7 2 1,growx,aligny center");
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
@@ -70,21 +70,35 @@ public class LoginPane extends JPanel {
 		
 		JButton btnRecovery = new JButton("?");
 		submitPane.add(btnRecovery);
-		btnRecovery.addActionListener( new Listenersrecovery(this));
-		btnConnexion.addActionListener(new Listenersconnexion(this));
+		btnRecovery.addActionListener( new ListenersButtonRecovery(this));
+		btnConnexion.addActionListener(new ListenersButtonConnexion(this));
 	}
 	
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getLogin() {
 		return txtLogin.getText();
 	}
 
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getPassword() {
 		return new String(passwordField.getPassword());
 	}
 	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public String getRole() {
-		return (String)comboBox.getSelectedItem();
+		return (String)cbRole.getSelectedItem();
 	}
 	
 
@@ -93,9 +107,6 @@ public class LoginPane extends JPanel {
 	 * @param error
 	 */
 	public void displayError(String error) {
-		
+		lblError.setText(error);
 	}
-	
-	
-
 }
