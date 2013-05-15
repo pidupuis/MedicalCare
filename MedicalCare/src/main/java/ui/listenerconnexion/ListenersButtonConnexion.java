@@ -1,9 +1,13 @@
 package ui.listenerconnexion;
 
 import java.awt.event.*;
+
+import javax.swing.JOptionPane;
+
 import persons.Actor;
 
 import main.DB_connector;
+import main.Main;
 import ui.loginframe.panels.LoginPane;
 
 /**
@@ -31,10 +35,13 @@ public class ListenersButtonConnexion implements ActionListener {
 			Actor act =DB_connector.getInstance().connectionUser(login,mdp,role);
 			if(act != null)
 			{
-				// Main.setUser(act);
+				Main.setUser(act);
+				connexion.displaySuccess("Success");
+				//JOptionPane.showMessageDialog(null, "Success");
 			}
 		} catch (Exception ex) {
 			connexion.displayError(ex.getMessage());
+			JOptionPane.showMessageDialog(null, "Error");
 		}
 	}
 }

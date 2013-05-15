@@ -34,7 +34,9 @@ public class Main {
         }
         
         tmp = db.getUserById(db.getUserId("katia", "chiron", 1), 1);
-        tmpListPatient = db.getListPatientFromDoctor("1");
+        //tmpListPatient = db.getListPatientFromDoctor("1");
+        //tmp = db.getUserById(db.getUserId("katia", "chiron", 1), 1);
+       // tmpListPatient = db.getListPatientFromDoctor(tmp);
         
         for(Patient pat : tmpListPatient){
         	System.out.println(pat.getFirstName());
