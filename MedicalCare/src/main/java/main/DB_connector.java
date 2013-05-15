@@ -657,28 +657,7 @@ public class DB_connector {
             }
         }
     }
-    
-    
-    public ArrayList<Doctor> getListDoctor (CRA cra) throws SQLException, Exception {
-        ArrayList<Doctor> array = new ArrayList<Doctor>();
-        
-        String query = "select * from Medecin where ARC_pk_id_personne = " + cra.getId();
-        ResultSet rs = this.connect.createStatement().executeQuery(query);
-        
-        while (rs.next()) {
-            String id = rs.getString("pk_id_personne");
-            MedicalCenter mc = new MedicalCenter(rs.getString("pk_nom_centre"), "plop center");
-            String firstname = rs.getString("prenom");
-            String lastname = rs.getString("nom");
-            
-            Doctor tmp = new Doctor(firstname, lastname, id, cra);
-            tmp.setPatientList(this.getListPatients(tmp));
-            
-            array.add(tmp);   
-        }
-        
-        return array; 
-    }
+       
     
 
     
