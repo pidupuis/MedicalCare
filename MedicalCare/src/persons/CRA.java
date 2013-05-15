@@ -28,12 +28,12 @@ public class CRA extends Actor {
      * @param password
      * @return
      */
+    
     public boolean CheckPassword( String password)  throws Exception{
         if (password.length() < 4 || password.length() > 15) {
-            this.password =password;
             return true;
         } else {   
-            throw new Exception("password is not good!");
+            throw new Exception("Password is not good!");
         }
     }  
     /**
