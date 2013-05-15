@@ -36,6 +36,8 @@ public class LoginPane extends JPanel {
 	public LoginPane(LoginFrame loginFrame) {
 		String[] roles = {"Médecin", "Assistant de recherche clinique", "Data Manager"};
 		
+		this.loginFrame = loginFrame;
+		
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setLayout(new MigLayout("inset 5", "[120px:n][grow][]", "[][grow][][grow][][grow][30px:n][grow][]"));
 		
@@ -118,6 +120,12 @@ public class LoginPane extends JPanel {
 	 */
 	public void displayError(String error) {
 		lblError.setText(error);
+		lblError.setVisible(true);
+	}
+	
+	public void resetError() {
+		lblError.setText("");
+		lblError.setVisible(false);
 	}
 	
 	/**

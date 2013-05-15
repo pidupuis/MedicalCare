@@ -1,6 +1,5 @@
 package ui.loginframe;
 
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -25,7 +24,6 @@ public class LoginFrame extends JFrame {
 	private PasswordRecoveryPane psswdPane;
 	private SuccessPane successPane;
 	
-
 	/**
 	 * Create the frame.
 	 */
@@ -36,7 +34,7 @@ public class LoginFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[150px:n,grow]", "[30px:n:100px,grow][grow]"));
+		contentPane.setLayout(new MigLayout("inset 5", "[150px:n,grow]", "[70px][grow]"));
 		
 		lblTitle = new JLabel("Medical Care Connect");
 		lblTitle.setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
@@ -46,10 +44,11 @@ public class LoginFrame extends JFrame {
 		loginPane =  new LoginPane(this);
 		psswdPane = new PasswordRecoveryPane(this);
 		successPane = new SuccessPane(this);
-		contentPane.add(loginPane, "cell 0 1,growx,aligny center");
+		contentPane.add(loginPane, "cell 0 1,grow");
 		
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		this.setResizable(false);
 	}
 	
 	/**
@@ -63,13 +62,16 @@ public class LoginFrame extends JFrame {
 	 * 
 	 */
 	public void changeToSuccess(String message) {
-		successPane.setSuccessMessage(message);
 		removeAll();
-		add(lblTitle, "cell 0 0,grow");
-		add(successPane, "cell 0 1,growx,aligny center");
+		getContentPane().add(lblTitle, "cell 0 0,grow");
+		successPane.setSuccessMessage(message);
+		getContentPane().add(successPane, "cell 0 1,growx,aligny center");
 		refreshUI();
 	}
 	
+	/**
+	 * 
+	 */
 	public void refreshUI() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
