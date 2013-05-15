@@ -36,7 +36,8 @@ public class ListenersButtonConnexion implements ActionListener {
 			if(act != null)
 			{
 				Main.setUser(act);
-				JOptionPane.showMessageDialog(null, "Success");
+				connexion.displaySuccess("Success");
+				//JOptionPane.showMessageDialog(null, "Success");
 			}
 		} catch (Exception ex) {
 			connexion.displayError(ex.getMessage());
