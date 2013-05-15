@@ -134,12 +134,13 @@ public class DB_connector {
 //        CAUSE_EXCLU
             
         try {        
-            query = "INSERT INTO Patient (NOM, PRENOM, DATE_NAISSANCE, SEXE, STATUT) VALUES ("
+            query = "INSERT INTO Patient (NOM, PRENOM, DATE_NAISSANCE, SEXE, STATUT, MED_PK_ID_PERSONNE) VALUES ("
                     + "'"+ p.getLastName() +"',"
                     + "'"+ p.getFirstName() +"',"
                     + "'"+ d+"/"+m+"/"+y +"', "
                     + "'"+ sexe +"', "
-                    + "'"+ inclusion +"'"
+                    + "'"+ inclusion +"', "
+                    + "'"+ p.getDoctor().getId() + "'"
                     + ")";
             
             System.out.println("query : " + query);

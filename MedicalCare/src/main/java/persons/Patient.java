@@ -199,4 +199,22 @@ public class Patient extends Actor {
     public boolean getInclusion() {
         return included;
     }
+
+    /**
+     * Getter of the Doctor responsible for the patient
+     * @return The doctor of this patient 
+     */
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    /**
+     * Setter of the Doctor responsible for the patient
+     * @param doctor 
+     */
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+    
+    
 }
