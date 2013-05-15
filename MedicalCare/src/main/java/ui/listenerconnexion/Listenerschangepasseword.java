@@ -4,21 +4,18 @@
  */
 package ui.listenerconnexion;
 
+import java.awt.event.ActionEvent;
+import javax.swing.JFrame;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.util.Scanner;
-import ui.LoginFrame;
 /**
  *
  * @author Julien_Lavigne
  */
-public class Listenersconnexion implements ActionListener {
+public class Listenerschangepasseword {
     private JFrame connexion;
     
     
-    public Listenersconnexion(JFrame interf)
+    public Listenerschangepasseword(JFrame interf)
     {
         connexion = interf;
         
@@ -29,4 +26,5 @@ public class Listenersconnexion implements ActionListener {
            
        
     }
+    
 }
