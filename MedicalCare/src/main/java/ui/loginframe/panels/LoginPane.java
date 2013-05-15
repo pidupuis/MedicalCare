@@ -67,6 +67,7 @@ public class LoginPane extends JPanel {
 		this.add(lblError, "cell 0 6 3 1,grow");
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
+		lblError.setVisible(false);
 		
 		JPanel submitPane = new JPanel();
 		this.add(submitPane, "cell 0 8 3 1,alignx right,aligny center");
@@ -124,7 +125,7 @@ public class LoginPane extends JPanel {
 	 * @param error
 	 */
 	public void displaySuccess(String success) {
-		
+		loginFrame.changeToSuccess(success);
 	}
 	
 	
