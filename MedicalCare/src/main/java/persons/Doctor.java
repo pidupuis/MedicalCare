@@ -29,17 +29,6 @@ public class Doctor extends Actor {
     }
 
     /**
-     * Create a new doctor. CRA is set to 'null'
-     * @param firstName
-     * @param lastName
-     * @throws Exception 
-     */
-    public Doctor(String firstName, String lastName) throws Exception {
-        this(firstName, lastName, null);
-    }
-
-    
-    /**
      *
      * @return String
      */
