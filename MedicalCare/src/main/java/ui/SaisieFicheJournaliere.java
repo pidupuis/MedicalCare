@@ -18,15 +18,19 @@ public class SaisieFicheJournaliere extends JPanel {
 	 */
 	public SaisieFicheJournaliere() {
 		//partie de gauche de mon panel
-		DefaultMutableTreeNode racine1 = new DefaultMutableTreeNode("Main User") ;
-			//recuperer les patients
-		for( int i = 0; i < 3; ++i)
-			   racine2.add( new DefaultMutableTreeNode("fils N° "+ i));
-			JTree monArbre2 = new JTree(racine2) ;
-				//pour chaque patient ajouter les fiches
+		DefaultMutableTreeNode racine2 = new DefaultMutableTreeNode("Racine");
 		
-		JTree tree = new JTree(racine1);
-		this.add(tree);
+		for (int i = 0; i < 3; i++){
+			//on recupere les patients
+			 racine2.add(new DefaultMutableTreeNode("fils"+ i));
+			//pour chaque patient ajouter les fiches
+			 for (int j = 0; j < 3; j++){
+				// String nd = ("fils"+ i).toString();
+				 //nd.add(new DefaultMutableTreeNode("petit-fils"+ j));
+			 }
+		}
+		JTree monArbre2 = new JTree(racine2) ;
+		this.add(monArbre2);
 		//partie de droite
 		
 			// remplissage de la fiche journaliere
