@@ -6,7 +6,13 @@ import main.*;
 
 public class CRA extends Actor {
 
+    /**
+     * CRA login as used to log in the software
+     */
     private String login;
+    /**
+     * CRA password used to log in the software
+     */
     private String password;
     /**
      * The exclusion list is a hashmap with patient as key and exclusion justification as value
