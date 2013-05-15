@@ -36,6 +36,8 @@ public class LoginPane extends JPanel {
 	public LoginPane(LoginFrame loginFrame) {
 		String[] roles = {"Médecin", "Assistant de recherche clinique", "Data Manager"};
 		
+		this.loginFrame = loginFrame;
+		
 		this.setBorder(BorderFactory.createEmptyBorder());
 		this.setLayout(new MigLayout("inset 5", "[120px:n][grow][]", "[][grow][][grow][][grow][30px:n][grow][]"));
 		
@@ -67,6 +69,7 @@ public class LoginPane extends JPanel {
 		this.add(lblError, "cell 0 6 3 1,grow");
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
+		lblError.setVisible(false);
 		
 		JPanel submitPane = new JPanel();
 		this.add(submitPane, "cell 0 8 3 1,alignx right,aligny center");
@@ -117,6 +120,12 @@ public class LoginPane extends JPanel {
 	 */
 	public void displayError(String error) {
 		lblError.setText(error);
+		lblError.setVisible(true);
+	}
+	
+	public void resetError() {
+		lblError.setText("");
+		lblError.setVisible(false);
 	}
 	
 	/**
@@ -124,7 +133,7 @@ public class LoginPane extends JPanel {
 	 * @param error
 	 */
 	public void displaySuccess(String success) {
-		
+		loginFrame.changeToSuccess(success);
 	}
 	
 	

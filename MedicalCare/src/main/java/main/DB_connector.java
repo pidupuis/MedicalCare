@@ -761,6 +761,7 @@ public class DB_connector {
     
     /**
      * This method allow us to get all the patients which are recoreded into the database and followed by a doctor
+     * @param Doctor who supervise all the patient
      * @return This method returns an ArrayList of Patients which contains all information about Patient
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates if there is a problem during the getting of all patients
@@ -1085,7 +1086,6 @@ public class DB_connector {
                 tmpPatient = new Patient(firstname, lastname, id);
                 
                 ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
-                myAnalysis.add(new DailyTest());
                 if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
                 	myAnalysis.add(new BloodTest());
                 if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))

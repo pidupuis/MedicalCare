@@ -15,6 +15,8 @@ public class DailyTest extends Analysis {
         
 	private int[] bloodPressure;
 	private int heartBeats;
+	private String numeroLot;
+	private String numeroChambre;
 	/**
 	 * The datamanager writes notes about which informations are not correct and need to be modified by the CRA.
 	 */
