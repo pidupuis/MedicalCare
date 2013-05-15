@@ -11,29 +11,51 @@ import java.util.regex.*;
 
 public class Patient extends Actor {
 
-    private String id;
-    private String firstName;
-    private String lastName;
-    //if gender = true then the patient is a male, else the patient is a female
-    private boolean gender;
-    private GregorianCalendar birthDate;
-    private String roomNumber;
-    private boolean included;
-
     /**
-     *
-     * @param firstname - Firstname of the patient
-     * @param lastname - Lastname of the patient
+     * ID of the patient
+     */
+    private String id;
+    
+    /**
+     * if the gender = true then the patient is a male, else the patient is a female
+     */
+    private boolean gender;
+    
+    /**
+     * Birthdate of the patient, in Gregorian Style
+     */
+    private GregorianCalendar birthDate;
+    
+    /**
+     * Where the patient is placed in the medical center
+     */
+    private String roomNumber;
+    
+    /**
+     * Status of the patient. If included is false, the patient is excluded of the research.
+     */
+    private boolean included;
+    
+    /**
+     * Doctor whose responsible for this patient
+     */
+    private Doctor doctor;
+    
+    /**
+     * Constructor of the class Patient
+     * 
      * @param year - Year of birth of the patient
      * @param month - Month of birth of the patient
      * @param day - Day of birth of the patient  
      * @param gender - Gender of the patient (male = 1 and female = 0)
      */
-    public Patient(String firstname, String lastname, int year, int month, int day, boolean gender) throws Exception {
+    public Patient(String firstname, String lastname, int year, int month, int day, boolean gender, Doctor doctor) throws Exception {
         super(firstname.toLowerCase(), lastname.toUpperCase());
         
         int d, m, y, maxNbOfDays;
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        
+        this.doctor = doctor;
         
         HashMap<String, Integer> nbDayInMonth = new HashMap<String, Integer>();
         nbDayInMonth.put("1", 31);
@@ -135,6 +157,11 @@ public class Patient extends Actor {
         return this.id;
     }
 
+    /**
+     * Set the ID of the Patient
+     * @param id 
+     */
+    @Override
     public void setId(String id) {
         this.id = id;
     }

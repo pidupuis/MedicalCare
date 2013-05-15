@@ -54,3 +54,8 @@ Desktop.ini
 # Mac crap
 .DS_Store
 
+############
+## Maven
+###########
+
+target/

@@ -44,6 +44,7 @@ public class Main {
         //db.checkUser("ajoron");
         //db.addUser(tmp.getId(), "kchiron", "kchiron", 1);
         //db.getGroupId("TP");
+        System.out.println("Question : " + db.getUserQuestion(tmp));
         
     }
 }

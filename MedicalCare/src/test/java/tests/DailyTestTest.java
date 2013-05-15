@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import persons.Doctor;
 import persons.Patient;
 
 /**
@@ -40,13 +41,38 @@ public class DailyTestTest {
     @Test
     public void testGetBloodPressure() throws Exception {
         System.out.println("getBloodPressure");
-        DailyTest instance = new DailyTest(12, 13, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 13, 50, "Aucune", false, false, false, null, null, null);
         int[] expResult = new int[2];
         expResult[0] = 12;
         expResult[1] = 13;
         int[] result = instance.getBloodPressure();
         assertArrayEquals(expResult, result);
     }
+    
+    /**
+     * Test of getCystole method, of class DailyTest.
+     */
+    @Test
+    public void testGetCystole() throws Exception {
+        System.out.println("getCystole");
+        DailyTest instance = new DailyTest(12, 13, 50, "Aucune", false, false, false, null, null, null);
+        int expResult = 12;
+        int result = instance.getCystole();
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getDiastole method, of class DailyTest.
+     */
+    @Test
+    public void testGetDiastole() throws Exception {
+        System.out.println("getDiastole");
+        DailyTest instance = new DailyTest(12, 13, 50, "Aucune", false, false, false, null, null, null);
+        int expResult = 13;
+        int result = instance.getDiastole();
+        assertEquals(expResult, result);
+    }
+    
 
     /**
      * Test of setBloodPressure method, of class DailyTest.
@@ -54,7 +80,7 @@ public class DailyTestTest {
     @Test
     public void testSetBloodPressure() throws Exception {
         System.out.println("setBloodPressure");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         int[] expResult = new int[2];
         expResult[0] = 12;
         expResult[1] = 20;
@@ -80,7 +106,7 @@ public class DailyTestTest {
     @Test
     public void testGetHeartBeats() throws Exception {
         System.out.println("getHeartBeats");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         int expResult = 50;
         int result = instance.getHeartBeats();
         assertEquals(expResult, result);
@@ -92,7 +118,7 @@ public class DailyTestTest {
     @Test
     public void testSetHeartBeats() throws Exception {
         System.out.println("setHeartBeats");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         try {
             instance.setHeartBeats(256);
         }
@@ -112,7 +138,7 @@ public class DailyTestTest {
     @Test
     public void testGetCheckNotes() throws Exception {
         System.out.println("getCheckNotes");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         String expResult = null;
         String result = instance.getCheckNotes();
         assertEquals(expResult, result);
@@ -124,7 +150,7 @@ public class DailyTestTest {
     @Test
     public void testSetCheckNotes() throws Exception {
         System.out.println("setCheckNotes");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         String expResult = "Test des check notes.";
         instance.setCheckNotes("Test des check notes.");
         String result = instance.getCheckNotes();
@@ -137,7 +163,7 @@ public class DailyTestTest {
     @Test
     public void testGetChecked() throws Exception {
         System.out.println("getChecked");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         boolean expResult = false;
         boolean result = instance.getChecked();
         assertEquals(expResult, result);
@@ -149,7 +175,7 @@ public class DailyTestTest {
     @Test
     public void testSetChecked() throws Exception {
         System.out.println("setChecked");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         boolean expResult = false;
         boolean result = instance.getChecked();
         assertEquals(expResult, result);
@@ -166,7 +192,7 @@ public class DailyTestTest {
     public void testGetDailyDate() throws Exception {
         System.out.println("getDailyDate");
         GregorianCalendar dailyDate = new GregorianCalendar(2005, 2, 10);
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, dailyDate);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, dailyDate, null, null);
         GregorianCalendar expResult = dailyDate;
         GregorianCalendar result = instance.getDailyDate();
         assertEquals(expResult, result);
@@ -179,7 +205,7 @@ public class DailyTestTest {
     public void testSetDailyDate() throws Exception {
         System.out.println("setDailyDate");
         GregorianCalendar testDate = new GregorianCalendar(2005, 2, 10);
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, testDate);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, testDate, null, null);
         testDate = new GregorianCalendar(2005, 7, 10);
         instance.setDailyDate(testDate);
         GregorianCalendar expResult = testDate;
@@ -193,7 +219,7 @@ public class DailyTestTest {
     @Test
     public void testGetReasonExclusion() throws Exception {
         System.out.println("getReasonExclusion");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         String expResult = null;
         String result = instance.getReasonExclusion();
         assertEquals(expResult, result);
@@ -205,7 +231,7 @@ public class DailyTestTest {
     @Test
     public void testSetReasonExclusion() throws Exception {
         System.out.println("setReasonExclusion");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         instance.setReasonExclusion("Il est mort !");
         String expResult = "Il est mort !";
         String result = instance.getReasonExclusion();
@@ -213,12 +239,82 @@ public class DailyTestTest {
     }
     
     /**
+     * Test of getPatient method, of class DailyTest.
+     */
+    @Test
+    public void testGetPatient() throws Exception {
+        System.out.println("getReasonExclusion");
+        Patient p = new Patient("firstname", "lastname", 1980, 10, 03, true);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, p, null);
+        Patient expResult = p;
+        Patient result = instance.getPatient();
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getMed method, of class DailyTest.
+     */
+    @Test
+    public void testGetMed() throws Exception {
+        System.out.println("getMed");
+        Doctor med = new Doctor("Docteur", "House");
+        Patient p = new Patient("firstname", "lastname", 1980, 10, 03, true);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, p, med);
+        Doctor expResult = med;
+        Doctor result = instance.getMed();
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getPrescEffort method, of class DailyTest.
+     */
+    @Test
+    public void testGetPrescEffort() throws Exception {
+        System.out.println("getPrescEffort");
+        Doctor med = new Doctor("Docteur", "House");
+        Patient p = new Patient("Jean", "Moulin", 1980, 10, 03, true);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, p, med);
+        boolean expResult = false;
+        boolean result = instance.getPrescEffort();
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getPrescEEG method, of class DailyTest.
+     */
+    @Test
+    public void testGetPrescEEG() throws Exception {
+        System.out.println("getPrescEEG");
+        Doctor med = new Doctor("Docteur", "House");
+        Patient p = new Patient("Jean", "Moulin", 1980, 10, 03, true);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", true, true, true, null, p, med);
+        boolean expResult = true;
+        boolean result = instance.getPrescEEG();
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of getPrescBlood method, of class DailyTest.
+     */
+    @Test
+    public void testGetPrescBlood() throws Exception {
+        System.out.println("getPrescBlood");
+        Doctor med = new Doctor("Docteur", "House");
+        Patient p = new Patient("Jean", "Moulin", 1980, 10, 03, true);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, p, med);
+        boolean expResult = false;
+        boolean result = instance.getPrescBlood();
+        assertEquals(expResult, result);
+    }
+    
+    
+    /**
      * Test of getBloodTest method, of class DailyTest.
      */
     @Test
     public void testGetBloodTest() throws Exception {
         System.out.println("getBloodTest");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         String expResult = null;
         BloodTest result = instance.getBloodTest();
         assertEquals(expResult, result);
@@ -230,7 +326,7 @@ public class DailyTestTest {
     @Test
     public void testAddBlood() throws Exception {
         System.out.println("addBlood");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         Patient testPatient = new Patient("Jean", "Moulin", 1980, 11, 13, true);
         boolean expResult = true;
         instance.addBlood(15, 5, 8, 45, 250, testPatient);
@@ -247,7 +343,7 @@ public class DailyTestTest {
     @Test
     public void testGetEEGTest() throws Exception {
         System.out.println("getEEGTest");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         String expResult = null;
         EEG result = instance.getEEGTest();
         assertEquals(expResult, result);
@@ -259,7 +355,7 @@ public class DailyTestTest {
     @Test
     public void testAddEEG() throws Exception {
         System.out.println("addEEG");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         boolean expResult = true;
         instance.addEEG(4);
         boolean result = false;
@@ -275,7 +371,7 @@ public class DailyTestTest {
     @Test
     public void testGetEffortTest() throws Exception {
         System.out.println("getEffortTest");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         String expResult = null;
         EffortTest result = instance.getEffortTest();
         assertEquals(expResult, result);
@@ -287,7 +383,7 @@ public class DailyTestTest {
     @Test
     public void testAddEffort() throws Exception {
         System.out.println("addEffort");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", false, false, false, null, null, null);
         boolean expResult = true;
         instance.addEffort(60, 110, 80);
         boolean result = false;
@@ -303,7 +399,7 @@ public class DailyTestTest {
     @Test
     public void testCheckTest() throws Exception {
         System.out.println("checkTest");
-        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", true, true, false, null);
+        DailyTest instance = new DailyTest(12, 20, 50, "Aucune", true, true, false, null, null, null);
         instance.addEffort(60, 110, 80);
         instance.addEEG(4);
         boolean expResult = true;
