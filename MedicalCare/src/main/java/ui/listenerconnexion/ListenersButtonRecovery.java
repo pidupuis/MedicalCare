@@ -14,11 +14,11 @@ import ui.loginframe.panels.LoginPane;
  *
  * @author Julien_Lavigne
  */
-public class Listenersrecovery implements ActionListener{
+public class ListenersButtonRecovery implements ActionListener{
 	private LoginPane connexion;
 
 
-	public Listenersrecovery(LoginPane interf)
+	public ListenersButtonRecovery(LoginPane interf)
 	{
 		connexion = interf;
 

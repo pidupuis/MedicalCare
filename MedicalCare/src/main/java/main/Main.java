@@ -1,10 +1,8 @@
+package main;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import main.*;
@@ -50,7 +48,7 @@ public class Main {
         //db.checkUser("ajoron");
         //db.addUser(tmp.getId(), "kchiron", "kchiron", 1);
         //db.getGroupId("TP");
-        System.out.println("Question : " + db.getUserQuestion(tmp));
+        //System.out.println("Question : " + db.getUserQuestion(tmp));
         //System.out.println("Question : " + db.getUserQuestion(tmp));
         //System.out.println("Correct ? " + db.checkUserAnswer("pataate", tmp));
         //tmp = db.connectionUser("kchiron", "kchiron", "Data Manager");
