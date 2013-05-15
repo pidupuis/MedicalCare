@@ -44,7 +44,13 @@ public class Doctor extends Actor {
     
 
 
-    /**
+    public Doctor(String firstName, String lastName, String id) throws Exception {
+    	super(firstName, lastName, id);
+	}
+
+
+
+	/**
      * Getter of the login of this instance of Doctor
      *
      * @return String
