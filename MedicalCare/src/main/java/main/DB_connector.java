@@ -538,6 +538,34 @@ public class DB_connector {
             return false;
         }
     }
+
+    /**
+     *
+     * @param login
+     * @param password
+     * @return
+     */
+    public boolean checkPassword(String password) throws Exception {
+        if (password.length() < 4 || password.length() > 15) {
+            return true;
+        } else {
+            throw new Exception("Password is not good!");
+        }
+    }
+    
+    /**
+     * 
+     * @param login
+     * @param password 
+     */
+    public void resetPassword(String login, String password) throws Exception {        
+        if (this.checkPassword(password))   {
+            String query = "UPDATE Utilisateur SET Utilisateur_Password ('"+ password +"')";
+            System.out.println("query => " + query);
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+            rs.next();
+        }
+    }
    
     /**
      * This method is used to exclude a Patient from the clinical trial.
