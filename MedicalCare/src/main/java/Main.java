@@ -16,6 +16,7 @@ import ui.LoginFrame;
  * @author Katia
  */
 public class Main {
+    
     public static void main (String[] args) throws Exception {
     	new LoginFrame();
     	
