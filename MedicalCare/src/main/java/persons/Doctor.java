@@ -7,10 +7,22 @@ import main.*;
  */
 public class Doctor extends Actor {
 
+        /**
+         * Login of the doctor on the database
+         */
 	private String login;
+        
+        /**
+         * Password of this Doctor on the database
+         */
 	private String password;
     
+        /**
+         * The CRA whose supervise this Doctor
+         */
         private CRA cra;
+        
+        
     /**
      * Constructor of the doctor's class. It throws an exception if the names are 
      * not correct.
@@ -29,7 +41,7 @@ public class Doctor extends Actor {
     }
 
     /**
-     *
+     * Getter of the login of this instance of Doctor
      * @return String
      */
     public String getLogin() {
@@ -37,7 +49,7 @@ public class Doctor extends Actor {
     }
 
     /**
-     *
+     * Getter of the password of this instance of Doctor
      * @return String
      */
     public String getPassword() {
@@ -45,8 +57,8 @@ public class Doctor extends Actor {
     }
 
     /**
-     *
-     * @param password
+     * Setter of the password
+     * @param password Take a new string in order to modify the previous password
      */
     public void setPassword(String password) throws Exception {
         if (this.checkPassword(password)) {
@@ -58,6 +70,11 @@ public class Doctor extends Actor {
         }
     }
     
+    /**
+     * Check the password. If the length of it is not between 4 and 15, the password is not good
+     * @param pass The password to check
+     * @return A boolean of the validity of the password
+     */
     private boolean checkPassword(String pass) {
         if (pass.length() < 4 || pass.length() > 15) {
             return false;
@@ -67,6 +84,12 @@ public class Doctor extends Actor {
         }
     }
     
+    /**
+     * It generate a password from the first and last name of an Doctor
+     * @param firstName
+     * @param lastName
+     * @throws Exception 
+     */
     private void generateLogin(String firstName, String lastName) throws Exception {
         String log = firstName.substring(0, 1) + lastName;
 
