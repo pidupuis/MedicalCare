@@ -72,7 +72,7 @@ public class CRA extends Actor {
      * @param justif
      * @return
      */
-    public String put(Patient pat, String justif) {
+    public String exclude(Patient pat, String justif) {
         return exclusionList.put(pat, justif);
     }
 

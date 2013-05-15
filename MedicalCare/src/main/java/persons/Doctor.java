@@ -31,39 +31,14 @@ public class Doctor extends Actor {
      * @param password
      * @param login
      */
-    public Doctor(String firstName, String lastName, CRA cra) throws Exception {
-        super(firstName, lastName);
-        this.generateLogin(firstName, lastName);
+    public Doctor(String firstName, String lastName, String id, CRA cra) throws Exception {
+        super(firstName, lastName, id);
+        this.generateLogin();
         this.password = this.login;
         this.cra = cra;
     }
     
-    /**
-     * Constructor of the doctor's class with the ID. It throws an exception if the names are 
-     * not correct.
-     * 
-     * @param id
-     * @param firstName
-     * @param lastName
-     * @param password
-     * @param login  
-     */
-    public Doctor(String firstName, String lastName, String id) throws Exception {
-        super(firstName, lastName, id);
-        this.generateLogin(firstName, lastName);
-        this.password = this.login;
-    }
 
-    /**
-     * Create a new doctor. CRA is set to 'null'
-     *
-     * @param firstName
-     * @param lastName
-     * @throws Exception
-     */
-    public Doctor(String firstName, String lastName) throws Exception {
-        this(firstName, lastName, null);
-    }
 
     /**
      * Getter of the login of this instance of Doctor
@@ -119,8 +94,8 @@ public class Doctor extends Actor {
      * @param lastName
      * @throws Exception
      */
-    private void generateLogin(String firstName, String lastName) throws Exception {
-        String log = firstName.substring(0, 1) + lastName;
+    private void generateLogin() throws Exception {
+        String log = super.getFirstName().substring(0, 1) + super.getLastName();
 
         DB_connector db = DB_connector.getInstance();
 
