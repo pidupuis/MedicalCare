@@ -33,6 +33,7 @@ public class ListenersButtonConnexion implements ActionListener {
 			if(act != null)
 			{
 				Main.setUser(act);
+                                connexion.displaySuccess("Vous êtes connecté sur Médical Care sous "+login+" en tant que "+role+" !");
 			}
 		} catch (Exception ex) {
 			connexion.displayError(ex.getMessage());
