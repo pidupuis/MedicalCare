@@ -405,7 +405,7 @@ public class DB_connector {
                 return tmpCRA;
             }
             else    {
-                Doctor tmpDoctor = new Doctor(rs2.getNString("PRENOM"), rs2.getNString("NOM"));
+                Doctor tmpDoctor = new Doctor(rs2.getNString("PRENOM"), rs2.getNString("NOM"), rs2.getNString("PK_ID_PERSONNE"), null);
                 tmpDoctor.setId(rs2.getNString("PK_ID_PERSONNE"));
                 return tmpDoctor;
             }
@@ -817,7 +817,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
                 
@@ -853,7 +853,7 @@ public class DB_connector {
                 String lastname = rs.getString("nom");
 
                 Doctor tmpDoctor;
-                tmpDoctor = new Doctor(firstname, lastname, id);                
+                tmpDoctor = new Doctor(firstname, lastname, id, null);                
                 tmpListDoctor.add(tmpDoctor);
             }
             
