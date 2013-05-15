@@ -367,7 +367,7 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates to the main program if the user does not exist
      */
-    public Actor getUser(int id, int statut) throws SQLException, Exception {
+    public Actor getUserById(int id, int statut) throws SQLException, Exception {
         String table = "";
         String query = "SELECT COUNT (*) AS Total FROM ";
         if (statut == 1) {
@@ -411,10 +411,88 @@ public class DB_connector {
             }
         }
         else if (rs.getInt("Total") == 0) {
-            throw new Exception("This user does not exist !");
+            throw new Exception("This user does not exist!");
         }
         else    {
-            throw new Exception("This user exists twice at least !");
+            throw new Exception("This user exists twice at least!");
+        }
+    }
+    
+    /**
+     * 
+     * @param login
+     * @param password
+     * @param user
+     * @return 
+     */
+    public Actor connectionUser(String login, String password, String user) throws SQLException, Exception  {
+        int id, statut;
+        String queryCount = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+        System.out.println(queryCount);
+        ResultSet rsCount = this.connect.createStatement().executeQuery(queryCount);
+        rsCount.next();
+        
+        //if there is no user with this login
+        if (rsCount.getInt("Total") == 0)    {
+            throw new Exception("There is no user with this login!");
+        }
+        //else if there more than 1 user with this login
+        else if (rsCount.getInt("Total") > 1)    {
+            throw new Exception("There are two users at least with this login!");
+        }
+        //if there is one user
+        else    {
+            String queryPass = "SELECT UTILISATEUR_PASSWORD FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+            System.out.println(queryPass);
+            ResultSet rsPass = this.connect.createStatement().executeQuery(queryPass);
+            rsPass.next();
+
+            //if the password is not correct
+            if (!(rsPass.getString("UTILISATEUR_PASSWORD").equals(password)))  {
+                throw new Exception("The password is not correct!");
+            }
+            //if the password is correct
+            else    {
+                String querySelect = "SELECT * FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
+                System.out.println(querySelect);
+                ResultSet rsSelect = this.connect.createStatement().executeQuery(querySelect);
+                rsSelect.next();
+
+                if (user.equals("Data Manager")) {
+                    //if the user is a data manager but the login is not corresponding to a data manager
+                    if (rsSelect.getString("DM_ID") == null) {
+                        throw new Exception("You are not a Data Manager!");
+                    }
+                    else    {
+                        id = Integer.parseInt(rsSelect.getString("DM_ID"));
+                        statut = 1;
+                    }
+                }
+                else if (user.equals("Assistant de recherche clinique")) {
+                    //if the user is a cra but the login is not corresponding to a cra
+                    if (rsSelect.getString("ARC_ID") == null) {
+                        throw new Exception("You are not a CRA!");
+                    }
+                    else    {
+                        id = Integer.parseInt(rsSelect.getString("ARC_ID"));
+                        statut = 2;
+                    }
+                }
+                else if (user.equals("Médecin")) {
+                    //if the user is a doctor but the login is not corresponding to a doctor
+                    if (rsSelect.getString("MEDECIN_ID") == null) {
+                        throw new Exception("You are not a Doctor!");
+                    }
+                    else    {
+                        id = Integer.parseInt(rsSelect.getString("MEDECIN_ID"));
+                        statut = 3;
+                    }
+                }
+                else    {
+                    throw new Exception("This job is not correct!");
+                }
+                return getUserById(id, statut);
+            }
         }
     }
     
@@ -449,6 +527,47 @@ public class DB_connector {
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
         return rs.getString("UTILISATEUR_QUESTION");
+    }
+    
+    /**
+     * This method permits to check if the answer given by the user is correct or not.
+     * @param answer String which contains the answer of the user.
+     * @return Boolean to know if the answer is correct or not.
+     */
+    public boolean checkUserAnswer(String answer, Actor user) throws SQLException, Exception   {
+        String question = "";
+        String column = "";
+        String reponse = "";
+        int id;
+        
+        if (user instanceof CRA)    {
+            column = "Arc_Id";
+        }
+        else if (user instanceof DataManager)   {
+            column = "Dm_Id";
+        }
+        else if (user instanceof Doctor)    {
+            column = "Medecin_Id";
+        }
+        else    {
+            throw new Exception("This Actor could not access to the database!");
+        }
+        
+        String query = "SELECT UTILISATEUR_REPONSE FROM Utilisateur WHERE "
+                + column +
+                " = "
+                + "'" + user.getId() + "'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        reponse = rs.getString("UTILISATEUR_REPONSE");
+        
+        if (reponse.equals(answer)) {
+            return true;
+        }
+        else    {
+            return false;
+        }
     }
    
     /**
@@ -557,7 +676,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
 
@@ -626,7 +745,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
                 
