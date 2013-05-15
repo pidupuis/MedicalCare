@@ -13,11 +13,11 @@ import ui.LoginFrame;
  *
  * @author Julien_Lavigne
  */
-public class Listenersconnexion2 {
+public class Listenersrecovery {
     private JFrame connexion;
     
     
-    public Listenersconnexion2(JFrame interf)
+    public Listenersrecovery(JFrame interf)
     {
         connexion = interf;
         
