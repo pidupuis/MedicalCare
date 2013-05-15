@@ -6,7 +6,6 @@ package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 
 import ui.loginframe.LoginFrame;
 import ui.loginframe.panels.LoginPane;
@@ -15,7 +14,7 @@ import ui.loginframe.panels.LoginPane;
  *
  * @author Julien_Lavigne
  */
-public class Listenersrecovery {
+public class Listenersrecovery implements ActionListener{
 	private LoginPane connexion;
 
 
@@ -27,9 +26,6 @@ public class Listenersrecovery {
 
 	public void actionPerformed(ActionEvent e) 
 	{
-
-
+		//connexion.changepassword();   
 	}
 }
-
-

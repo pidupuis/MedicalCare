@@ -5,7 +5,7 @@
 package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
-import javax.swing.JFrame;
+import java.awt.event.ActionListener;
 
 import ui.loginframe.LoginFrame;
 
@@ -13,19 +13,22 @@ import ui.loginframe.LoginFrame;
  *
  * @author Julien_Lavigne
  */
-public class Listenersreponserecovery {
-        private LoginFrame connexion;
-    
-    
-    public Listenersreponserecovery(LoginFrame interf)
-    {
-        connexion = interf;
-        
-    }
+public class Listenersreponserecovery implements ActionListener{
+	private LoginFrame connexion;
 
-    public void actionPerformed(ActionEvent e) 
-    {
-           
-       
-    }
+
+	public Listenersreponserecovery(LoginFrame interf)
+	{
+		connexion = interf;
+	}
+
+	public void actionPerformed(ActionEvent e) 
+	{
+		try {
+			//String pass = connexion.setReponse();
+			//String login = connexion.setLogin2();
+		} catch (Exception ex) {
+			connexion.displayError(ex.getMessage());
+		}
+	}
 }

@@ -1,12 +1,8 @@
 package ui.listenerconnexion;
 
-import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import javax.swing.*;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import persons.Actor;
+
 import main.DB_connector;
 import ui.loginframe.panels.LoginPane;
 
@@ -32,11 +28,13 @@ public class Listenersconnexion implements ActionListener {
 		String mdp = connexion.getPassword();
 		String role = connexion.getRole();
 		try {
-			DB_connector.getInstance().connectionUser(login,mdp,role);
+			Actor act =DB_connector.getInstance().connectionUser(login,mdp,role);
+			if(act != null)
+			{
+				// Main.setUser(act);
+			}
 		} catch (Exception ex) {
 			connexion.displayError(ex.getMessage());
 		}
-
-
 	}
 }

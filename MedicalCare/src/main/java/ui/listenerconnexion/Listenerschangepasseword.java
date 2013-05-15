@@ -5,7 +5,7 @@
 package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
-import javax.swing.JFrame;
+import java.awt.event.ActionListener;
 
 import ui.loginframe.LoginFrame;
 
@@ -13,7 +13,7 @@ import ui.loginframe.LoginFrame;
  *
  * @author Julien_Lavigne
  */
-public class Listenerschangepasseword {
+public class Listenerschangepasseword implements ActionListener {
     private LoginFrame connexion;
     
     

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import persons.*;
@@ -134,12 +135,13 @@ public class DB_connector {
 //        CAUSE_EXCLU
             
         try {        
-            query = "INSERT INTO Patient (NOM, PRENOM, DATE_NAISSANCE, SEXE, STATUT) VALUES ("
+            query = "INSERT INTO Patient (NOM, PRENOM, DATE_NAISSANCE, SEXE, STATUT, MED_PK_ID_PERSONNE) VALUES ("
                     + "'"+ p.getLastName() +"',"
                     + "'"+ p.getFirstName() +"',"
                     + "'"+ d+"/"+m+"/"+y +"', "
                     + "'"+ sexe +"', "
-                    + "'"+ inclusion +"'"
+                    + "'"+ inclusion +"', "
+                    + "'"+ p.getDoctor().getId() + "'"
                     + ")";
             
             System.out.println("query : " + query);
@@ -1060,4 +1062,45 @@ public class DB_connector {
         System.out.println("getInfoSubGroup");
         throw new UnsupportedOperationException();
     }
+    
+    public LinkedHashMap<Patient, ArrayList<Analysis>> getPatientsWithAnalysis() throws SQLException, Exception {
+    	
+    	LinkedHashMap<Patient, ArrayList<Analysis>> tmpPatientsWithAnalysis = new LinkedHashMap<Patient, ArrayList<Analysis>>();
+    	
+    	String date_jour = String.valueOf(Calendar.getInstance().get(Calendar.DATE))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.MONTH))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+        String query = "SELECT PK_ID_PERSONNE, NOM, PRENOM, Date_sang, Date_eeg, Date_effort FROM Patient INNER JOIN PlanningPatient ON (Personne.PK_ID_PERSONNE = Planning.PK_ID_PERSONNE) WHERE date_sang = "+date_jour+" OR date_eeg = "+date_jour+" OR date_effort = "+date_jour;
+        
+        //System.out.println("query => " + query);
+        
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("PK_ID_PERSONNE");
+                String firstname = rs.getString("NOM");
+                String lastname = rs.getString("PRENOM");
+
+                Patient tmpPatient;
+                
+                tmpPatient = new Patient(firstname, lastname, id);
+                
+                ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
+                if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
+                	myAnalysis.add(new BloodTest());
+                if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
+                	myAnalysis.add(new EEG());
+                if (rs.getString("Date_effort").equalsIgnoreCase(date_jour))
+                	myAnalysis.add(new EffortTest());
+                tmpPatientsWithAnalysis.put(tmpPatient, myAnalysis);
+            }
+            
+            return tmpPatientsWithAnalysis;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
+    }
+    
 }

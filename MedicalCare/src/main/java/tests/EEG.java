@@ -23,6 +23,8 @@ public class EEG extends Analysis {
             }
 	}
 
+	public EEG() {}
+
 	public int getResult() {
 		return this.result;
 	}

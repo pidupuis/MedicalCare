@@ -6,29 +6,31 @@ package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
 
-import ui.loginframe.LoginFrame;
+import ui.loginframe.panels.LoginPane;
 
 /**
  *
  * @author Julien_Lavigne
  */
 public class Listenersloginrecovery implements ActionListener {
- 
-    private LoginFrame connexion;
-    
-    public Listenersloginrecovery (LoginFrame interf)
-    {
-        connexion = interf;        
-    }
 
-    public void actionPerformed(ActionEvent e) 
-    {
-           
-       
-    }
+	private LoginPane connexion;
+
+	public Listenersloginrecovery (LoginPane interf)
+	{
+		connexion = interf;        
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) 
+	{
+		try {
+			// String login = connexion.getLogin2();
+			//connexion.setQuestion(DB_connector.getInstance().getUserQuestion(login);
+
+		} catch (Exception ex) {
+			//connexion.displayError2(ex.getMessage());
+		}
+	}
 }
-
-    
-

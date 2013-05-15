@@ -70,7 +70,7 @@ public class LoginPane extends JPanel {
 		
 		JButton btnRecovery = new JButton("?");
 		submitPane.add(btnRecovery);
-		btnRecovery.addActionListener((ActionListener) new Listenersrecovery(this));
+		btnRecovery.addActionListener( new Listenersrecovery(this));
 		btnConnexion.addActionListener(new Listenersconnexion(this));
 	}
 	
