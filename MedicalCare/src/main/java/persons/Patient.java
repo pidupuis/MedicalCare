@@ -103,7 +103,11 @@ public class Patient extends Actor {
         this.included = true;
     }
 
-    /**
+    public Patient(String firstname, String lastname, String id) throws Exception {
+		super(firstname, lastname, id);
+	}
+
+	/**
      *  This method allows the main program to get the gender of the patient
      * @return 'True' if the Patient is a male or 'False' if the Patient is a male.
      */
@@ -199,4 +203,22 @@ public class Patient extends Actor {
     public boolean getInclusion() {
         return included;
     }
+
+    /**
+     * Getter of the Doctor responsible for the patient
+     * @return The doctor of this patient 
+     */
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    /**
+     * Setter of the Doctor responsible for the patient
+     * @param doctor 
+     */
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
+    }
+    
+    
 }

@@ -28,6 +28,8 @@ public class EffortTest extends Analysis {
             }
 	}
 
+	public EffortTest() {}
+
 	public int getBeforeEffort() {
             return this.beforeEffort;
 	}
