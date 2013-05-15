@@ -10,6 +10,7 @@ public class Doctor extends Actor {
 	private String login;
 	private String password;
     
+        private CRA cra;
     /**
      * Constructor of the doctor's class. It throws an exception if the names are 
      * not correct.
@@ -20,10 +21,11 @@ public class Doctor extends Actor {
      * @param password
      * @param login  
      */
-    public Doctor(String firstName, String lastName) throws Exception {
+    public Doctor(String firstName, String lastName, CRA cra) throws Exception {
         super(firstName, lastName);
         this.generateLogin(firstName, lastName);
         this.password = this.login;
+        this.cra = cra;
     }
 
     /**
@@ -84,6 +86,22 @@ public class Doctor extends Actor {
                 continueLoop = false;
             }
         }
+    }
+
+    /**
+     * Getter of the CRA whose supervise this instance of Doctor
+     * @return CRA
+     */
+    public CRA getCra() {
+        return cra;
+    }
+
+    /**
+     * Setter of the CRA whose supervise this instance of Doctor
+     * @param cra 
+     */
+    public void setCra(CRA cra) {
+        this.cra = cra;
     }
 
 }
