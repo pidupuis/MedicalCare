@@ -103,7 +103,11 @@ public class Patient extends Actor {
         this.included = true;
     }
 
-    /**
+    public Patient(String firstname, String lastname, String id) throws Exception {
+		super(firstname, lastname, id);
+	}
+
+	/**
      *  This method allows the main program to get the gender of the patient
      * @return 'True' if the Patient is a male or 'False' if the Patient is a male.
      */

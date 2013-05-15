@@ -39,7 +39,9 @@ public class BloodTest extends Analysis {
 
     }
 
-    /**
+    public BloodTest() {}
+
+	/**
      *
      * @param Hb
      * @param GR
