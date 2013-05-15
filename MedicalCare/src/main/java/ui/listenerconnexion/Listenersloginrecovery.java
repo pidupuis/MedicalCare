@@ -15,9 +15,9 @@ import ui.LoginFrame;
  */
 public class Listenersloginrecovery {
  
-    private JFrame connexion;
+    private LoginFrame connexion;
     
-    public Listenersloginrecovery (JFrame interf)
+    public Listenersloginrecovery (LoginFrame interf)
     {
         connexion = interf;        
     }

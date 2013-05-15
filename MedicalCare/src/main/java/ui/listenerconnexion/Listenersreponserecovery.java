@@ -6,16 +6,17 @@ package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
+import ui.LoginFrame;
 
 /**
  *
  * @author Julien_Lavigne
  */
 public class Listenersreponserecovery {
-        private JFrame connexion;
+        private LoginFrame connexion;
     
     
-    public Listenersreponserecovery(JFrame interf)
+    public Listenersreponserecovery(LoginFrame interf)
     {
         connexion = interf;
         

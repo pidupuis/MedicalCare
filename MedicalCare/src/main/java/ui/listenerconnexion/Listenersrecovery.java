@@ -14,10 +14,10 @@ import ui.LoginFrame;
  * @author Julien_Lavigne
  */
 public class Listenersrecovery {
-    private JFrame connexion;
+    private LoginFrame connexion;
     
     
-    public Listenersrecovery(JFrame interf)
+    public Listenersrecovery(LoginFrame interf)
     {
         connexion = interf;
         

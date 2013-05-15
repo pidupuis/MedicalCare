@@ -6,16 +6,17 @@ package ui.listenerconnexion;
 
 import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
+import ui.LoginFrame;
 
 /**
  *
  * @author Julien_Lavigne
  */
 public class Listenerschangepasseword {
-    private JFrame connexion;
+    private LoginFrame connexion;
     
     
-    public Listenerschangepasseword(JFrame interf)
+    public Listenerschangepasseword(LoginFrame interf)
     {
         connexion = interf;
         
