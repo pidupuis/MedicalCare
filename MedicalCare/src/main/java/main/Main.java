@@ -48,7 +48,7 @@ public class Main {
         //db.checkUser("ajoron");
         //db.addUser(tmp.getId(), "kchiron", "kchiron", 1);
         //db.getGroupId("TP");
-        System.out.println("Question : " + db.getUserQuestion(tmp));
+        //System.out.println("Question : " + db.getUserQuestion(tmp));
         //System.out.println("Question : " + db.getUserQuestion(tmp));
         //System.out.println("Correct ? " + db.checkUserAnswer("pataate", tmp));
         //tmp = db.connectionUser("kchiron", "kchiron", "Data Manager");
