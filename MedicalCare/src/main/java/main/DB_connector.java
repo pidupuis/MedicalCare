@@ -577,7 +577,7 @@ public class DB_connector {
      * @throws Exception to indicates if there is a problem during the getting of all patients
      */
     public ArrayList<Patient> getListPatient() throws SQLException, Exception {
-        ArrayList<Patient> tmpListPatients = new ArrayList<>();
+        ArrayList<Patient> tmpListPatients = new ArrayList<Patient>();
         Boolean sexe, inclut;
         String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient";
         SimpleDateFormat birth = new SimpleDateFormat();
@@ -755,7 +755,7 @@ public class DB_connector {
         else    {
             String query = "";
             HashMap<String, ArrayList> groups = g.getListeGroupe();
-            HashMap<String, Integer> names = new HashMap<>();
+            HashMap<String, Integer> names = new HashMap<String, Integer>();
             names.put("PP1", getGroupId("PP1"));
             names.put("PP2", names.get("PP1"));
             names.put("VPaltPP", getGroupId("VPaltPP"));
