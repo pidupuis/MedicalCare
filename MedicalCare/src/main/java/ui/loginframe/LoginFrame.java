@@ -21,10 +21,6 @@ public class LoginFrame extends JFrame {
 
 	private JPanel contentPane;
 	
-	private JTextField txtLogin;
-	private JPasswordField passwordField;
-	private JComboBox comboBox;
-	
 	private LoginPane loginPane;
 	private PasswordRecoveryPane psswdPane;
 	
@@ -46,34 +42,19 @@ public class LoginFrame extends JFrame {
 		lblMedicalCareConnect.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblMedicalCareConnect, "cell 0 0,grow");
 		
-		loginPane =  new LoginPane();
-		psswdPane = new PasswordRecoveryPane();
+		loginPane =  new LoginPane(this);
+		psswdPane = new PasswordRecoveryPane(this);
 		contentPane.add(loginPane, "cell 0 1,growx,aligny center");
 		
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 	
-	
-	/**
-	 * 
-	 * @param error
-	 */
-	public void displayError(String error) {
-		
-	}
-
 	/**
 	 * 
 	 */
-	public void resetError() {
+	public void changeToPasswordRecovery() {
 		
 	}
 	
-	/**
-	 * 
-	 */
-	public void displaySuccess() {
-		
-	}
 }

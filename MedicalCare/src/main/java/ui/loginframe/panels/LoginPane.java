@@ -14,11 +14,17 @@ import javax.swing.SwingConstants;
 
 import ui.listenerconnexion.ListenersButtonConnexion;
 import ui.listenerconnexion.ListenersButtonRecovery;
+import ui.loginframe.LoginFrame;
 
 import net.miginfocom.swing.MigLayout;
+import java.awt.Color;
 
 public class LoginPane extends JPanel {
+	/** */
+	private static final long serialVersionUID = 1L;
 
+	private LoginFrame loginFrame;
+	
 	private JTextField txtLogin;
 	private JPasswordField passwordField;
 	private JComboBox<String> cbRole;
@@ -27,40 +33,43 @@ public class LoginPane extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public LoginPane() {
+	public LoginPane(LoginFrame loginFrame) {
 		String[] roles = {"Médecin", "Assistant de recherche clinique", "Data Manager"};
 		
 		this.setBorder(BorderFactory.createEmptyBorder());
-		this.setLayout(new MigLayout("inset 5", "[120px:n][grow][]", "[grow][][grow][][grow][][grow][][grow][]"));
+		this.setLayout(new MigLayout("inset 5", "[120px:n][grow][]", "[][grow][][grow][][grow][30px:n][grow][]"));
 		
 		JLabel lblUtilisateur = new JLabel("Utilisateur");
-		this.add(lblUtilisateur, "cell 0 1");
+		this.add(lblUtilisateur, "cell 0 0");
 		lblUtilisateur.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
 		
 		txtLogin = new JTextField();
-		this.add(txtLogin, "cell 1 1,growx");
+		this.add(txtLogin, "cell 1 0,growx");
 		txtLogin.setColumns(10);
 		
 		JLabel lblMotDePasse = new JLabel("Mot de passe");
-		this.add(lblMotDePasse, "cell 0 3");
+		this.add(lblMotDePasse, "cell 0 2");
 		lblMotDePasse.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
 		
 		passwordField = new JPasswordField();
-		this.add(passwordField, "cell 1 3,growx");
+		this.add(passwordField, "cell 1 2,growx");
 		
 		JLabel lblRle = new JLabel("R\u00F4le");
-		this.add(lblRle, "cell 0 5");
+		this.add(lblRle, "cell 0 4");
 		lblRle.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
 		cbRole = new JComboBox(roles);
-		this.add(cbRole, "cell 1 5,growx");
+		this.add(cbRole, "cell 1 4,growx");
 		
 		lblError = new JLabel("Error Label");
-		this.add(lblError, "cell 0 7 2 1,growx,aligny center");
+		lblError.setOpaque(true);
+		lblError.setBackground(new Color(240, 128, 128));
+		lblError.setForeground(Color.BLACK);
+		this.add(lblError, "cell 0 6 3 1,grow");
 		lblError.setHorizontalAlignment(SwingConstants.CENTER);
 		lblError.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
 		
 		JPanel submitPane = new JPanel();
-		this.add(submitPane, "cell 0 9 3 1,alignx right,aligny center");
+		this.add(submitPane, "cell 0 8 3 1,alignx right,aligny center");
 		submitPane.setLayout(new BoxLayout(submitPane, BoxLayout.X_AXIS));
 		submitPane.setBorder(BorderFactory.createEmptyBorder());
 		
@@ -108,5 +117,21 @@ public class LoginPane extends JPanel {
 	 */
 	public void displayError(String error) {
 		lblError.setText(error);
+	}
+	
+	/**
+	 * 
+	 * @param error
+	 */
+	public void displaySuccess(String success) {
+		
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public void changeToPasswordRecovery() {
+		
 	}
 }
