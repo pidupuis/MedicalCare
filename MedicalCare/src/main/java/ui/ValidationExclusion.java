@@ -56,6 +56,7 @@ public class ValidationExclusion extends JPanel {
 		rightPanel.setLayout(new BorderLayout(0, 0));
 		
 		JLabel lblJohnDoeuf = new JLabel("John D'Oeuf");
+		lblJohnDoeuf.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblJohnDoeuf.setHorizontalAlignment(SwingConstants.CENTER);
 		lblJohnDoeuf.setBorder(new EmptyBorder(25, 0, 25, 0));
 		rightPanel.add(lblJohnDoeuf, BorderLayout.NORTH);
@@ -147,14 +148,17 @@ public class ValidationExclusion extends JPanel {
 		
 		JPanel middleBottomPanel = new JPanel();
 		middlePanel.add(middleBottomPanel);
-		middleBottomPanel.setLayout(new MigLayout("", "[grow]", "[][grow]"));
+		middleBottomPanel.setLayout(new MigLayout("", "[grow]", "[][][grow]"));
+		
+		JSeparator separator_1 = new JSeparator();
+		middleBottomPanel.add(separator_1, "cell 0 0");
 		
 		JLabel lblJustificationExclusion = new JLabel("Justification Exclusion");
-		middleBottomPanel.add(lblJustificationExclusion, "cell 0 0");
+		middleBottomPanel.add(lblJustificationExclusion, "cell 0 1");
 		
 		JTextPane tpJustificationExclusion = new JTextPane();
 		tpJustificationExclusion.setSize(new Dimension(0, 25));
-		middleBottomPanel.add(tpJustificationExclusion, "cell 0 1,grow");
+		middleBottomPanel.add(tpJustificationExclusion, "cell 0 2,grow");
 
 	}
 
