@@ -55,6 +55,15 @@ public abstract class Actor {
                 throw new Exception();
             }
 	}
+	
+	/**
+	 * Temporary !!! Just in case of the database is not accessible
+	 * @param name
+	 * @param id
+	 */
+	public Actor(String id) {
+		this.id = id;
+	}
         
         /**
         * Returns the id of the actor.
