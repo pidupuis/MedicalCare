@@ -58,7 +58,7 @@ public class LoginFrame extends JFrame {
 
 		setLocationRelativeTo(null);
 		setUndecorated(true);
-		getRootPane().setBorder(new LineBorder(new Color(0, 0, 0, 50)));
+		getRootPane().setBorder(new LineBorder(new Color(0, 0, 0, 70), 1));
 		setResizable(false);
 		refreshUI();
 		setVisible(true);
