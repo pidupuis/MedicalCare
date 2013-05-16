@@ -31,12 +31,12 @@ public class DailyTest extends Analysis {
 	 */
 	private GregorianCalendar dailyDate;
 	private String reasonExclusion;
-        private boolean prescEffort;
-        private boolean prescEEG;
-        private boolean prescBlood;
-        private EEG EEGTest;
-        private EffortTest effortTest;
-        private BloodTest bloodTest;
+    private boolean prescEffort;
+    private boolean prescEEG;
+    private boolean prescBlood;
+    private EEG EEGTest;
+    private EffortTest effortTest;
+    private BloodTest bloodTest;
 
 	/**
          * Constructor of the DailyTest class.

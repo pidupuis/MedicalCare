@@ -26,6 +26,6 @@ public class ListenersButtonRecovery implements ActionListener{
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		//connexion.changepassword();   
+		connexion.changeToPasswordRecovery();   
 	}
 }

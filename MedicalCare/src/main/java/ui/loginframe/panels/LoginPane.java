@@ -88,19 +88,19 @@ public class LoginPane extends JPanel {
 		submitPane.setBorder(BorderFactory.createEmptyBorder());
 		this.add(submitPane, "cell 0 4,alignx right,aligny center");
 
-		//Connexion
+		//Connexion Button
 		btnConnexion = new JButton("Connexion");
 		btnConnexion.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
 		btnConnexion.addActionListener(new ListenersButtonConnexion(this));
 		submitPane.add(btnConnexion);
 		
-		//Annuler
+		//Annuler Button
 		JButton btnAnnuler = new JButton("Annuler");
 		btnAnnuler.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
 		btnAnnuler.addActionListener(new ListenersButtonAnnuler());
 		submitPane.add(btnAnnuler);
 		
-		//Recovery
+		//Recovery Button
 		JButton btnRecovery = new JButton();
 		try {
 			btnRecovery.setIcon(new ImageIcon(getClass().getResource("/icon/help.png")));
