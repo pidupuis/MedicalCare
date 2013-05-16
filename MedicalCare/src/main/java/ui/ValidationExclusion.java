@@ -47,6 +47,7 @@ public class ValidationExclusion extends JPanel {
 		lblListeMedecin.setFont(new Font("Tahoma", Font.BOLD, 12));
 		leftPanel.add(lblListeMedecin, "cell 0 0");
 		
+                
 		JTree tree = new JTree();
 		leftPanel.add(tree, "cell 0 1,grow");
 		
