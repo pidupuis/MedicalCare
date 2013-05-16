@@ -108,7 +108,7 @@ public class LoginPane extends JPanel {
 			} catch (Exception e) {
 				btnRecovery.setText("?");
 			}
-			btnRecovery.addActionListener(new ListenersButtonRecovery(this));
+			btnRecovery.addActionListener(new ListenersButtonRecovery(parent));
 			submitPane.add(btnRecovery);
 
 			add(submitPane, "cell 0 4,alignx right,aligny center");
@@ -123,7 +123,7 @@ public class LoginPane extends JPanel {
 	 * @return
 	 */
 	public String getUser() {
-		return user.getText();
+		return user.getField().getText();
 	}
 
 
@@ -132,7 +132,7 @@ public class LoginPane extends JPanel {
 	 * @return
 	 */
 	public String getPassword() {
-		return passwd.getText();
+		return new String(passwd.getField().getPassword());
 	}
 
 
@@ -141,7 +141,7 @@ public class LoginPane extends JPanel {
 	 * @return
 	 */
 	public String getRole() {
-		return role.getText();
+		return (String)role.getField().getSelectedItem();
 	}
 
 
@@ -180,10 +180,8 @@ public class LoginPane extends JPanel {
 	 * Clears all form fields
 	 */
 	public void clearFields() {
-		try {
-			user.setText("");
-			passwd.setText("");
-		} catch (NoSuchMethodException e) { }
+		user.getField().setText("");
+		passwd.getField().setText("");
 		role.getField().setSelectedIndex(0);
 	}
 	

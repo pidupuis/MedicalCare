@@ -49,51 +49,6 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	}
 	
 	/**
-	 * Gets the text of the field component (only if possible).
-	 * @return the text of the field or null if the JComponent of the field doesn't have text displayed
-	 */
-	public String getText() {
-		Class<?> fieldClass = field.getClass();
-		try {
-			Method m;
-			try {
-				m = fieldClass.getMethod("getText", new Class<?>[]{String.class});
-				return (String)m.invoke(field);
-			} catch(Exception e) {
-				try {
-					m = fieldClass.getMethod("getPassword", new Class<?>[]{String.class});
-					return new String((char[])m.invoke(field));
-				}
-				catch(Exception e1) {
-					m = fieldClass.getMethod("getSelectedItem", new Class<?>[]{String.class});
-					return (String)m.invoke(field);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	/**
-	 * Sets the text of the field component (only if possible).
-	 * @param text the text to put in the field component 
-	 * @throws NoSuchMethodException if the field component doesn't have a setText method
-	 */
-	public void setText(String text) throws NoSuchMethodException {
-		Class<?> fieldClass = field.getClass();
-		try {
-			Method m;
-			m = fieldClass.getMethod("setText", new Class<?>[]{String.class});
-			m.invoke(field, text);
-		} catch (NoSuchMethodException e) {
-			throw e;
-		} catch(Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-	
-	/**
 	 * Makes the form row visible or invisible.
 	 * @param aFlag
 	 */

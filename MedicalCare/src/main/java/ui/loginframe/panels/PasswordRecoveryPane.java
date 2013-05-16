@@ -9,9 +9,12 @@ import javax.swing.JTextField;
 
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
+import ui.loginframe.listeners.ListenersPasswordRecovery;
+import ui.loginframe.listeners.ListenersPasswordRecoveryAnnuler;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -41,14 +44,19 @@ public class PasswordRecoveryPane extends JPanel {
 		this.defaultFont = new Font("Helvetica Neue", Font.PLAIN, 13);
 		this.currentScreen = 0;
 
-		setLayout(new MigLayout("hidemode 3, inset 5 5 5 5", "[grow]", "[30px:n,grow][30px:n,grow][30px:n,grow][30px:n,grow][30px:n,grow][grow][grow]"));
+		setLayout(new MigLayout("hidemode 3, inset 5 5 5 5", "[grow]", "[30px:n][grow][grow][grow][grow][grow][::58px,grow][]"));
 
+		JLabel lblTitle = new JLabel("R\u00E9cup\u00E9ration de mot de passe");
+		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitle.setFont(defaultFont.deriveFont(Font.ITALIC));
+		add(lblTitle, "cell 0 0,growx,aligny top");
+		
 		{ //User
 			JLabel lblUser = new JLabel("Utilisateur");
 			JTextField txtUser = new JTextField();
 			user = new FormRow<JLabel, JTextField>(lblUser, txtUser);
 			user.setFont(defaultFont);
-			add(user, "cell 0 0, grow");
+			add(user, "cell 0 1,growx,aligny top");
 		}
 
 		{ //New Password
@@ -57,7 +65,7 @@ public class PasswordRecoveryPane extends JPanel {
 			passwd = new FormRow<JLabel, JTextField>(lblPass, txtPass);
 			passwd.setVisible(false);
 			passwd.setFont(defaultFont);
-			add(passwd, "cell 0 1, grow");
+			add(passwd, "cell 0 2,growx,aligny top");
 		}
 
 		{ //New Password confirm
@@ -66,7 +74,7 @@ public class PasswordRecoveryPane extends JPanel {
 			passwdConf = new FormRow<JLabel, JTextField>(lblPassConf, txtPassConf);
 			passwdConf.setVisible(false);
 			passwdConf.setFont(defaultFont);
-			add(passwdConf, "cell 0 2, grow");
+			add(passwdConf, "cell 0 3,growx,aligny top");
 		}
 
 
@@ -76,21 +84,22 @@ public class PasswordRecoveryPane extends JPanel {
 			question = new FormRow<JLabel, JLabel>(lblQuestion, lblQuestionText);
 			question.setVisible(false);
 			question.setFont(defaultFont);
-			add(question, "cell 0 3, grow");
+			add(question, "cell 0 4,growx,aligny top");
 		}
 
 		{ //Answer
 			JLabel lblAnswer = new JLabel("R\u00E9ponse");
 			JTextField txtAnswer = new JTextField();
 			answer = new FormRow<JLabel, JTextField>(lblAnswer, txtAnswer); 
+			answer.setVisible(false);
 			answer.setFont(defaultFont);
-			add(answer, "cell 0 4,grow");
+			add(answer, "cell 0 5,growx,aligny top");
 		}
 
 		{ //Error panel
 			errorPane = new ErrorPane();
 			errorPane.setVisible(false);
-			this.add(errorPane, "cell 0 5,grow");
+			this.add(errorPane, "cell 0 6,grow");
 		}
 
 		{ //Bottom pane
@@ -99,13 +108,18 @@ public class PasswordRecoveryPane extends JPanel {
 			submitPane.setBorder(BorderFactory.createEmptyBorder());
 
 			JButton btnOk = new JButton("Ok");
+			parent.getRootPane().setDefaultButton(btnOk);
+			btnOk.addActionListener(new ListenersPasswordRecovery(this));
 			submitPane.add(btnOk);
 
 			JButton btnAnnuler = new JButton("Annuler");
+			btnAnnuler.addActionListener(new ListenersPasswordRecoveryAnnuler(parent));
 			submitPane.add(btnAnnuler);
 
-			add(submitPane, "cell 0 6,alignx right,growy");
+			add(submitPane, "cell 0 7,alignx right,growy");
 		}
+		
+		user.getField().requestFocus();
 	}
 
 
@@ -114,7 +128,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @return
 	 */
 	public String getLogin() {
-		return user.getText();
+		return user.getField().getText();
 	}
 
 
@@ -123,7 +137,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @return
 	 */
 	public String getNewPasswd() {
-		return passwd.getText();
+		return passwd.getField().getText();
 	}
 
 
@@ -132,7 +146,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @return
 	 */
 	public String getNewPasswdConf() {
-		return passwdConf.getText();
+		return passwdConf.getField().getText();
 	}
 
 
@@ -141,7 +155,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @return
 	 */
 	public String getAnswer() {
-		return answer.getText();
+		return answer.getField().getText();
 	}
 
 
@@ -182,9 +196,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @param question
 	 */
 	public void displayQuestion(String questionText) {
-		try {
-			this.question.setText(questionText);
-		} catch (NoSuchMethodException e) {	}
+		this.question.getField().setText(questionText);
 		errorPane.setVisible(false);
 		user.setVisible(false);
 		passwd.setVisible(false);
@@ -225,13 +237,11 @@ public class PasswordRecoveryPane extends JPanel {
 	 * Clears all form fields
 	 */
 	public void clearFields() {
-		try {
-			user.setText("");
-			passwd.setText("");
-			passwdConf.setText("");
-			question.setText("");
-			answer.setText("");
-		} catch (NoSuchMethodException e) { }
+		user.getField().setText("");
+		passwd.getField().setText("");
+		passwdConf.getField().setText("");
+		question.getField().setText("");
+		answer.getField().setText("");
 	}
 	
 	/**
