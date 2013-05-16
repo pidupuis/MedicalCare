@@ -24,10 +24,10 @@ import javax.swing.JTextPane;
 
 public class ValidationExclusion extends JPanel {
 	private JTextField tfId;
-	private JTextField textField;
+	private JTextField tfDate;
 	private JTextField tfPressionSystolique;
 	private JTextField tfPressionDiastolique;
-	private JTextField textField_1;
+	private JTextField tfRythmeCardiaque;
 
 	/**
 	 * Create the panel.
@@ -55,11 +55,11 @@ public class ValidationExclusion extends JPanel {
 		splitPane.setRightComponent(rightPanel);
 		rightPanel.setLayout(new BorderLayout(0, 0));
 		
-		JLabel lblJohnDoeuf = new JLabel("John D'Oeuf");
-		lblJohnDoeuf.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblJohnDoeuf.setHorizontalAlignment(SwingConstants.CENTER);
-		lblJohnDoeuf.setBorder(new EmptyBorder(25, 0, 25, 0));
-		rightPanel.add(lblJohnDoeuf, BorderLayout.NORTH);
+		JLabel lblName = new JLabel("John D'Oeuf");
+		lblName.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblName.setBorder(new EmptyBorder(25, 0, 25, 0));
+		rightPanel.add(lblName, BorderLayout.NORTH);
 		
 		JPanel bottomPanel = new JPanel();
 		rightPanel.add(bottomPanel, BorderLayout.SOUTH);
@@ -95,11 +95,11 @@ public class ValidationExclusion extends JPanel {
 		JLabel lblDate = new JLabel("Date");
 		middleTopPanel.add(lblDate, "flowx,cell 0 1,grow");
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setText("15/05/13");
-		middleTopPanel.add(textField, "cell 1 1,grow");
-		textField.setColumns(10);
+		tfDate = new JTextField();
+		tfDate.setEditable(false);
+		tfDate.setText("15/05/13");
+		middleTopPanel.add(tfDate, "cell 1 1,grow");
+		tfDate.setColumns(10);
 		
 		JLabel lblPressionSystolique = new JLabel("Pression systolique");
 		middleTopPanel.add(lblPressionSystolique, "cell 0 2,grow");
@@ -128,11 +128,11 @@ public class ValidationExclusion extends JPanel {
 		JLabel lblNewLabel = new JLabel("Rythme cardiaque");
 		middleTopPanel.add(lblNewLabel, "cell 0 4,grow");
 		
-		textField_1 = new JTextField();
-		textField_1.setEditable(false);
-		textField_1.setText("70");
-		middleTopPanel.add(textField_1, "cell 1 4,growx");
-		textField_1.setColumns(10);
+		tfRythmeCardiaque = new JTextField();
+		tfRythmeCardiaque.setEditable(false);
+		tfRythmeCardiaque.setText("70");
+		middleTopPanel.add(tfRythmeCardiaque, "cell 1 4,growx");
+		tfRythmeCardiaque.setColumns(10);
 		
 		JLabel lblBtmsmin = new JLabel("btms/min");
 		middleTopPanel.add(lblBtmsmin, "cell 2 4");
