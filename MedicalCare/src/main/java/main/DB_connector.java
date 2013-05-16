@@ -297,7 +297,7 @@ public class DB_connector {
             job = "Médecin";
         }
         else    {
-            throw new Exception("This status does not exists !");
+            throw new Exception("Ce statut n'existe pas !");
         }
             
         query += "'"+ login +"',"
@@ -340,7 +340,7 @@ public class DB_connector {
             table = "MEDECIN";
         }
         else    {
-            throw new Exception("This status does not exists !");
+            throw new Exception("Ce statut n'existe pas !");
         }
         
         String query = "SELECT COUNT (*) AS Total FROM "+ table +" WHERE "
@@ -360,7 +360,7 @@ public class DB_connector {
             throw new Exception("This user does not exist ! ");
         }
         else    {
-            throw new Exception("CAUTION : This user exists twice at least !");
+            throw new Exception("ATTENTION : Cet utilisateur existe au moins deux fois !");
         }
     }
     
@@ -385,7 +385,7 @@ public class DB_connector {
             table += "MEDECIN  ";
         }
         else    {
-            throw new Exception("This status does not exists !");
+            throw new Exception("Ce statut n'existe pas !");
         }
         
         query += table + " WHERE PK_ID_PERSONNE = '" + id + "'";
@@ -416,7 +416,7 @@ public class DB_connector {
             }
         }
         else if (rs.getInt("Total") == 0) {
-            throw new Exception("This user does not exist!");
+            throw new Exception("Cet utilisateur n'existe pas !");
         }
         else    {
             throw new Exception("This user exists twice at least!");
@@ -439,11 +439,11 @@ public class DB_connector {
         
         //if there is no user with this login
         if (rsCount.getInt("Total") == 0)    {
-            throw new UnknownUsernameException("There is no user with this login!");
+            throw new UnknownUsernameException("Il n'existe pas d'utilisateur avec cet identifiant !");
         }
         //else if there more than 1 user with this login
         else if (rsCount.getInt("Total") > 1)    {
-            throw new Exception("There are two users at least with this login!");
+            throw new Exception("Il y a au moins deux utilisateurs possédant cet identifiant !");
         }
         //if there is one user
         else    {
@@ -454,7 +454,7 @@ public class DB_connector {
 
             //if the password is not correct
             if (!(rsPass.getString("UTILISATEUR_PASSWORD").equals(password)))  {
-                throw new WrongPasswordException("The password is not correct!");
+                throw new WrongPasswordException("Le mot de passe n'est pas correct !");
             }
             //if the password is correct
             else    {
@@ -466,7 +466,7 @@ public class DB_connector {
                 if (user.equals("Data Manager")) {
                     //if the user is a data manager but the login is not corresponding to a data manager
                     if (rsSelect.getString("DM_ID") == null) {
-                        throw new WrongRoleException("You are not a Data Manager!");
+                        throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant que Data Manager !");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("DM_ID"));
@@ -476,7 +476,7 @@ public class DB_connector {
                 else if (user.equals("Assistant de recherche clinique")) {
                     //if the user is a cra but the login is not corresponding to a cra
                     if (rsSelect.getString("ARC_ID") == null) {
-                        throw new WrongRoleException("You are not a CRA!");
+                        throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant qu'Attaché de Recherche Clinique !");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("ARC_ID"));
@@ -486,7 +486,7 @@ public class DB_connector {
                 else if (user.equals("Médecin")) {
                     //if the user is a doctor but the login is not corresponding to a doctor
                     if (rsSelect.getString("MEDECIN_ID") == null) {
-                        throw new WrongRoleException("You are not a Doctor!");
+                        throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant que Médecin !");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("MEDECIN_ID"));
@@ -494,7 +494,7 @@ public class DB_connector {
                     }
                 }
                 else    {
-                    throw new WrongRoleException("This job is not correct!");
+                    throw new WrongRoleException("Ce statut n'existe pas !");
                 }
                 return getUserById(id, statut);
             }
@@ -633,10 +633,10 @@ public class DB_connector {
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
         if (rs.getInt("Total") > 1)    {
-            throw new Exception("This patient is twice in the database !");
+            throw new Exception("Ce patient existe au moins deux fois !");
         }
         if (rs.getInt("Total") == 0) {
-            throw new Exception("This patient does not exist in the database !");            
+            throw new Exception("Ce patient n'existe pas !");            
         }
         else    {
             try {
