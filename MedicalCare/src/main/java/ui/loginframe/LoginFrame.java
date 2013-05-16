@@ -14,6 +14,7 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 
@@ -57,7 +58,7 @@ public class LoginFrame extends JFrame {
 
 		setLocationRelativeTo(null);
 		setUndecorated(true);
-		getRootPane().setWindowDecorationStyle(JRootPane.WARNING_DIALOG);
+		getRootPane().setBorder(new LineBorder(new Color(0, 0, 0, 50)));
 		setResizable(false);
 		refreshUI();
 		setVisible(true);
