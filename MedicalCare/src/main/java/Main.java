@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import main.*;
 import persons.*;
+import tests.*;
 import ui.loginframe.LoginFrame;
 
 /**
@@ -23,6 +24,8 @@ public class Main {
         DataManager dm = new DataManager("katia", "chiron");
         Actor tmp;
         ArrayList<Patient> tmpListPatient = new ArrayList<Patient>();
+        ArrayList<Analysis> tmpListAnalysis = new ArrayList<Analysis>();
+
         
         try {
             db = DB_connector.getInstance();
@@ -38,6 +41,7 @@ public class Main {
         for(Patient pat : tmpListPatient){
         	System.out.println(pat.getFirstName());
         }
+
         
         //tmp = db.getUserById(db.getUserId("katia", "chiron", 1), 1);
         //db.addDataManager(dm);
@@ -47,11 +51,13 @@ public class Main {
         //db.checkUser("ajoron");
         //db.addUser(tmp.getId(), "kchiron", "kchiron", 1);
         //db.getGroupId("TP");
-        System.out.println("Question : " + db.getUserQuestion(tmp));
+        
+        //System.out.println("Question : " + db.getUserQuestion(tmp));
+        
         //System.out.println("Question : " + db.getUserQuestion(tmp));
         //System.out.println("Correct ? " + db.checkUserAnswer("pataate", tmp));
         //tmp = db.connectionUser("kchiron", "kchiron", "Data Manager");
-        System.out.println("Test");
+        //System.out.println("Test");
     }
 
     public static void setUser(Actor user) {

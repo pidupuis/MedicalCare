@@ -824,6 +824,52 @@ public class DB_connector {
         }
     }
     
+    public ArrayList<Analysis> getAnalysis(Patient pat) throws SQLException, Exception{
+    	//LinkedHashMap ListAnalysis= new LinkedHashMap();
+    	ArrayList<Analysis> tmpListAnalysis = new ArrayList<Analysis>();
+        String query = "SELECT * FROM FicheQuotidienne JOIN Rempli_fiche ON Rempli_fiche.pk_id_fichequotidienne = FicheQuotidienne.pk_id_fichequotidienne WHERE Rempli_fiche.pk_id_personne='" + Integer.parseInt(pat.getId()) + "'";
+       
+        SimpleDateFormat birth = new SimpleDateFormat();
+        birth.applyPattern("dd/MM/yyyy");
+        
+        System.out.println("query => " + query);
+
+        try {
+        
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+
+            while (rs.next()) {
+                String id = rs.getString("pk_id_fichequotidienne");
+                String dateFiche = rs.getString("date_fiche");
+                int pression_systolique = rs.getInt("pression_systolique");
+                int pression_diastolique = rs.getInt("pression_diastolique");
+                int rythme_cardiaque = rs.getInt("rythme_cardiaque");
+                String obs = rs.getString("observation_quotidienne");
+                int d, m, y;
+                Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}).*");
+                Matcher match = p.matcher(dateFiche);
+
+                if (match.find())   {
+                    y = Integer.parseInt(match.group(1));
+                    m = Integer.parseInt(match.group(2));
+                    d = Integer.parseInt(match.group(3));
+                }
+                else    {
+                    throw new Exception("Erreur de date !");
+                }
+                GregorianCalendar birthDate = new GregorianCalendar(y, m, d);
+                Analysis a = new DailyTest(pression_systolique,pression_diastolique, rythme_cardiaque ,obs, false, false, false, birthDate, pat, null);
+                tmpListAnalysis.add(a);            
+            }
+            
+            return tmpListAnalysis;
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            return null;
+        }
+    }
+    
     public void addDailyTest(DailyTest instance) throws SQLException, Exception {
         
         int verifiee;
