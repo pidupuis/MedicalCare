@@ -1,15 +1,14 @@
 package ui.loginframe;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.lang.reflect.Method;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -54,16 +53,44 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	 * @return the text of the field or null if the JComponent of the field doesn't have text displayed
 	 */
 	public String getText() {
-		if(field instanceof JLabel)
-			return ((JLabel)field).getText();
-		else if(field instanceof JTextField)
-			return ((JTextField)field).getText();
-		else if(field instanceof JPasswordField)
-			return new String(((JPasswordField)field).getPassword());
-		else if(field instanceof JComboBox<?>)
-			return (String) ((JComboBox<?>)field).getSelectedItem();
-		else 
+		Class<?> fieldClass = field.getClass();
+		try {
+			Method m;
+			try {
+				m = fieldClass.getMethod("getText", new Class<?>[]{String.class});
+				return (String)m.invoke(field);
+			} catch(Exception e) {
+				try {
+
+					m = fieldClass.getMethod("getPassword", new Class<?>[]{String.class});
+					return new String((char[])m.invoke(field));
+				}
+				catch(Exception e1) {
+					m = fieldClass.getMethod("getSelectedItem", new Class<?>[]{String.class});
+					return (String)m.invoke(field);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	/**
+	 * 
+	 * @param text
+	 */
+	public void setText(String text) throws NoSuchMethodException {
+		Class<?> fieldClass = field.getClass();
+		try {
+			Method m;
+			m = fieldClass.getMethod("setText", new Class<?>[]{String.class});
+			m.invoke(field, text);
+		} catch (NoSuchMethodException e) {
+			throw e;
+		} catch(Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	/**
@@ -122,5 +149,16 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	 */
 	public F getField() {
 		return field;
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public void setFont(Font f) {
+		try {
+			label.setFont(f);
+			field.setFont(f);
+		} catch (Exception e) {}
 	}
 }
