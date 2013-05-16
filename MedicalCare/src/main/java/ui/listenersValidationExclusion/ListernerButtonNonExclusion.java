@@ -14,7 +14,7 @@ import persons.Patient;
 /**
  *
  * @author piotr
- */
+ *//*
 public class ListernerButtonNonExclusion implements ActionListener {
 
     private ValidePane interf;
@@ -23,11 +23,12 @@ public class ListernerButtonNonExclusion implements ActionListener {
     public ListernerButtonNonExclusion(ValidePane interf, Patient pat) {
         this.interf = interf;
         this.pat = pat;
-    }
+   }
 
     public void actionPerformed(ActionEvent e) {
         String why = JOptionPane.showInputDialog(interf, "Pourquoi ne pas exclure " + this.pat.getFirstName() + " " + this.pat.getLastName(), "Raison de la non exclusion");
         ((CRA) Main.getUser()).remove(pat);
 
     }
-}
+}*/
+
