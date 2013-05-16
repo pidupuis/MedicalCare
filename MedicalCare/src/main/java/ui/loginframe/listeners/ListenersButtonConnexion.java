@@ -1,8 +1,6 @@
-package ui.listenerconnexion;
+package ui.loginframe.listeners;
 
 import java.awt.event.*;
-
-import javax.swing.JOptionPane;
 
 import persons.Actor;
 
@@ -16,33 +14,31 @@ import ui.loginframe.panels.LoginPane;
  */
 public class ListenersButtonConnexion implements ActionListener {
 
-	private LoginPane connexion;
+	private LoginPane parent;
 
 
 	public ListenersButtonConnexion(LoginPane interf)
 	{
-		connexion = interf;
-
+		parent = interf;
 	}
 
 	public void actionPerformed(ActionEvent e)
 	{
-
-		String login = connexion.getLogin();
-		String mdp = connexion.getPassword();
-		String role = connexion.getRole();
+		parent.clearError();
+		String login = parent.getUser();
+		String mdp = parent.getPassword();
+		String role = parent.getRole();
 		try {
 			Actor act =DB_connector.getInstance().connectionUser(login,mdp,role);
 
 			if(act != null)
 			{
 				Main.setUser(act);
-				connexion.displaySuccess("Success");
-				//JOptionPane.showMessageDialog(null, "Success");
+				parent.displaySuccess("Vous êtes connecté sur Medical Care sous "+login+" en tant que "+role+" !");
 			}
 		} catch (Exception ex) {
-			connexion.displayError(ex.getMessage());
-			JOptionPane.showMessageDialog(null, "Error");
+			parent.displayError(ex);
+			//JOptionPane.showMessageDialog(null, "Error");
 			//ex.printStackTrace();
 		}
 	}

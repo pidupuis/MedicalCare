@@ -5,6 +5,8 @@ package main;
  */
 import java.util.ArrayList;
 
+import javax.swing.UIManager;
+
 import main.*;
 import persons.*;
 import ui.loginframe.LoginFrame;
@@ -17,6 +19,9 @@ public class Main {
     private static Actor user;
     
     public static void main (String[] args) throws Exception {
+    	try{
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    	} catch(Exception e) {}
     	new LoginFrame();
     	
         DB_connector db = null;
@@ -63,6 +68,13 @@ public class Main {
 
     public static Actor getUser() {
         return user;
+    }
+    
+    /**
+     * 
+     */
+    public static void exit() {
+    	System.exit(0);
     }
     
 }

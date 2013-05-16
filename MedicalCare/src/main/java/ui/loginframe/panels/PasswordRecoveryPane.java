@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ui.loginframe.FormField;
+
 import ui.loginframe.LoginFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;

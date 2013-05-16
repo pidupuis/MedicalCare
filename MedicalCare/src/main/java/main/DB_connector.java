@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import main.exception.UnknownUsernameException;
+import main.exception.WrongPasswordException;
+import main.exception.WrongRoleException;
 import persons.*;
 import tests.*;
 
@@ -435,7 +439,7 @@ public class DB_connector {
         
         //if there is no user with this login
         if (rsCount.getInt("Total") == 0)    {
-            throw new Exception("There is no user with this login!");
+            throw new UnknownUsernameException("There is no user with this login!");
         }
         //else if there more than 1 user with this login
         else if (rsCount.getInt("Total") > 1)    {
@@ -450,7 +454,7 @@ public class DB_connector {
 
             //if the password is not correct
             if (!(rsPass.getString("UTILISATEUR_PASSWORD").equals(password)))  {
-                throw new Exception("The password is not correct!");
+                throw new WrongPasswordException("The password is not correct!");
             }
             //if the password is correct
             else    {
@@ -462,7 +466,7 @@ public class DB_connector {
                 if (user.equals("Data Manager")) {
                     //if the user is a data manager but the login is not corresponding to a data manager
                     if (rsSelect.getString("DM_ID") == null) {
-                        throw new Exception("You are not a Data Manager!");
+                        throw new WrongRoleException("You are not a Data Manager!");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("DM_ID"));
@@ -472,7 +476,7 @@ public class DB_connector {
                 else if (user.equals("Assistant de recherche clinique")) {
                     //if the user is a cra but the login is not corresponding to a cra
                     if (rsSelect.getString("ARC_ID") == null) {
-                        throw new Exception("You are not a CRA!");
+                        throw new WrongRoleException("You are not a CRA!");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("ARC_ID"));
@@ -482,7 +486,7 @@ public class DB_connector {
                 else if (user.equals("Médecin")) {
                     //if the user is a doctor but the login is not corresponding to a doctor
                     if (rsSelect.getString("MEDECIN_ID") == null) {
-                        throw new Exception("You are not a Doctor!");
+                        throw new WrongRoleException("You are not a Doctor!");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("MEDECIN_ID"));
@@ -490,7 +494,7 @@ public class DB_connector {
                     }
                 }
                 else    {
-                    throw new Exception("This job is not correct!");
+                    throw new WrongRoleException("This job is not correct!");
                 }
                 return getUserById(id, statut);
             }
