@@ -1070,7 +1070,7 @@ public class DB_connector {
     	LinkedHashMap<Patient, ArrayList<Analysis>> tmpPatientsWithAnalysis = new LinkedHashMap<Patient, ArrayList<Analysis>>();
     	
     	String date_jour = String.valueOf(Calendar.getInstance().get(Calendar.DATE))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.MONTH))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        String query = "SELECT patient.PK_ID_PERSONNE, patient.NOM, patient.PRENOM, PlanningPatient.Date_sang, PlanningPatient.Date_eeg, PlanningPatient.Date_effort FROM Patient INNER JOIN PlanningPatient ON (Patient.PK_ID_PERSONNE = PlanningPatient.PK_ID_PERSONNE) WHERE Patient.Med_pk_id_personne = "+Integer.valueOf(idMedecin);
+        String query = "SELECT patient.PK_ID_PERSONNE, patient.NOM, patient.PRENOM, PlanningPatient.Date_sang, PlanningPatient.Date_eeg, PlanningPatient.Date_effort FROM Patient FULL JOIN PlanningPatient ON (Patient.PK_ID_PERSONNE = PlanningPatient.PK_ID_PERSONNE) WHERE Patient.Med_pk_id_personne = "+Integer.valueOf(idMedecin);
         
         System.out.println("Query => " + query);
         
@@ -1091,12 +1091,18 @@ public class DB_connector {
 	                tmpPatient = new Patient(firstname, lastname, id);
 	                
 	                ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
-	                if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
-	                	myAnalysis.add(new BloodTest());
-	                if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
-	                	myAnalysis.add(new EEG());
-	                if (rs.getString("Date_effort").equalsIgnoreCase(date_jour))
-	                	myAnalysis.add(new EffortTest());
+
+	                if (rs.getString("Date_sang") != null)
+	                	if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
+	                		myAnalysis.add(new BloodTest());
+
+	                if (rs.getString("Date_eeg") != null)
+	                	if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
+	                		myAnalysis.add(new EEG());
+
+	                if (rs.getString("Date_effort") != null)
+	                	if (rs.getString("Date_effort").equalsIgnoreCase(date_jour))
+	                		myAnalysis.add(new EffortTest());
 	                tmpPatientsWithAnalysis.put(tmpPatient, myAnalysis);
 	            }
             }

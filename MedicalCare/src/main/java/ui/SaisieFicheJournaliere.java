@@ -51,33 +51,6 @@ public class SaisieFicheJournaliere extends JPanel {
 			e.printStackTrace();
 		}
 		
-		System.out.println("#1 : "+myPatientsWithAnalysis);
-		
-		if (myPatientsWithAnalysis.isEmpty()) {
-			for (int i = 1; i<11; i++) {
-				String id = "id"+i;
-                String firstname = "prenom"+i;
-                String lastname = "nom"+i;
-                
-                Patient tmpPatient;
-
-                tmpPatient = new Patient(id);
-                tmpPatient.setFirstName(firstname);
-                tmpPatient.setLastName(lastname);
-
-                ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
-                if (i%3 == 0)
-                	myAnalysis.add(new BloodTest());
-                if (i%3 == 0 && i%3 == 1)
-                	myAnalysis.add(new EEG());
-                if (i%3 == 2)
-                	myAnalysis.add(new EffortTest());
-                myPatientsWithAnalysis.put(tmpPatient, myAnalysis);
-			}
-		}
-		
-		System.out.println("#2 : "+myPatientsWithAnalysis);
-		
 		DefaultMutableTreeNode child;
 		for (Patient p : myPatientsWithAnalysis.keySet()) {
 			child = new DefaultMutableTreeNode(p.getFirstName()+" "+p.getLastName());
@@ -114,7 +87,7 @@ public class SaisieFicheJournaliere extends JPanel {
 		JFrame plop = new JFrame();
 		Actor actor;
 		try {
-			actor = new Doctor("John","Doeuf","123");
+			actor = new Doctor("Super","Docteur","1");
 			plop.add(new SaisieFicheJournaliere(actor));
 		} catch (Exception e) {
 			e.printStackTrace();
