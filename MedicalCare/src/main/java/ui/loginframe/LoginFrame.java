@@ -3,9 +3,12 @@ package ui.loginframe;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JLabel;
@@ -52,11 +55,12 @@ public class LoginFrame extends JFrame {
 		successPane = new SuccessPane(this);
 		add(loginPane, "cell 0 1,grow");
 
-		this.setLocationRelativeTo(null);
-		this.setUndecorated(true);
-		this.setResizable(false);
+		setLocationRelativeTo(null);
+		setUndecorated(true);
+		getRootPane().setWindowDecorationStyle(JRootPane.WARNING_DIALOG);
+		setResizable(false);
 		refreshUI();
-		this.setVisible(true);
+		setVisible(true);
 	}
 	
 	/**
