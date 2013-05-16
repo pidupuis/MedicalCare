@@ -1,90 +1,101 @@
 package ui.loginframe.panels;
 
+import java.awt.Font;
+
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
+import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
+import java.awt.FlowLayout;
 
 public class PasswordRecoveryPane extends JPanel {
-
-	/** */
 	private static final long serialVersionUID = 1L;
 
-	private JTextField txtLogin;
-	
-	private JTextField newPasswd;
-	private JTextField newPasswd2;
-	
-	private JLabel question;
-	private JTextField answer;
-	
-	private JLabel lblError;
+	private ErrorPane errorPane;
 
+	private LoginFrame parent;
 
-	private LoginFrame loginFrame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-
+	private FormRow<JLabel, JTextField> user;
+	private FormRow<JLabel, JTextField> passwd;
+	private FormRow<JLabel, JTextField> passwdConf;
+	private FormRow<JLabel, JLabel> question;
+	private FormRow<JLabel, JTextField> answer;
+	
+	private Font defaultFont;
 	
 	/**
 	 * Create the panel.
 	 */
-	public PasswordRecoveryPane(LoginFrame loginFrame) {
-		this.loginFrame = loginFrame;
-		setLayout(new MigLayout("", "[150px][grow]", "[][grow][][grow][][grow][][grow][][grow][]"));
+	public PasswordRecoveryPane(LoginFrame parent) {
+		this.parent = parent;
+		this.defaultFont = new Font("Helvetica Neue", Font.PLAIN, 13);
+		
+		setLayout(new MigLayout("hidemode 3, inset 5 5 5 5", "[grow]", "[30px:n,grow][30px:n,grow][30px:n,grow][30px:n,grow][30px:n,grow][grow][grow]"));
+		
+		//User
+		JLabel lblUser = new JLabel("Utilisateur");
+		JTextField txtUser = new JTextField();
+		user = new FormRow<JLabel, JTextField>(lblUser, txtUser);
+		user.setFont(defaultFont);
+		add(user, "cell 0 0, grow");
+		
+		//Password
+		JLabel lblPass = new JLabel("Nouveau mot de passe");
+		JTextField txtPass = new JTextField();
+		passwd = new FormRow<JLabel, JTextField>(lblPass, txtPass);
+		passwd.setVisible(false);
+		passwd.setFont(defaultFont);
+		add(passwd, "cell 0 1, grow");
+		
+		//Password
+		JLabel lblPassConf = new JLabel("Confirmation");
+		JTextField txtPassConf = new JTextField();
+		passwdConf = new FormRow<JLabel, JTextField>(lblPassConf, txtPassConf);
+		passwdConf.setVisible(false);
+		passwdConf.setFont(defaultFont);
+		add(passwdConf, "cell 0 2, grow");
+		
+		//Question
+		JLabel lblQuestion = new JLabel("Question");
+		JLabel lblQuestionText = new JLabel("the question");
+		question = new FormRow<JLabel, JLabel>(lblQuestion, lblQuestionText);
+		question.setVisible(false);
+		question.setFont(defaultFont);
+		add(question, "cell 0 3, grow");
+		
+		//Answer
+		JLabel lblAnswer = new JLabel("R\u00E9ponse");
+		JTextField txtAnswer = new JTextField();
+		answer = new FormRow<JLabel, JTextField>(lblAnswer, txtAnswer); 
+		answer.setFont(defaultFont);
+		add(answer, "cell 0 4,grow");
+		
+		//Error panel
+		errorPane = new ErrorPane();
+		errorPane.setVisible(false);
+		this.add(errorPane, "cell 0 5,grow");
 		
 		
-		//FormField user = new FormField(label, field);
-		JLabel lblNewLabel = new JLabel("Utilisateur");
-		add(lblNewLabel, "cell 0 0,alignx left");
-		
-		textField = new JTextField();
-		add(textField, "cell 1 0,growx");
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_1 = new JLabel("Nouveau mot de passe");
-		add(lblNewLabel_1, "cell 0 2,alignx left");
-		lblNewLabel_1.setVisible(false);
-		
-		textField_1 = new JTextField();
-		add(textField_1, "cell 1 2,growx");
-		textField_1.setColumns(10);
-		textField_1.setVisible(false);
-		
-		JLabel lblNewLabel_2 = new JLabel("Confirmation");
-		add(lblNewLabel_2, "cell 0 4,alignx left");
-		lblNewLabel_2.setVisible(false);
-		
-		textField_2 = new JTextField();
-		add(textField_2, "cell 1 4,growx");
-		textField_2.setColumns(10);
-		textField_2.setVisible(false);
-		
-		JLabel lblNewLabel_4 = new JLabel("Question");
-		add(lblNewLabel_4, "cell 0 6");
-		lblNewLabel_4.setVisible(false);
-		
-		JLabel lblNewLabel_5 = new JLabel("New label");
-		add(lblNewLabel_5, "cell 1 6");
-		lblNewLabel_5.setVisible(false);
-		
-		JLabel lblNewLabel_3 = new JLabel("R\u00E9ponse");
-		add(lblNewLabel_3, "cell 0 8,alignx left");
-		lblNewLabel_3.setVisible(false);
-		
-		textField_3 = new JTextField();
-		add(textField_3, "cell 1 8,growx");
-		textField_3.setColumns(10);
-		textField_3.setVisible(false);
-		
-		JButton btnOk = new JButton("Ok");
-		add(btnOk, "cell 0 10 2 1,alignx right");
+		//Bottom pane
+		{
+			JPanel submitPane = new JPanel();
+			submitPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+			submitPane.setBorder(BorderFactory.createEmptyBorder());
+			
+			JButton btnOk = new JButton("Ok");
+			submitPane.add(btnOk);
+			
+			JButton btnAnnuler = new JButton("Annuler");
+			submitPane.add(btnAnnuler);
+
+			add(submitPane, "cell 0 6,alignx right,growy");
+		}
 	}
 	
 	
@@ -93,7 +104,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @return
 	 */
 	public String getLogin() {
-		return txtLogin.getText();
+		return user.getText();
 	}
 	
 	
@@ -102,7 +113,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @return
 	 */
 	public String getNewPasswd() {
-		return newPasswd.getText();
+		return passwd.getText();
 	}
 	
 	
@@ -111,7 +122,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @return
 	 */
 	public String getNewPasswd2() {
-		return newPasswd2.getText();
+		return passwdConf.getText();
 	}
 	
 	
@@ -129,7 +140,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @param error
 	 */
 	public void displayError(String error) {
-		lblError.setText(error);
+		errorPane.setErrorMessage(error);
 	}
 	
 	
@@ -138,7 +149,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @param error
 	 */
 	public void displaySuccess(String success) {
-		
+		parent.changeToSuccess(success);
 	}
 	
 	
@@ -147,7 +158,9 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @param question
 	 */
 	public void displayQuestion(String question) {
-		this.question.setText(question);
+		try {
+			this.question.setText(question);
+		} catch (NoSuchMethodException e) {	}
 	}
 	
 	
