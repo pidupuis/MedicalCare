@@ -26,7 +26,7 @@ public class ListenersPasswordRecovery implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) 
 	{
-		if(0==connexion.getScreen())
+		if(0==connexion.getCurrentScreen())
 		{
 			try {
 				String login = connexion.getLogin();
@@ -40,7 +40,7 @@ public class ListenersPasswordRecovery implements ActionListener {
 				connexion.displayError(ex.getMessage());
 			}
 		}
-		else if(1==connexion.getScreen())
+		else if(1==connexion.getCurrentScreen())
 		{
 			try {
 				String login = connexion.getLogin();
@@ -65,7 +65,7 @@ public class ListenersPasswordRecovery implements ActionListener {
 			try {
 				String login = connexion.getLogin();
 				String pass = connexion.getNewPasswd();
-				String pass2 = connexion.getNewPasswd2();
+				String pass2 = connexion.getNewPasswdConf();
 				if(pass==pass2)
 				{
 					DB_connector.getInstance().resetPassword(login,pass);

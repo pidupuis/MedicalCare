@@ -74,6 +74,7 @@ public class LoginFrame extends JFrame {
 			remove(successPane);
 		} catch (Exception e) { }
 		
+		psswdPane.clearAll();
 		add(psswdPane, "cell 0 1,grow");
 		refreshUI();
 	}
@@ -103,6 +104,7 @@ public class LoginFrame extends JFrame {
 			remove(successPane);
 		} catch (Exception e) { }
 		
+		loginPane.clearAll();
 		add(loginPane, "cell 0 1,grow");
 		refreshUI();
 	}

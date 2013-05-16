@@ -24,7 +24,7 @@ public class ListenersButtonConnexion implements ActionListener {
 
 	public void actionPerformed(ActionEvent e)
 	{
-		parent.clearError();
+		parent.clearAll();
 		String login = parent.getUser();
 		String mdp = parent.getPassword();
 		String role = parent.getRole();

@@ -49,7 +49,7 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	}
 	
 	/**
-	 * Get the text of the field (only if possible).
+	 * Gets the text of the field component (only if possible).
 	 * @return the text of the field or null if the JComponent of the field doesn't have text displayed
 	 */
 	public String getText() {
@@ -61,7 +61,6 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 				return (String)m.invoke(field);
 			} catch(Exception e) {
 				try {
-
 					m = fieldClass.getMethod("getPassword", new Class<?>[]{String.class});
 					return new String((char[])m.invoke(field));
 				}
@@ -77,8 +76,9 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	}
 	
 	/**
-	 * 
-	 * @param text
+	 * Sets the text of the field component (only if possible).
+	 * @param text the text to put in the field component 
+	 * @throws NoSuchMethodException if the field component doesn't have a setText method
 	 */
 	public void setText(String text) throws NoSuchMethodException {
 		Class<?> fieldClass = field.getClass();
@@ -152,7 +152,8 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	}
 	
 	/**
-	 * 
+	 * Changes the font of the label and field component
+	 * @param f the desired Font for this component
 	 */
 	@Override
 	public void setFont(Font f) {
