@@ -106,6 +106,14 @@ public class Patient extends Actor {
     public Patient(String firstname, String lastname, String id) throws Exception {
 		super(firstname, lastname, id);
 	}
+    
+    /**
+     * Temporary !!! Just in case of the database is not accessible
+     * @param id
+     */
+    public Patient(String id) {
+		super(id);
+	}
 
 	/**
      *  This method allows the main program to get the gender of the patient

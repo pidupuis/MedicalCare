@@ -45,7 +45,7 @@ public class CRATest {
         String password = "Jaurelie";
         CRA instance = new CRA ("Joron", "Aurelie");
         boolean expResult = true;
-        boolean result = instance.CheckPassword(password);
+        boolean result = instance.checkPassword(password);
         assertEquals(expResult, result);
     }
 

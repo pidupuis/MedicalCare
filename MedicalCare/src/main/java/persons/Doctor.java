@@ -21,20 +21,19 @@ public class Doctor extends Actor {
      * The CRA whose supervise this Doctor
      */
     private CRA cra;
+
     /**
      * List of patients supervised by the doctor
      */
     private ArrayList<Patient> patientList = new ArrayList<Patient>();
-
+    
     /**
-     * Constructor of the doctor's class. It throws an exception if the names
-     * are not correct.
-     *
-     * @param id
+     * Constructor of the doctor's class. 
      * @param firstName
      * @param lastName
-     * @param password
-     * @param login
+     * @param id
+     * @param cra
+     * @throws Exception 
      */
     public Doctor(String firstName, String lastName, String id, CRA cra) throws Exception {
         super(firstName, lastName, id);
@@ -45,7 +44,13 @@ public class Doctor extends Actor {
     
 
 
-    /**
+    public Doctor(String firstName, String lastName, String id) throws Exception {
+    	super(firstName, lastName, id);
+	}
+
+
+
+	/**
      * Getter of the login of this instance of Doctor
      *
      * @return String
@@ -145,14 +150,13 @@ public class Doctor extends Actor {
     public ArrayList<Patient> getPatientList() {
         return patientList;
     }
-
+    
     /**
-     * Add a patient to the doctor's patient list.
-     *
-     * @param p
-     * @return
+     * Set the list of patient
+     * @param patientList 
      */
-    public boolean add(Patient p) {
-        return patientList.add(p);
+    public void setPatientList(ArrayList<Patient> patientList) {
+        this.patientList = patientList;
     }
+
 }

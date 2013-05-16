@@ -16,6 +16,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import main.exception.UnknownUsernameException;
+import main.exception.WrongPasswordException;
+import main.exception.WrongRoleException;
 import persons.*;
 import tests.*;
 
@@ -156,8 +160,7 @@ public class DB_connector {
      *
      * @param bt
      */
-    public boolean addBloodTest(BloodTest bt) {
-        String query = "";
+    private boolean addBloodTest(BloodTest bt) {
 //        Recap of the table ANALYSESANG
 //        PK_ID_ANALYSESANG
 //        PK_ID_FICHEQUOTIDIENNE
@@ -168,16 +171,16 @@ public class DB_connector {
 //        PLAQUETTES
 //        OBSERVATIONS_SANG
 //        CORRECT_SANG
-        
-        System.out.println("addBloodTest");
+    	System.out.println("addBloodTest");
         throw new UnsupportedOperationException();
+    	
     }
 
     /**
      *
      * @param electro
      */
-    public boolean addEEG(EEG electro) {
+    private boolean addEEG(EEG electro) {
         System.out.println("addEEG");
         throw new UnsupportedOperationException();
     }
@@ -186,7 +189,7 @@ public class DB_connector {
      *
      * @param effort
      */
-    public boolean addEffortTest(EffortTest effort) {
+    private boolean addEffortTest(EffortTest effort) {
 //        Recap of the table Analyseeffort
 //        PK_ID_ANALYSEEFFORT
 //        PK_ID_FICHEQUOTIDIENNE
@@ -292,7 +295,7 @@ public class DB_connector {
             job = "Médecin";
         }
         else    {
-            throw new Exception("This status does not exists !");
+            throw new Exception("Ce statut n'existe pas !");
         }
             
         query += "'"+ login +"',"
@@ -335,7 +338,7 @@ public class DB_connector {
             table = "MEDECIN";
         }
         else    {
-            throw new Exception("This status does not exists !");
+            throw new Exception("Ce statut n'existe pas !");
         }
         
         String query = "SELECT COUNT (*) AS Total FROM "+ table +" WHERE "
@@ -355,7 +358,7 @@ public class DB_connector {
             throw new Exception("This user does not exist ! ");
         }
         else    {
-            throw new Exception("CAUTION : This user exists twice at least !");
+            throw new Exception("ATTENTION : Cet utilisateur existe au moins deux fois !");
         }
     }
     
@@ -380,7 +383,7 @@ public class DB_connector {
             table += "MEDECIN  ";
         }
         else    {
-            throw new Exception("This status does not exists !");
+            throw new Exception("Ce statut n'existe pas !");
         }
         
         query += table + " WHERE PK_ID_PERSONNE = '" + id + "'";
@@ -411,7 +414,7 @@ public class DB_connector {
             }
         }
         else if (rs.getInt("Total") == 0) {
-            throw new Exception("This user does not exist!");
+            throw new Exception("Cet utilisateur n'existe pas !");
         }
         else    {
             throw new Exception("This user exists twice at least!");
@@ -434,11 +437,11 @@ public class DB_connector {
         
         //if there is no user with this login
         if (rsCount.getInt("Total") == 0)    {
-            throw new Exception("There is no user with this login!");
+            throw new UnknownUsernameException("Il n'existe pas d'utilisateur avec cet identifiant !");
         }
         //else if there more than 1 user with this login
         else if (rsCount.getInt("Total") > 1)    {
-            throw new Exception("There are two users at least with this login!");
+            throw new Exception("Il y a au moins deux utilisateurs possédant cet identifiant !");
         }
         //if there is one user
         else    {
@@ -449,7 +452,7 @@ public class DB_connector {
 
             //if the password is not correct
             if (!(rsPass.getString("UTILISATEUR_PASSWORD").equals(password)))  {
-                throw new Exception("The password is not correct!");
+                throw new WrongPasswordException("Le mot de passe n'est pas correct !");
             }
             //if the password is correct
             else    {
@@ -461,7 +464,7 @@ public class DB_connector {
                 if (user.equals("Data Manager")) {
                     //if the user is a data manager but the login is not corresponding to a data manager
                     if (rsSelect.getString("DM_ID") == null) {
-                        throw new Exception("You are not a Data Manager!");
+                        throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant que Data Manager !");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("DM_ID"));
@@ -471,7 +474,7 @@ public class DB_connector {
                 else if (user.equals("Assistant de recherche clinique")) {
                     //if the user is a cra but the login is not corresponding to a cra
                     if (rsSelect.getString("ARC_ID") == null) {
-                        throw new Exception("You are not a CRA!");
+                        throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant qu'Attaché de Recherche Clinique !");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("ARC_ID"));
@@ -481,7 +484,7 @@ public class DB_connector {
                 else if (user.equals("Médecin")) {
                     //if the user is a doctor but the login is not corresponding to a doctor
                     if (rsSelect.getString("MEDECIN_ID") == null) {
-                        throw new Exception("You are not a Doctor!");
+                        throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant que Médecin !");
                     }
                     else    {
                         id = Integer.parseInt(rsSelect.getString("MEDECIN_ID"));
@@ -489,7 +492,7 @@ public class DB_connector {
                     }
                 }
                 else    {
-                    throw new Exception("This job is not correct!");
+                    throw new WrongRoleException("Ce statut n'existe pas !");
                 }
                 return getUserById(id, statut);
             }
@@ -535,6 +538,34 @@ public class DB_connector {
         }
         else    {
             return false;
+        }
+    }
+
+    /**
+     *
+     * @param login
+     * @param password
+     * @return
+     */
+    public boolean checkPassword(String password) throws Exception {
+        if (password.length() < 4 || password.length() > 15) {
+            return true;
+        } else {
+            throw new Exception("Password is not good!");
+        }
+    }
+    
+    /**
+     * 
+     * @param login
+     * @param password 
+     */
+    public void resetPassword(String login, String password) throws Exception {        
+        if (this.checkPassword(password))   {
+            String query = "UPDATE Utilisateur SET Utilisateur_Password ('"+ password +"')";
+            System.out.println("query => " + query);
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+            rs.next();
         }
     }
    
@@ -592,10 +623,10 @@ public class DB_connector {
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
         if (rs.getInt("Total") > 1)    {
-            throw new Exception("This patient is twice in the database !");
+            throw new Exception("Ce patient existe au moins deux fois !");
         }
         if (rs.getInt("Total") == 0) {
-            throw new Exception("This patient does not exist in the database !");            
+            throw new Exception("Ce patient n'existe pas !");            
         }
         else    {
             try {
@@ -648,6 +679,7 @@ public class DB_connector {
             }
         }
     }
+
     
     /**
      * This method is used by the DataManager() class to get all the patients which are recoreded into the database
@@ -722,14 +754,15 @@ public class DB_connector {
     
     /**
      * This method allow us to get all the patients which are recoreded into the database and followed by a doctor
+     * @param Doctor who supervise all the patient
      * @return This method returns an ArrayList of Patients which contains all information about Patient
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates if there is a problem during the getting of all patients
      */
-    public ArrayList<Patient> getListPatientFromDoctor(String idDoc) throws SQLException, Exception {
+    public ArrayList<Patient> getListPatientFromDoctor(Doctor Doc) throws SQLException, Exception {
         ArrayList<Patient> tmpListPatients= new ArrayList<Patient>();
         Boolean sexe, inclut;
-        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient WHERE Med_pk_id_personne='" + Integer.parseInt(idDoc) + "'";
+        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient WHERE Med_pk_id_personne='" + Integer.parseInt(Doc.getId()) + "'";
         SimpleDateFormat birth = new SimpleDateFormat();
         birth.applyPattern("dd/MM/yyyy");
         
@@ -776,7 +809,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, null);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, Doc);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
                 
@@ -797,9 +830,9 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates if there is a problem during the getting of all doctor
      */
-    public ArrayList<Doctor> getListDoctor(String idARC) throws SQLException, Exception {
+    public ArrayList<Doctor> getListDoctor(CRA cra) throws SQLException, Exception {
         ArrayList<Doctor> tmpListDoctor= new ArrayList<Doctor>();
-        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + Integer.parseInt(idARC) + "'";
+        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + Integer.parseInt(cra.getId()) + "'";
         System.out.println("query => " + query);
         
         try {
@@ -812,7 +845,8 @@ public class DB_connector {
                 String lastname = rs.getString("nom");
 
                 Doctor tmpDoctor;
-                tmpDoctor = new Doctor(firstname, lastname, id, null);                
+                tmpDoctor = new Doctor(firstname, lastname, id, cra); 
+                tmpDoctor.setPatientList(this.getListPatientFromDoctor(tmpDoctor));
                 tmpListDoctor.add(tmpDoctor);
             }
             
@@ -1066,12 +1100,12 @@ public class DB_connector {
         throw new UnsupportedOperationException();
     }
     
-    public LinkedHashMap<Patient, ArrayList<Analysis>> getPatientsWithAnalysis() throws SQLException, Exception {
+    public LinkedHashMap<Patient, ArrayList<Analysis>> getPatientsWithAnalysis(String idMedecin) throws SQLException, Exception {
     	
     	LinkedHashMap<Patient, ArrayList<Analysis>> tmpPatientsWithAnalysis = new LinkedHashMap<Patient, ArrayList<Analysis>>();
     	
     	String date_jour = String.valueOf(Calendar.getInstance().get(Calendar.DATE))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.MONTH))+"/"+String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-        String query = "SELECT PK_ID_PERSONNE, NOM, PRENOM, Date_sang, Date_eeg, Date_effort FROM Patient INNER JOIN PlanningPatient ON (Personne.PK_ID_PERSONNE = Planning.PK_ID_PERSONNE) WHERE date_sang = "+date_jour+" OR date_eeg = "+date_jour+" OR date_effort = "+date_jour;
+        String query = "SELECT patient.PK_ID_PERSONNE, patient.NOM, patient.PRENOM, PlanningPatient.Date_sang, PlanningPatient.Date_eeg, PlanningPatient.Date_effort FROM Patient INNER JOIN PlanningPatient ON (Patient.PK_ID_PERSONNE = PlanningPatient.PK_ID_PERSONNE) WHERE Patient.Med_pk_id_personne = "+Integer.valueOf(idMedecin);
         
         System.out.println("Query => " + query);
         
@@ -1079,31 +1113,35 @@ public class DB_connector {
         
             ResultSet rs = this.connect.createStatement().executeQuery(query);
 
-            while (rs.next()) {
-                String id = rs.getString("PK_ID_PERSONNE");
-                String firstname = rs.getString("NOM");
-                String lastname = rs.getString("PRENOM");
-                
-                System.out.println(rs.getString("NOM"));
-
-                Patient tmpPatient;
-                
-                tmpPatient = new Patient(firstname, lastname, id);
-                
-                ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
-                if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
-                	myAnalysis.add(new BloodTest());
-                if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
-                	myAnalysis.add(new EEG());
-                if (rs.getString("Date_effort").equalsIgnoreCase(date_jour))
-                	myAnalysis.add(new EffortTest());
-                tmpPatientsWithAnalysis.put(tmpPatient, myAnalysis);
+            if (rs != null) {
+	            while (rs.next()) {
+	                String id = rs.getString("PK_ID_PERSONNE");
+	                String firstname = rs.getString("NOM");
+	                String lastname = rs.getString("PRENOM");
+	                
+	                System.out.println(rs.getString("NOM"));
+	
+	                Patient tmpPatient;
+	                
+	                tmpPatient = new Patient(firstname, lastname, id);
+	                
+	                ArrayList<Analysis> myAnalysis = new ArrayList<Analysis>();
+	                if (rs.getString("Date_sang").equalsIgnoreCase(date_jour))
+	                	myAnalysis.add(new BloodTest());
+	                if (rs.getString("Date_eeg").equalsIgnoreCase(date_jour))
+	                	myAnalysis.add(new EEG());
+	                if (rs.getString("Date_effort").equalsIgnoreCase(date_jour))
+	                	myAnalysis.add(new EffortTest());
+	                tmpPatientsWithAnalysis.put(tmpPatient, myAnalysis);
+	            }
             }
             
+            System.out.println("Fin de la méthode de récupération des patients");
             return tmpPatientsWithAnalysis;
         }
         catch (SQLException ex) {
             System.out.println("Erreur lors de l'obtention de la listes des patients => " + ex);
+            System.out.println("Fin de la méthode de récupération des patients");
             return null;
         }
     }
