@@ -9,6 +9,7 @@ import javax.swing.UIManager;
 
 import main.*;
 import persons.*;
+import ui.MainWindow;
 import ui.loginframe.LoginFrame;
 
 /**
@@ -16,13 +17,16 @@ import ui.loginframe.LoginFrame;
  * @author Katia
  */
 public class Main {
-    private static Actor user;
+    private static Actor user=null;
+    private static LoginFrame loginFrame;
+    private static MainWindow mainWindow;
     
     public static void main (String[] args) throws Exception {
     	try{
     		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     	} catch(Exception e) {}
-    	new LoginFrame();
+    	loginFrame= new LoginFrame();
+    	mainWindow = new MainWindow();
     	
         DB_connector db = null;
         Patient p = new Patient("aurelien", "JORON", 1980, 2, 8, true, null);
@@ -68,6 +72,13 @@ public class Main {
 
     public static Actor getUser() {
         return user;
+    }
+    
+    public static void launchMainWindow() {
+    	if(user != null) {
+    		loginFrame.dispose();
+    		mainWindow.setVisible(true);
+    	}
     }
     
     /**

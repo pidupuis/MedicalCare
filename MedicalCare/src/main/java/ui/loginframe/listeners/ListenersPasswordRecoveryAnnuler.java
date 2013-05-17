@@ -10,7 +10,7 @@ import main.Main;
 import ui.loginframe.LoginFrame;
 
 /**
- *
+ *Listeners sur le bouton annuler de l'interface de reinitialision de mot de passe
  * @author Julien_Lavigne
  */
 public class ListenersPasswordRecoveryAnnuler implements ActionListener {

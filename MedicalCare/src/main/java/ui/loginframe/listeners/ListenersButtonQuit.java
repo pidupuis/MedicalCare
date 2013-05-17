@@ -7,10 +7,10 @@ import main.Main;
 import ui.loginframe.panels.LoginPane;
 
 /**
- *
+ *Listeners sur le bouton quitter de l'interface de connexion qui permet de quitter l'interface de connexion
  * @author Julien_Lavigne
  */
-public class ListenersButtonAnnuler implements ActionListener {
+public class ListenersButtonQuit implements ActionListener {
     /**
      * Fonction qui permet de quitter le programme et quitte la fênetre de connexion
      * @param e 
