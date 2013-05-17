@@ -22,9 +22,10 @@ public class FormPanel extends JPanel {
 	private JLabel pres_dyas_lbl;
 	private JLabel bat_lbl;
 	private JLabel obs_lbl;
+	private JLabel warning_lbl;
 	
 	private JButton suivant_btn;
-	private JLabel lblWarningmessage;
+
 	
 	/**
 	 * Create the panel.
@@ -35,8 +36,8 @@ public class FormPanel extends JPanel {
 		header_name_lbl = new JLabel("NOM Prenom");
 		add(header_name_lbl, "cell 3 0");
 		
-		lblWarningmessage = new JLabel("warning_message");
-		add(lblWarningmessage, "cell 3 2");
+		warning_lbl = new JLabel("warning_message");
+		add(warning_lbl, "cell 3 2");
 		
 		lot_number_lbl = new JLabel("Numéro de Lot :");
 		add(lot_number_lbl, "cell 0 3");
