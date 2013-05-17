@@ -35,15 +35,15 @@ public class TreePanelRenderer implements TreeCellRenderer {
 		}
 		else {
 			if (node.isValide()) {
-				label.setIcon(new ImageIcon(getClass().getResource("/icon/success.png")));
+				label.setIcon(new ImageIcon(getClass().getResource("/icon/shiny_vert_15x15.png")));
 				label.setText("" + value);
 			}
 			else if (node.isFocused()) {
-				label.setIcon(new ImageIcon(getClass().getResource("/icon/globe2.png")));
+				label.setIcon(new ImageIcon(getClass().getResource("/icon/shiny_bleu_15x15.png")));
 				label.setText("" + value);
 			}
 			else {
-				label.setIcon(new ImageIcon(getClass().getResource("/icon/warning.png")));
+				label.setIcon(new ImageIcon(getClass().getResource("/icon/shiny_noir_15x15.png")));
 				label.setText("" + value);
 			}
 			

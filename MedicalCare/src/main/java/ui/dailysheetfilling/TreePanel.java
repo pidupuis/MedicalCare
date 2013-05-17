@@ -3,6 +3,7 @@ package ui.dailysheetfilling;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -55,8 +56,12 @@ public class TreePanel extends JPanel {
 			}
 
 		});*/
-
-		this.add(this.tree);
+		
+		//this.tree.setSize(width, height)
+		
+		this.add(new JScrollPane(this.tree));
+		
+		
 		
 	}
 	
