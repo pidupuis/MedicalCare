@@ -62,17 +62,23 @@ public class ListenersPasswordRecovery implements ActionListener {
 			try {
 				String login = connexion.getLogin();
 				String answer = connexion.getAnswer();
+                                if (DB_connector.getInstance().checkUser(login))
+                                {
+                                    if(DB_connector.getInstance().checkUserAnswer(answer, login))
+                                    {
+                                            connexion.displayPassword();
+                                    }
+                                    else
+                                    {
+                                            connexion.displayError("La réponse est fausse !");
+                                    }
+                                }
+                                else
+                                {
+                                   connexion.displayError("Ce login n'existe pas !"); 
+                                }
 
-				if(DB_connector.getInstance().checkUserAnswer(answer, login))
-				{
-					connexion.displayPassword();
-				}
-				else
-				{
-					connexion.displayError("La réponse est fausse !");
-				}
-
-
+                            
 			} catch (Exception ex) {
 				connexion.displayError(ex.getMessage());
 			}

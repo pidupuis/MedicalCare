@@ -317,8 +317,7 @@ public class DB_connector {
         String query = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
         System.out.println(query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
-        rs.next();
-        if (rs.getInt("Total") >= 1)    {
+        if (rs.next() && rs.getInt("Total") >= 1)    {
             return true;
         }
         else    {
@@ -471,7 +470,7 @@ public class DB_connector {
                         statut = 1;
                     }
                 }
-                else if (user.equals("Attaché de recherche clinique")) {
+                else if (user.equals("Assistant de recherche clinique")) {
                     //if the user is a cra but the login is not corresponding to a cra
                     if (rsSelect.getString("ARC_ID") == null) {
                         throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant qu'Attaché de Recherche Clinique !");
