@@ -65,7 +65,7 @@ public class ActorTest {
     public void testGetFirstName() throws Exception {
         System.out.println("getName");
         Actor instance = new ActorTest.ActorImpl("test", "testlast");
-        String expResult = "test";
+        String expResult = "Test";
         String result = instance.getFirstName();
         assertEquals(expResult, result);
     }
@@ -97,8 +97,8 @@ public class ActorTest {
     @Test
     public void testGetLastName() throws Exception {
         System.out.println("getLastName");
-        Actor instance = new ActorTest.ActorImpl("testfirst", "test");
-        String expResult = "test";
+        Actor instance = new ActorTest.ActorImpl("Testfirst", "TEST");
+        String expResult = "TEST";
         String result = instance.getLastName();
         assertEquals(expResult, result);
     }
