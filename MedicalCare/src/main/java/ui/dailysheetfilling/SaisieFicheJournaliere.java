@@ -20,6 +20,7 @@ public class SaisieFicheJournaliere extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JPanel subpanelTree;
 	private JPanel subpanelForm;
+	
 	/**
 	 * Create the panel.
 	 * @throws Exception 
