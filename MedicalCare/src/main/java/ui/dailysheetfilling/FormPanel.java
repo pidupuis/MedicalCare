@@ -38,9 +38,11 @@ public class FormPanel extends JPanel {
 
 	private ArrayList<PatientNode> myPatientNodes;
 	
-	private boolean alert = false;
+	private ArrayList<Boolean> correct;
 	
-	//private ArrayList<Boolean> correct;
+	//TODO function check tab => renvoi un boolean
+	//function clean tab => nettoi le tableau
+	//function clena field => clean tous les text field
 
 
 	/**
