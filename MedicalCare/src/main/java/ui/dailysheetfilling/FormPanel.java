@@ -11,6 +11,7 @@ import javax.swing.JButton;
 
 import persons.Patient;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
+import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
 
 public class FormPanel extends JPanel {
@@ -68,6 +69,7 @@ public class FormPanel extends JPanel {
 		lot_number_txf = new JTextField();
 		add(lot_number_txf, "cell 3 3,growx");
 		lot_number_txf.addActionListener(new ListenerLotNumber(this));
+		lot_number_txf.addFocusListener(new ListenerLotNumber(this));
 		lot_number_txf.setColumns(10);
 		
 		room_number_lbl = new JLabel("Numéro de chambre :");
@@ -81,10 +83,12 @@ public class FormPanel extends JPanel {
 		add(pres_sys_lbl, "cell 0 7");
 		
 		pres_sys_txf = new JTextField();
+		pres_sys_txf.addActionListener(new ListenerPresSys(this));
+		pres_sys_txf.addFocusListener(new ListenerPresSys(this));
 		add(pres_sys_txf, "cell 3 7,growx");
 		pres_sys_txf.setColumns(10);
 		
-		JLabel pres_dyas_lbl = new JLabel("Pression Dyastolique :");
+		JLabel pres_dyas_lbl = new JLabel("Pression Diastolique :");
 		add(pres_dyas_lbl, "cell 0 9");
 		
 		pres_dyas_txf = new JTextField();
