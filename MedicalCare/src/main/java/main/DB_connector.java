@@ -18,6 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import main.exception.UnknownUsernameException;
+import main.exception.WrongParameterException;
 import main.exception.WrongPasswordException;
 import main.exception.WrongRoleException;
 import persons.*;
@@ -177,12 +178,27 @@ public class DB_connector {
     }
 
     /**
-     *
-     * @param electro
+     *  This method permits to add an EEG analysis into the database.
+     * @param electro contains all the information about the EEG analysis
+     * @param p is the patient link to the EEG analysis
      */
-    private boolean addEEG(EEG electro) {
-        System.out.println("addEEG");
-        throw new UnsupportedOperationException();
+    private void addEEG(EEG electro, Patient p) {
+        String query, query2 = "";
+        try {        
+            query = "SELECT * FROM analyseeeg "
+                    + "JOIN fichequotidienne "
+                    + "ON fichequotidienne.pk_id_fichequotidienne = analyseeeg.pk_id_fichequotidienne "
+                    + "JOIN rempli_fiche "
+                    + "ON rempli_fiche.pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne"
+                    + "WHERE rempli_fiche.pk_id_personne = '"+ p.getId() +"'";
+            System.out.println("query : " + query);
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
+            System.out.println("PK_ID_PERSONNE : " + rs.getString("pk_id_personne"));
+            query2 = "SELECT * FROM patient WHERE pk_id_personne = '"+ rs.getString("pk_id_personne") +"'";
+        }
+        catch (SQLException ex) {
+            System.out.println("Erreur lors de l'insertion de l'analyse EEG => " + ex);
+        }
     }
 
     /**
@@ -904,68 +920,85 @@ public class DB_connector {
         }
     }
     
-    public void addDailyTest(DailyTest instance) throws SQLException, Exception {
-        
-        int verifiee;
-        if (instance.getChecked()) {
-            verifiee = 1;
+    
+//    public void addDailyTest(DailyTest instance, Patient p) throws SQLException, Exception {
+//        String query = "";
+//        String date = "";
+//        
+//        String query = "INSERT INTO FicheQuotidienne "
+//                + "VALUES ("
+//                + "'',"
+//                + "''"
+//                + ")"
+//        
+//        
+//        GregorianCalendar dateTest = instance.getDailyDate();
+//        
+//        String strDate = String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.YEAR));
+//        String idTest = String.valueOf(instance.getPatient().getId());
+//        
+//        while (idTest.length() < 4) {
+//            idTest = "0" + idTest;
+//        }
+//            // Formate l'id pour qu'il fasse bien 4 caracteres.
+//            
+//        String numLot = idTest + String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH));
+//        
+//        String query_fiche = "insert into FICHEQUOTIDIENNE "
+//                + "(PK_ID_FICHEQUOTIDIENNE, PK_NUM_LOT, DATE_FICHE, PRESSION_SYSTOLIQUE, "
+//                + " PRESSION_DIASTOLIQUE, RYTHME_CARDIAQUE, OBSERVATIONS_QUOTIDIENNES, VERIFIE) "
+//                + "values (null, " + numLot + ", " + strDate + ", " + instance.getCystole() + ", "
+//                + instance.getDiastole() + ", " + instance.getHeartBeats() + ", " + instance.getObservations() + ", " + verifiee + ")";
+//        // Format date : '26/12/2014'
+//        System.out.println(query_fiche);
+//        ResultSet rs_fiche = this.connect.createStatement().executeQuery(query_fiche);
+//        rs_fiche.next();
+//        
+//        String query_rempli = "insert into REMPLI_FICHE (PK_ID_PERSONNE, PK_ID_FICHEQUOTIDIENNE, MED_PK_ID_PERSONNE) values "
+//                + "(" + String.valueOf(instance.getPatient().getId()) + ", " + rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") + ", " + instance.getMed().getId() + ")" ;
+//
+//        System.out.println(query_rempli);
+//        ResultSet rs_rempli = this.connect.createStatement().executeQuery(query_rempli);
+//        rs_rempli.next();
+//        
+//        if (instance.getPrescBlood()) {
+//            String query_blood = "insert into ANALYSESANG (PK_ID_ANALYSESANG, PK_ID_FICHEQUOTIDIENNE, HEMOGLOBINE, TAUX_GLOBULES_ROUGE, HEMATOCRITE, TAUX_GLOBULES_BLANC, PLAQUETTES, OBSERVATIONS_SANG, CORRECT_SANG) values "
+//                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getBloodTest().getResults(0) +", "+ instance.getBloodTest().getResults(1) +","
+//                    + " "+ instance.getBloodTest().getResults(3) +", "+ instance.getBloodTest().getResults(2) +", "+ instance.getBloodTest().getResults(4) +", "+ instance.getBloodTest().getObservations() +", null)";
+//            
+//            System.out.println(query_blood);
+//            ResultSet rs_blood = this.connect.createStatement().executeQuery(query_blood);
+//            rs_blood.next();
+//        }
+//        if (instance.getPrescEEG()) {
+//            String query_eeg = "insert into ANALYSEEEG (PK_ID_ANALYSEEEG, PK_ID_FICHEQUOTIDIENNE, RESULTAT_EEG, OBSERVATIONS_EEG) values "
+//                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEEGTest().getResult() +", "+ instance.getEEGTest().getObservations() +")";                    
+//                    
+//            System.out.println(query_eeg);
+//            ResultSet rs_eeg = this.connect.createStatement().executeQuery(query_eeg);
+//            rs_eeg.next();
+//        }
+//        if (instance.getPrescEffort()) {
+//            String query_effort = "insert into ANALYSEEFFORT (PK_ID_ANALYSEEFFORT, PK_ID_FICHEQUOTIDIENNE, RYTHME_AVANT, RYTHME_APRES, RYTHME_1MIN_APRES, OBSERVATIONS_EFFORT) values "
+//                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEffortTest().getBeforeEffort() +", "+ instance.getEffortTest().getPostEffort() +" , "+ instance.getEffortTest().getTimePlusOne() +", "+ instance.getEffortTest().getObservations() +")";
+//            System.out.println(query_effort);
+//            ResultSet rs_effort = this.connect.createStatement().executeQuery(query_effort);
+//            rs_effort.next();
+//        }
+//    }
+    
+    public void setState (DailyTest d, String statut) throws WrongParameterException, SQLException {
+        String query = "";
+        System.out.println("statut : " + statut);
+        if ((!(statut.equals("en_cours"))) && (!(statut.equals("valide"))) && (!(statut.equals("invalide"))) && (!(statut.equals("a_verifier"))))  {
+            throw new WrongParameterException("Le statut doit être 'en_cours' ou 'valide' ou 'invalide' ou 'a_verifier' !");
         }
-        else {
-            verifiee = 0;
-        }
-        
-        GregorianCalendar dateTest = instance.getDailyDate();
-        
-        String strDate = String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.YEAR));
-        String idTest = String.valueOf(instance.getPatient().getId());
-        
-        while (idTest.length() < 4) {
-            idTest = "0" + idTest;
-        }
-            // Formate l'id pour qu'il fasse bien 4 caracteres.
-            
-        String numLot = idTest + String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH));
-        
-        String query_fiche = "insert into FICHEQUOTIDIENNE "
-                + "(PK_ID_FICHEQUOTIDIENNE, PK_NUM_LOT, DATE_FICHE, PRESSION_SYSTOLIQUE, "
-                + " PRESSION_DIASTOLIQUE, RYTHME_CARDIAQUE, OBSERVATIONS_QUOTIDIENNES, VERIFIE) "
-                + "values (null, " + numLot + ", " + strDate + ", " + instance.getCystole() + ", "
-                + instance.getDiastole() + ", " + instance.getHeartBeats() + ", " + instance.getObservations() + ", " + verifiee + ")";
-        // Format date : '26/12/2014'
-        System.out.println(query_fiche);
-        ResultSet rs_fiche = this.connect.createStatement().executeQuery(query_fiche);
-        rs_fiche.next();
-        
-        String query_rempli = "insert into REMPLI_FICHE (PK_ID_PERSONNE, PK_ID_FICHEQUOTIDIENNE, MED_PK_ID_PERSONNE) values "
-                + "(" + String.valueOf(instance.getPatient().getId()) + ", " + rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") + ", " + instance.getMed().getId() + ")" ;
-
-        System.out.println(query_rempli);
-        ResultSet rs_rempli = this.connect.createStatement().executeQuery(query_rempli);
-        rs_rempli.next();
-        
-        if (instance.getPrescBlood()) {
-            String query_blood = "insert into ANALYSESANG (PK_ID_ANALYSESANG, PK_ID_FICHEQUOTIDIENNE, HEMOGLOBINE, TAUX_GLOBULES_ROUGE, HEMATOCRITE, TAUX_GLOBULES_BLANC, PLAQUETTES, OBSERVATIONS_SANG, CORRECT_SANG) values "
-                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getBloodTest().getResults(0) +", "+ instance.getBloodTest().getResults(1) +","
-                    + " "+ instance.getBloodTest().getResults(3) +", "+ instance.getBloodTest().getResults(2) +", "+ instance.getBloodTest().getResults(4) +", "+ instance.getBloodTest().getObservations() +", null)";
-            
-            System.out.println(query_blood);
-            ResultSet rs_blood = this.connect.createStatement().executeQuery(query_blood);
-            rs_blood.next();
-        }
-        if (instance.getPrescEEG()) {
-            String query_eeg = "insert into ANALYSEEEG (PK_ID_ANALYSEEEG, PK_ID_FICHEQUOTIDIENNE, RESULTAT_EEG, OBSERVATIONS_EEG) values "
-                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEEGTest().getResult() +", "+ instance.getEEGTest().getObservations() +")";                    
-                    
-            System.out.println(query_eeg);
-            ResultSet rs_eeg = this.connect.createStatement().executeQuery(query_eeg);
-            rs_eeg.next();
-        }
-        if (instance.getPrescEffort()) {
-            String query_effort = "insert into ANALYSEEFFORT (PK_ID_ANALYSEEFFORT, PK_ID_FICHEQUOTIDIENNE, RYTHME_AVANT, RYTHME_APRES, RYTHME_1MIN_APRES, OBSERVATIONS_EFFORT) values "
-                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEffortTest().getBeforeEffort() +", "+ instance.getEffortTest().getPostEffort() +" , "+ instance.getEffortTest().getTimePlusOne() +", "+ instance.getEffortTest().getObservations() +")";
-            System.out.println(query_effort);
-            ResultSet rs_effort = this.connect.createStatement().executeQuery(query_effort);
-            rs_effort.next();
+        else    {
+            query = "UPDATE fichequotidienne "
+                    + "SET state = '"+ statut +"' "
+                    + "WHERE pk_id_fichequotidienne = '"+ d.getId() +"'";
+            System.out.println("query => " + query);
+            ResultSet rs = this.connect.createStatement().executeQuery(query);
         }
     }
 

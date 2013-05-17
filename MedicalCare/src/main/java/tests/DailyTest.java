@@ -9,10 +9,9 @@ import persons.Patient;
  * @author Vincent Emonet
  */
 public class DailyTest extends Analysis {
-
+        private int id;
         private Patient patientTested;
         private Doctor med;
-        
 	private int[] bloodPressure;
 	private int heartBeats;
 	private String numeroLot;
@@ -72,8 +71,20 @@ public class DailyTest extends Analysis {
 	}
 
         public DailyTest() {}
+        
+        /**
+         * This method returns the identifier of the daily sheet
+         * @return the identifier of the daily sheet
+         */
+        public int getId() {
+            return id;
+        }
 
-		/**
+        public void setId(int id) {
+            this.id = id;
+        }
+        
+        /**
 	 * Returns the blood pressure.
 	 * @return int[]
 	 */
