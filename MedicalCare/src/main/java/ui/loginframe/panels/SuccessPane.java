@@ -15,7 +15,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 
 /**
- * 
+ * Panel managing success messages
  */
 public class SuccessPane extends JPanel {
 
@@ -52,8 +52,8 @@ public class SuccessPane extends JPanel {
 	}
 	
 	/**
-	 * 
-	 * @param message
+	 * Changes the displayed success message
+	 * @param message the message to display
 	 */
 	public void setSuccessMessage(String message) {
 		lblSuccess.setText(message);

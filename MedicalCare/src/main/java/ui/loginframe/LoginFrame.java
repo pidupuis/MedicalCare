@@ -2,11 +2,7 @@ package ui.loginframe;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
@@ -15,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Font;
 
 import ui.loginframe.panels.LoginPane;

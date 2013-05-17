@@ -13,14 +13,16 @@ import java.awt.FlowLayout;
 import java.awt.Color;
 import java.awt.Font;
 
+/**
+ * Panel managing error messages
+ */
 public class ErrorPane extends JPanel {
 
-	/**  */
 	private static final long serialVersionUID = 1L;
 	private JLabel lblError;
 	
 	/**
-	 * Create the panel.
+	 * Constructs an error panel with a centered label with icon
 	 */
 	public ErrorPane() {
 		setLayout(new FlowLayout());
@@ -48,6 +50,10 @@ public class ErrorPane extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder());
 	}
 	
+	/**
+	 * Changes the displayed error message
+	 * @param message the message to display
+	 */
 	public void setErrorMessage(String message) {
 		lblError.setText(message);
 	}

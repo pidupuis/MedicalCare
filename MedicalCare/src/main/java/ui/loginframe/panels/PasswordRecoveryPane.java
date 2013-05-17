@@ -12,7 +12,6 @@ import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersPasswordRecovery;
 import ui.loginframe.listeners.ListenersPasswordRecoveryAnnuler;
-import main.Main;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
@@ -22,7 +21,7 @@ import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 
 /**
- *
+ * Panel managing the password recovery
  */
 public class PasswordRecoveryPane extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -128,7 +127,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Gets the login name entered on the first screen
 	 * @return
 	 */
 	public String getLogin() {
@@ -137,7 +136,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Gets the new password entered on the third screen
 	 * @return
 	 */
 	public String getNewPasswd() {
@@ -146,7 +145,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Gets the new password confirmation entered on the third screen
 	 * @return
 	 */
 	public String getNewPasswdConf() {
@@ -155,8 +154,8 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
-	 * @return
+	 * Gets the answer entered on the second screen
+	 * @return the answer
 	 */
 	public String getAnswer() {
 		return answer.getField().getText();
@@ -164,8 +163,8 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
-	 * @param error
+	 * Displays an error message at the bottom of the panel 
+	 * @param error the error message
 	 */
 	public void displayError(String error) {
 		errorPane.setErrorMessage(error);
@@ -175,7 +174,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Displays an success message on the new panel
 	 * @param error
 	 */
 	public void displaySuccess(String success) {
@@ -190,7 +189,7 @@ public class PasswordRecoveryPane extends JPanel {
 	}
 
 	/**
-	 * 
+	 * Displays the first screen with user name field
 	 */
 	public void displayUser() {
 		errorPane.setVisible(false);
@@ -207,7 +206,7 @@ public class PasswordRecoveryPane extends JPanel {
 	
 
 	/**
-	 * 
+	 * Displays the second screen with the question and answer field
 	 * @param question
 	 */
 	public void displayQuestion(String questionText) {
@@ -225,7 +224,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Displays the third screen with the password and password confirmation field
 	 */
 	public void displayPassword() {
 		errorPane.setVisible(false);
@@ -273,7 +272,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Gets the currently displayed screen
 	 * @return 0 login, 1 question, 2 password
 	 */
 	public int getCurrentScreen() {
