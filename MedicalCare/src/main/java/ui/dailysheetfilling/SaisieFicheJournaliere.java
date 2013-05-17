@@ -79,6 +79,7 @@ public class SaisieFicheJournaliere extends JPanel {
 		}
 		plop.setVisible(true);
 		plop.setMinimumSize(new Dimension(1000, 500));
+		plop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		
 	}

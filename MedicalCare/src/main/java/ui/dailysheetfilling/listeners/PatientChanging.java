@@ -26,18 +26,17 @@ public class PatientChanging implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		
+
 		//back up the patient list
 		ArrayList<Patient> myPatients = fp.getMyPatients();
 		
 		//we take the max iteration of the list
-		int last_p = myPatients.size();
+		int last_p = myPatients.size() - 1;
 		
-		//patient list loop
-		if (current_index + 1 < last_p)
-		{
 		//when the button is click
-			//case 1 : to change the patient in the array
+		//case 1 : to change the patient in the array
+		if (current_index< last_p)
+		{
 				//Control conditions are OK
 					current_index++;
 					String header_name = myPatients.get(current_index).getLastName() + " " + myPatients.get(current_index).getFirstName();
@@ -49,8 +48,7 @@ public class PatientChanging implements ActionListener {
 		{
 			String header_name = myPatients.get(current_index).getLastName() + " " + myPatients.get(current_index).getFirstName();
 			fp.setHeader_name_lbl(header_name);
-			JButton jb = fp.getSuivant_btn();
-			jb.setText("Valider et Finir");
+			fp.getSuivant_btn().setText("Valider et Finir");
 		}
 	}
 
