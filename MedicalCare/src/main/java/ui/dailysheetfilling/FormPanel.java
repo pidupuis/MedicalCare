@@ -9,14 +9,17 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTree;
-
-import persons.Patient;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
 
 public class FormPanel extends JPanel {
+<<<<<<< HEAD
 
+=======
+	
+	private static final long serialVersionUID = 1L;
+>>>>>>> branch 'develop' of https://github.com/pidupuis/MedicalCare.git
 	private JTextField lot_number_txf;
 	private JTextField room_number_txf;
 	private JTextField pres_sys_txf;
