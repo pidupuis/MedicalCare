@@ -43,56 +43,11 @@ public class SaisieFicheJournaliere extends JPanel {
 	 */
 	public SaisieFicheJournaliere(Actor user) throws Exception {
 		
-		// Subpanel to construct the tree
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode((user.getLastName()+" "+user.getFirstName()).toString());
+		this.subpanelTree = new TreePanel(user);
+		this.subpanelForm = new DailyFormPanel();
 		
-		ArrayList<Patient> myPatients = null;
-		
-		try {
-			myPatients = DB_connector.getInstance().getListPatientFromDoctor((Doctor) user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		DefaultMutableTreeNode child;
-		for (Patient p : myPatients) {
-			child = new DefaultMutableTreeNode(p.getFirstName()+" "+p.getLastName());
-			root.add(child);
-		}
-		
-		/*DefaultMutableTreeNode child1 = new DefaultMutableTreeNode("Child 1");
-		root.add(child1);
-		DefaultMutableTreeNode child2 = new DefaultMutableTreeNode("Child 2");
-		root.add(child2);
-		
-		DefaultMutableTreeNode grandchild1 = new DefaultMutableTreeNode("grandchild 1");
-		child2.add(grandchild1);
-		DefaultMutableTreeNode grandchild2 = new DefaultMutableTreeNode("grandchild 2");
-		child2.add(grandchild2);*/
-		
-		JTree tree = new JTree(root);
-		
-		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
-			
-			public void valueChanged(TreeSelectionEvent e) {
-				JFrame plop = new JFrame();
-				plop.setSize(100, 100);
-				plop.setVisible(true);
-			}
-			
-		});
-	
-		this.add(tree);
-		
-		//partie de droite
-		
-			// remplissage de la fiche journaliere
-		
-		
-			//Remplissage des analyses si besoin
-		
-			//fleches qui permettent de faire passer les patients
-		//this.add(this.subpanelTree);
+		this.add(this.subpanelTree);
+		this.add(this.subpanelForm);
 		
 	}
 	
@@ -108,8 +63,7 @@ public class SaisieFicheJournaliere extends JPanel {
 		}
 		plop.setVisible(true);
 		plop.setMinimumSize(new Dimension(200, 150));
-		
-		
+
 		
 	}
 
