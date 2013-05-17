@@ -8,7 +8,6 @@ public class DailyFormPanel extends JPanel {
 	
 		// remplissage de la fiche journaliere
 	
-	
 		//Remplissage des analyses si besoin
 	
 		//fleches qui permettent de faire passer les patients
