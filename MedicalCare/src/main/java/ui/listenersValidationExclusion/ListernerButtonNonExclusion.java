@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import main.Main;
 import persons.CRA;
 import persons.Patient;
+import ui.ValidationExclusion;
 
 /**
  *
@@ -17,10 +18,10 @@ import persons.Patient;
  */
 public class ListernerButtonNonExclusion implements ActionListener {
 
-    private ValidePane interf;
+    private ValidationExclusion interf;
     private Patient pat;
 
-    public ListernerButtonNonExclusion(ValidePane interf, Patient pat) {
+    public ListernerButtonNonExclusion(ValidationExclusion interf, Patient pat) {
         this.interf = interf;
         this.pat = pat;
     }
@@ -28,6 +29,5 @@ public class ListernerButtonNonExclusion implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String why = JOptionPane.showInputDialog(interf, "Pourquoi ne pas exclure " + this.pat.getFirstName() + " " + this.pat.getLastName(), "Raison de la non exclusion");
         ((CRA) Main.getUser()).remove(pat);
-
     }
 }

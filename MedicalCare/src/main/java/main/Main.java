@@ -9,6 +9,7 @@ import javax.swing.UIManager;
 
 import main.*;
 import persons.*;
+import ui.ValidationExclusion;
 import ui.loginframe.LoginFrame;
 
 /**
@@ -22,8 +23,8 @@ public class Main {
     	try{
     		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     	} catch(Exception e) {}
-    	new LoginFrame();
-    	
+    	//new LoginFrame();
+    	new ValidationExclusion();
         DB_connector db = null;
         Patient p = new Patient("aurelien", "JORON", 1980, 2, 8, true, null);
         DataManager dm = new DataManager("katia", "chiron");
@@ -38,7 +39,7 @@ public class Main {
             //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        tmp = db.getUserById(db.getUserId("katia", "chiron", 1), 1);
+        //tmp = db.getUserById(db.getUserId("katia", "chiron", 1), 1);
         //tmpListPatient = db.getListPatientFromDoctor("1");
         //tmp = db.getUserById(db.getUserId("katia", "chiron", 1), 1);
        // tmpListPatient = db.getListPatientFromDoctor(tmp);
