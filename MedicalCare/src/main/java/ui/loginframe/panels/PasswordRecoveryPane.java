@@ -186,6 +186,7 @@ public class PasswordRecoveryPane extends JPanel {
 			}
 		});
 		t.start();
+		t.setRepeats(false);
 	}
 
 	/**
@@ -277,5 +278,14 @@ public class PasswordRecoveryPane extends JPanel {
 	 */
 	public int getCurrentScreen() {
 		return currentScreen;
+	}
+	
+	/**
+	 * Requests the focus of the panel and the first field
+	 */
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		user.getField().requestFocus();
 	}
 }

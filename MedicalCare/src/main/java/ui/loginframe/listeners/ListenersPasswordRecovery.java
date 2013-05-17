@@ -46,12 +46,20 @@ public class ListenersPasswordRecovery implements ActionListener {
 		if(0==connexion.getCurrentScreen())
 		{
 			try {
+                             
 				String login = connexion.getLogin();
-				String question =DB_connector.getInstance().getUserQuestion(login);
-				if(question!=null)
-				{
-					connexion.displayQuestion(question);
-				}
+                                if(DB_connector.getInstance().checkUser(login))
+                                {
+                                    String question =DB_connector.getInstance().getUserQuestion(login);
+                                    if(question!=null)
+                                    {
+                                            connexion.displayQuestion(question);
+                                    }
+                                }
+                                else
+                                {
+                                    connexion.displayError("Le login n'existe pas !");
+                                }
 
 			} catch (Exception ex) {
 				connexion.displayError(ex.getMessage());
