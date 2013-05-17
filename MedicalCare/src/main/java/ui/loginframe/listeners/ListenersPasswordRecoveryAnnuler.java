@@ -22,7 +22,10 @@ public class ListenersPasswordRecoveryAnnuler implements ActionListener {
     }
     
     
-    
+    /**
+     * Fonction qui après clique du bouton permet de changer d'interface entre la recherche de mot de passe et l'interface de connexion
+     * @param e 
+     */
     public void actionPerformed(ActionEvent e)
 	{
 		interf.changeToLogin();
