@@ -40,7 +40,7 @@ public class LoginFrame extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 518, 327);
-		setLayout(new MigLayout("inset 5", "[150px:n,grow]", "[70px][grow]"));
+		setLayout(new MigLayout("inset 5", "[400px:n,grow]", "[70px][grow]"));
 		
 		lblTitle = new JLabel("Medical Care Connect");
 		lblTitle.setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
@@ -74,6 +74,7 @@ public class LoginFrame extends JFrame {
 			remove(successPane);
 		} catch (Exception e) { }
 		
+		psswdPane.displayUser();
 		add(psswdPane, "cell 0 1,grow");
 		refreshUI();
 	}
@@ -103,6 +104,7 @@ public class LoginFrame extends JFrame {
 			remove(successPane);
 		} catch (Exception e) { }
 		
+		loginPane.clearAll();
 		add(loginPane, "cell 0 1,grow");
 		refreshUI();
 	}

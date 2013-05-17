@@ -8,22 +8,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import ui.loginframe.LoginFrame;
-import ui.loginframe.panels.LoginPane;
 
 /**
  *
  * @author Julien_Lavigne
  */
 public class ListenersButtonRecovery implements ActionListener{
-	private LoginPane connexion;
+	private LoginFrame connexion;
 
 
-	public ListenersButtonRecovery(LoginPane interf)
+	public ListenersButtonRecovery(LoginFrame interf)
 	{
 		connexion = interf;
 
 	}
-
+/**
+ * Fonction qui va changer de Panel vers le panel de changer de password
+ * @param e 
+ */
 	public void actionPerformed(ActionEvent e) 
 	{
 		connexion.changeToPasswordRecovery();   
