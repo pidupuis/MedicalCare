@@ -2,6 +2,7 @@ package persons;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import main.*;
@@ -21,10 +22,23 @@ public class CRA extends Actor {
      * justification as value
      */
     private HashMap<Patient, String> exclusionList = new HashMap<Patient, String>();
+    
+    /**
+     * Array of all the doctor under the CRA
+     */
+    private ArrayList<Doctor> listDoc = new ArrayList<Doctor>();
 
-    public CRA(String id, String firstName, String lastName) throws Exception {
-        super(id, firstName, lastName);
+    
+    
+    public CRA(String firstName, String lastName) throws Exception {
+        super(firstName, lastName);
+        this.generateLogin();
+        this.password = this.login;
+        
+        
+        this.listDoc = DB_connector.getInstance().getListDoctor(this);
     }
+    
 
     /**
      * Create a new CRA.
@@ -33,10 +47,12 @@ public class CRA extends Actor {
      * @param lastName
      * @throws Exception
      */
-    public CRA(String firstName, String lastName) throws Exception {
-        super(firstName, lastName);
+    public CRA(String id, String firstName, String lastName) throws Exception {
+        super(id, firstName, lastName);
         this.generateLogin();
         this.password = this.login;
+        
+        this.listDoc = DB_connector.getInstance().getListDoctor(this);
     }
 
     /**
@@ -46,6 +62,14 @@ public class CRA extends Actor {
      */
     public HashMap<Patient, String> getExclusionList() {
         return exclusionList;
+    }
+
+    public ArrayList<Doctor> getListDoc() {
+        return listDoc;
+    }
+
+    public void setListDoc(ArrayList<Doctor> listDoc) {
+        this.listDoc = listDoc;
     }
 
     /**
