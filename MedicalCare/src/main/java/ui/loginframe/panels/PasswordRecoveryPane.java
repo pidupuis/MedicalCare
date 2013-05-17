@@ -165,6 +165,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 */
 	public void displayError(String error) {
 		errorPane.setErrorMessage(error);
+		errorPane.setVisible(true);
 	}
 
 
@@ -216,7 +217,7 @@ public class PasswordRecoveryPane extends JPanel {
 		question.setVisible(false);
 		answer.setVisible(false);
 		passwd.setVisible(true);
-		passwd.setVisible(true);
+		passwdConf.setVisible(true);
 		currentScreen = 2;
 	}
 	
@@ -245,9 +246,10 @@ public class PasswordRecoveryPane extends JPanel {
 	}
 	
 	/**
-	 * Clears all existent error message and clear content of form fields
+	 * Clears all existent error message, clears content of form fields and goes back to the first screen
 	 */
 	public void clearAll() {
+		displayPassword();
 		clearFields();
 		clearError();
 	}
