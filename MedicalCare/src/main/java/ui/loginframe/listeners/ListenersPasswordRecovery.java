@@ -7,8 +7,6 @@ package ui.loginframe.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import main.DB_connector;
-
-import ui.loginframe.panels.LoginPane;
 import ui.loginframe.panels.PasswordRecoveryPane;
 
 /**

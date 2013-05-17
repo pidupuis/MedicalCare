@@ -6,7 +6,6 @@ package ui.loginframe.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import ui.loginframe.LoginFrame;
 
 /**
