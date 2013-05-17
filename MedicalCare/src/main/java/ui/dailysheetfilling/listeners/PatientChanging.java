@@ -19,10 +19,10 @@ import ui.dailysheetfilling.TreePanel;
  */
 
 public class PatientChanging implements ActionListener {
-	
+
 	private FormPanel fp;
 	int current_index = 1;
-	
+
 	public PatientChanging(FormPanel fp) {
 		this.fp = fp;
 	}
@@ -31,14 +31,15 @@ public class PatientChanging implements ActionListener {
 
 		//back up the patient node list
 		ArrayList<PatientNode> myPatientNodes = fp.getMyPatientNodes();
-		
+
 		//we take the max iteration of the list
 		int last_p = myPatientNodes.size() - 1;
-		
+
 		//when the button is click
-		
-		if (myPatientNodes.get(current_index).isValide()) { // If the current patient is not validated
-			
+		if (fp.isAlert())
+		{
+			myPatientNodes.get(current_index-1).setValide(true); // If the current patient is validated
+
 			myPatientNodes.get(current_index-1).setFocused(false);
 			myPatientNodes.get(current_index).setFocused(true);
 			this.fp.getParent().repaint();
@@ -60,12 +61,14 @@ public class PatientChanging implements ActionListener {
 				fp.getSuivant_btn().setText("Valider et Finir");
 
 			}
-		
 		}
-		
-		
-		
+		else {
+			fp.getWarning_lbl().setVisible(true);
+			fp.getWarning_lbl().setText("Des valeurs présentes non autorisées");
+		}
+
+
 	}
 
-	
+
 }

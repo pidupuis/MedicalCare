@@ -22,15 +22,15 @@ public class ListenerPresSys implements ActionListener, FocusListener {
 		
 		int cpt = content.length();
 		
-		if (cpt > 4)
+		if (cpt < 4)
 		{
+						
 			try {
 				int errorTry = Integer.valueOf(content);
 				
 				System.out.println(errorTry);
 				
 				if (errorTry<30 || errorTry>300){
-					System.out.println("Raise exception");
 					throw new Exception();
 				}
 				else if (errorTry<60 || errorTry > 140)
@@ -67,24 +67,30 @@ public class ListenerPresSys implements ActionListener, FocusListener {
 
 	public void focusLost(FocusEvent e) {
 		
-		String content = fp.getLot_number_txf().getText();
+		String content = fp.getPres_sys_txf().getText();
+		
 		int cpt = content.length();
 		
-		if (cpt == 3)
+		if (cpt < 4)
 		{
+						
 			try {
 				int errorTry = Integer.valueOf(content);
 				
-				if (errorTry<30 && errorTry > 300){
+				System.out.println(errorTry);
+				
+				if (errorTry<30 || errorTry>300){
 					throw new Exception();
 				}
-				else if (errorTry<60 && errorTry > 140)
+				else if (errorTry<60 || errorTry > 140)
 				{
+					fp.setAlert(true);
 					fp.getPres_sys_txf().setBackground(Color.ORANGE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
 				else {
+					fp.setAlert(true);
 					fp.getPres_sys_txf().setBackground(Color.WHITE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
@@ -106,7 +112,5 @@ public class ListenerPresSys implements ActionListener, FocusListener {
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		
-	}
-		
+	}	
 }
-

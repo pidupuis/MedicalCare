@@ -16,15 +16,15 @@ import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
 
 public class FormPanel extends JPanel {
-	
+
 	private JTextField lot_number_txf;
 	private JTextField room_number_txf;
 	private JTextField pres_sys_txf;
 	private JTextField pres_dyas_txf;
 	private JTextField bat_txf;
-	
+
 	private JTextArea obs_txf;
-	
+
 	private JLabel header_name_lbl;
 	private JLabel lot_number_lbl;
 	private JLabel room_number_lbl;
@@ -33,87 +33,82 @@ public class FormPanel extends JPanel {
 	private JLabel bat_lbl;
 	private JLabel obs_lbl;
 	private JLabel warning_lbl;
-	
+
 	private JButton suivant_btn;
 
 	private ArrayList<PatientNode> myPatientNodes;
 	
-	private boolean alert = true;
+	private boolean alert = false;
 	
-	public boolean isAlert() {
-		return alert;
-	}
+	//private ArrayList<Boolean> correct;
 
-	public void setAlert(boolean alert) {
-		this.alert = alert;
-	}
 
 	/**
 	 * Create the panel.
 	 */
 	public FormPanel(JTree myTree) {
-		
+
 		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][][]"));
-		
+
 		this.myPatientNodes = new ArrayList<PatientNode>();
-		
+
 		for (int i=0; i< myTree.getModel().getChildCount(myTree.getModel().getRoot()); i++) {
 			this.myPatientNodes.add((PatientNode) ((PatientNode) myTree.getModel().getRoot()).getChildAt(i));
 		}
-		
+
 		header_name_lbl = new JLabel(myPatientNodes.get(0).getMyPatient().getLastName() + " " + myPatientNodes.get(0).getMyPatient().getFirstName());
 		add(header_name_lbl, "cell 3 0");
-		
+
 		warning_lbl = new JLabel("warning_message");
 		add(warning_lbl, "cell 3 2");
 		warning_lbl.setVisible(false);
-		
+
 		lot_number_lbl = new JLabel("Numéro de Lot :");
 		add(lot_number_lbl, "cell 0 3");
-		
+
 		lot_number_txf = new JTextField();
 		add(lot_number_txf, "cell 3 3,growx");
 		lot_number_txf.addActionListener(new ListenerLotNumber(this));
 		lot_number_txf.addFocusListener(new ListenerLotNumber(this));
 		lot_number_txf.setColumns(10);
-		
+
 		room_number_lbl = new JLabel("Numéro de chambre :");
 		add(room_number_lbl, "cell 0 5");
-		
+
 		room_number_txf = new JTextField();
 		add(room_number_txf, "cell 3 5,growx");
 		room_number_txf.setColumns(10);
-		
+
 		JLabel pres_sys_lbl = new JLabel("Pression Systolique :");
 		add(pres_sys_lbl, "cell 0 7");
-		
+
 		pres_sys_txf = new JTextField();
 		pres_sys_txf.addActionListener(new ListenerPresSys(this));
 		pres_sys_txf.addFocusListener(new ListenerPresSys(this));
 		add(pres_sys_txf, "cell 3 7,growx");
 		pres_sys_txf.setColumns(10);
-		
+
 		JLabel pres_dyas_lbl = new JLabel("Pression Diastolique :");
 		add(pres_dyas_lbl, "cell 0 9");
-		
+
 		pres_dyas_txf = new JTextField();
 		add(pres_dyas_txf, "cell 3 9,growx");
 		pres_dyas_txf.setColumns(10);
-		
+
 		JLabel bat_lbl = new JLabel("Battements par min :");
 		add(bat_lbl, "cell 0 11");
-		
+
 		bat_txf = new JTextField();
 		add(bat_txf, "cell 3 11,growx");
 		bat_txf.setColumns(10);
-		
+
 		JLabel obs_lbl = new JLabel("Observations :");
 		add(obs_lbl, "cell 0 13");
-		
+
 		obs_txf = new JTextArea(10, 10);
 		add(obs_txf, "cell 3 13,growx");
 		obs_txf.setColumns(10);
-		
+
 		suivant_btn = new JButton("Suivant >");
 		suivant_btn.addActionListener(new PatientChanging(this));
 		add(suivant_btn, "cell 4 15");
@@ -195,9 +190,17 @@ public class FormPanel extends JPanel {
 	public ArrayList<PatientNode> getMyPatientNodes() {
 		return myPatientNodes;
 	}
-	
+
 	public void setMyPatientNodes(ArrayList<PatientNode> myPatientNodes) {
 		this.myPatientNodes = myPatientNodes;
+	}
+
+	public boolean isAlert() {
+		return alert;
+	}
+
+	public void setAlert(boolean alert) {
+		this.alert = alert;
 	}
 
 }
