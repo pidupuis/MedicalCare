@@ -14,6 +14,8 @@ import net.miginfocom.swing.MigLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import oracle.jdbc.driver.DBConversion;
@@ -33,26 +35,27 @@ import tests.EffortTest;
  */
 public class SaisieFicheJournaliere extends JPanel {
 
+	private JPanel subpanelTree;
+	private JPanel subpanelForm;
 	/**
 	 * Create the panel.
 	 * @throws Exception 
 	 */
 	public SaisieFicheJournaliere(Actor user) throws Exception {
 		
-		//partie de gauche de mon panel
-		
+		// Subpanel to construct the tree
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode((user.getLastName()+" "+user.getFirstName()).toString());
 		
-		LinkedHashMap<Patient, ArrayList<Analysis>> myPatientsWithAnalysis;
+		ArrayList<Patient> myPatients = null;
+		
 		try {
-			myPatientsWithAnalysis = DB_connector.getInstance().getPatientsWithAnalysis(user.getId());
+			myPatients = DB_connector.getInstance().getListPatientFromDoctor((Doctor) user);
 		} catch (Exception e) {
-			myPatientsWithAnalysis = null;
 			e.printStackTrace();
 		}
 		
 		DefaultMutableTreeNode child;
-		for (Patient p : myPatientsWithAnalysis.keySet()) {
+		for (Patient p : myPatients) {
 			child = new DefaultMutableTreeNode(p.getFirstName()+" "+p.getLastName());
 			root.add(child);
 		}
@@ -68,6 +71,16 @@ public class SaisieFicheJournaliere extends JPanel {
 		child2.add(grandchild2);*/
 		
 		JTree tree = new JTree(root);
+		
+		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+			
+			public void valueChanged(TreeSelectionEvent e) {
+				JFrame plop = new JFrame();
+				plop.setSize(100, 100);
+				plop.setVisible(true);
+			}
+			
+		});
 	
 		this.add(tree);
 		
@@ -79,6 +92,7 @@ public class SaisieFicheJournaliere extends JPanel {
 			//Remplissage des analyses si besoin
 		
 			//fleches qui permettent de faire passer les patients
+		//this.add(this.subpanelTree);
 		
 	}
 	

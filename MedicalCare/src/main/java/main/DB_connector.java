@@ -923,7 +923,8 @@ public class DB_connector {
             idTest = "0" + idTest;
         }
             // Formate l'id pour qu'il fasse bien 4 caracteres.
-            
+           
+        // TODO : Modify batch id (not with the current day but with the number of study day)
         String numLot = idTest + String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH));
         
         String query_fiche = "insert into FICHEQUOTIDIENNE "
