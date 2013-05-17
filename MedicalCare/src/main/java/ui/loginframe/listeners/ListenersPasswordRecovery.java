@@ -46,12 +46,20 @@ public class ListenersPasswordRecovery implements ActionListener {
 		if(0==connexion.getCurrentScreen())
 		{
 			try {
+                             
 				String login = connexion.getLogin();
-				String question =DB_connector.getInstance().getUserQuestion(login);
-				if(question!=null)
-				{
-					connexion.displayQuestion(question);
-				}
+                                if(DB_connector.getInstance().checkUser(login))
+                                {
+                                    String question =DB_connector.getInstance().getUserQuestion(login);
+                                    if(question!=null)
+                                    {
+                                            connexion.displayQuestion(question);
+                                    }
+                                }
+                                else
+                                {
+                                    connexion.displayError("Le login n'existe pas !");
+                                }
 
 			} catch (Exception ex) {
 				connexion.displayError(ex.getMessage());
@@ -62,23 +70,17 @@ public class ListenersPasswordRecovery implements ActionListener {
 			try {
 				String login = connexion.getLogin();
 				String answer = connexion.getAnswer();
-                                if (DB_connector.getInstance().checkUser(login))
-                                {
-                                    if(DB_connector.getInstance().checkUserAnswer(answer, login))
-                                    {
-                                            connexion.displayPassword();
-                                    }
-                                    else
-                                    {
-                                            connexion.displayError("La réponse est fausse !");
-                                    }
-                                }
-                                else
-                                {
-                                   connexion.displayError("Ce login n'existe pas !"); 
-                                }
 
-                            
+				if(DB_connector.getInstance().checkUserAnswer(answer, login))
+				{
+					connexion.displayPassword();
+				}
+				else
+				{
+					connexion.displayError("La réponse est fausse !");
+				}
+
+
 			} catch (Exception ex) {
 				connexion.displayError(ex.getMessage());
 			}
