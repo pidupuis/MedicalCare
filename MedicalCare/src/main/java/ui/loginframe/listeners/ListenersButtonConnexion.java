@@ -43,7 +43,6 @@ public class ListenersButtonConnexion implements ActionListener {
 			}
 		} catch (Exception ex) {
 			parent.displayError(ex);
-			
 		}
 	}
 }
