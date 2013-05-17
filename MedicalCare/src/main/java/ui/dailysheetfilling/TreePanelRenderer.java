@@ -1,5 +1,6 @@
 package ui.dailysheetfilling;
 
+import java.awt.Color;
 import java.awt.Component;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -25,13 +26,27 @@ public class TreePanelRenderer implements TreeCellRenderer {
 
 		//Object o = ((DefaultMutableTreeNode) value).getUserObject();
 		
-		if (((DefaultMutableTreeNode) value).isRoot()) {
+		//DefaultMutableTreeNode defaultNode = ((DefaultMutableTreeNode) value);
+		PatientNode node = (PatientNode) value;
+		
+		if (node.isRoot()) {
 			label.setIcon(null);
 			label.setText("" + value);
 		}
 		else {
-			label.setIcon(new ImageIcon(getClass().getResource("/icon/valide.png")));
-			label.setText("" + value);
+			if (node.isValide()) {
+				label.setIcon(new ImageIcon(getClass().getResource("/icon/success.png")));
+				label.setText("" + value);
+			}
+			else if (node.isFocused()) {
+				label.setIcon(new ImageIcon(getClass().getResource("/icon/globe2.png")));
+				label.setText("" + value);
+			}
+			else {
+				label.setIcon(new ImageIcon(getClass().getResource("/icon/warning.png")));
+				label.setText("" + value);
+			}
+			
 		}
 		
 		return label;//myButton;

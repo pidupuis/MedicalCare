@@ -17,11 +17,17 @@ public class TreePanel extends JPanel {
 
 	public TreePanel(Actor user, ArrayList<Patient> myPatients) {
 
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode((user.getLastName()+" "+user.getFirstName()).toString());
+		PatientNode root = new PatientNode(user);
 
-		DefaultMutableTreeNode child;
+		PatientNode child;
+		boolean firstChild = true;
 		for (Patient p : myPatients) {
 			child = new PatientNode(p);
+			if (firstChild)
+				child.setFocused(true);
+			else
+				child.setFocused(false);
+			firstChild = false;
 			root.add(child);
 		}
 
