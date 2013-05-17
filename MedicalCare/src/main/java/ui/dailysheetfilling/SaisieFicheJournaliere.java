@@ -20,6 +20,7 @@ public class SaisieFicheJournaliere extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JPanel subpanelTree;
 	private JPanel subpanelForm;
+	
 	/**
 	 * Create the panel.
 	 * @throws Exception 
@@ -60,6 +61,7 @@ public class SaisieFicheJournaliere extends JPanel {
 		}
 		plop.setVisible(true);
 		plop.setMinimumSize(new Dimension(1000, 500));
+		plop.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		
 	}

@@ -5,10 +5,12 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import persons.Patient;
+import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.PatientChanging;
 
 public class FormPanel extends JPanel {
@@ -18,7 +20,8 @@ public class FormPanel extends JPanel {
 	private JTextField pres_sys_txf;
 	private JTextField pres_dyas_txf;
 	private JTextField bat_txf;
-	private JTextField obs_txf;
+	
+	private JTextArea obs_txf;
 	
 	private JLabel header_name_lbl;
 	private JLabel lot_number_lbl;
@@ -33,6 +36,16 @@ public class FormPanel extends JPanel {
 
 	private ArrayList<Patient> myPatients;
 	
+	private boolean alert = true;
+	
+	public boolean isAlert() {
+		return alert;
+	}
+
+	public void setAlert(boolean alert) {
+		this.alert = alert;
+	}
+
 	/**
 	 * Create the panel.
 	 */
@@ -54,6 +67,7 @@ public class FormPanel extends JPanel {
 		
 		lot_number_txf = new JTextField();
 		add(lot_number_txf, "cell 3 3,growx");
+		lot_number_txf.addActionListener(new ListenerLotNumber(this));
 		lot_number_txf.setColumns(10);
 		
 		room_number_lbl = new JLabel("Numéro de chambre :");
@@ -87,7 +101,7 @@ public class FormPanel extends JPanel {
 		JLabel obs_lbl = new JLabel("Observations :");
 		add(obs_lbl, "cell 0 13");
 		
-		obs_txf = new JTextField();
+		obs_txf = new JTextArea(10, 10);
 		add(obs_txf, "cell 3 13,growx");
 		obs_txf.setColumns(10);
 		
@@ -145,11 +159,11 @@ public class FormPanel extends JPanel {
 		this.bat_txf = bat_txf;
 	}
 
-	public JTextField getObs_txf() {
+	public JTextArea getObs_txf() {
 		return obs_txf;
 	}
 
-	public void setObs_txf(JTextField obs_txf) {
+	public void setObs_txf(JTextArea obs_txf) {
 		this.obs_txf = obs_txf;
 	}
 
