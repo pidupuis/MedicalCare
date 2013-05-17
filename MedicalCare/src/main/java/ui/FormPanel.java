@@ -7,66 +7,74 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 public class FormPanel extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-
+	private JTextField lot_number_txf;
+	private JTextField room_number_txf;
+	private JTextField pres_sys_txf;
+	private JTextField pres_dyas_txf;
+	private JTextField bat_txf;
+	private JTextField obs_txf;
+	private JLabel header_name_lbl;
+	private JLabel lot_number_lbl;
+	private JLabel room_number_lbl;
+	private JLabel pres_sys_lbl;
+	private JLabel pres_dyas_lbl;
+	private JLabel bat_lbl;
+	private JLabel obs_lbl;
+	private JButton suivant_btn;
+	
 	/**
 	 * Create the panel.
 	 */
 	public FormPanel() {
 		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][][]"));
 		
-		JLabel lblClientname = new JLabel("NOM Prenom");
-		add(lblClientname, "cell 3 0");
+		header_name_lbl = new JLabel("NOM Prenom");
+		add(header_name_lbl, "cell 3 0");
 		
-		JLabel lblNumlot = new JLabel("Numéro de Lot :");
-		add(lblNumlot, "cell 0 3");
+		lot_number_lbl = new JLabel("Numéro de Lot :");
+		add(lot_number_lbl, "cell 0 3");
 		
-		textField = new JTextField();
-		add(textField, "cell 3 3,growx");
-		textField.setColumns(10);
+		lot_number_txf = new JTextField();
+		add(lot_number_txf, "cell 3 3,growx");
+		lot_number_txf.setColumns(10);
 		
-		JLabel lblNumroom = new JLabel("Numéro de chambre :");
-		add(lblNumroom, "cell 0 5");
+		room_number_lbl = new JLabel("Numéro de chambre :");
+		add(room_number_lbl, "cell 0 5");
 		
-		textField_1 = new JTextField();
-		add(textField_1, "cell 3 5,growx");
-		textField_1.setColumns(10);
+		room_number_txf = new JTextField();
+		add(room_number_txf, "cell 3 5,growx");
+		room_number_txf.setColumns(10);
 		
-		JLabel lblPressys = new JLabel("Pression Systolique :");
-		add(lblPressys, "cell 0 7");
+		JLabel pres_sys_lbl = new JLabel("Pression Systolique :");
+		add(pres_sys_lbl, "cell 0 7");
 		
-		textField_2 = new JTextField();
-		add(textField_2, "cell 3 7,growx");
-		textField_2.setColumns(10);
+		pres_sys_txf = new JTextField();
+		add(pres_sys_txf, "cell 3 7,growx");
+		pres_sys_txf.setColumns(10);
 		
-		JLabel lblPresdyast = new JLabel("Pression Dyastolique :");
-		add(lblPresdyast, "cell 0 9");
+		JLabel pres_dyas_lbl = new JLabel("Pression Dyastolique :");
+		add(pres_dyas_lbl, "cell 0 9");
 		
-		textField_3 = new JTextField();
-		add(textField_3, "cell 3 9,growx");
-		textField_3.setColumns(10);
+		pres_dyas_txf = new JTextField();
+		add(pres_dyas_txf, "cell 3 9,growx");
+		pres_dyas_txf.setColumns(10);
 		
-		JLabel lblBattements = new JLabel("Battements par min :");
-		add(lblBattements, "cell 0 11");
+		JLabel bat_lbl = new JLabel("Battements par min :");
+		add(bat_lbl, "cell 0 11");
 		
-		textField_4 = new JTextField();
-		add(textField_4, "cell 3 11,growx");
-		textField_4.setColumns(10);
+		bat_txf = new JTextField();
+		add(bat_txf, "cell 3 11,growx");
+		bat_txf.setColumns(10);
 		
-		JLabel lblObservations = new JLabel("Observations :");
-		add(lblObservations, "cell 0 13");
+		JLabel obs_lbl = new JLabel("Observations :");
+		add(obs_lbl, "cell 0 13");
 		
-		textField_5 = new JTextField();
-		add(textField_5, "cell 3 13,growx");
-		textField_5.setColumns(10);
+		obs_txf = new JTextField();
+		add(obs_txf, "cell 3 13,growx");
+		obs_txf.setColumns(10);
 		
-		JButton btnSuivant = new JButton("Suivant :");
-		add(btnSuivant, "cell 4 15");
+		suivant_btn = new JButton("Suivant");
+		add(suivant_btn, "cell 4 15");
 
 	}
 
