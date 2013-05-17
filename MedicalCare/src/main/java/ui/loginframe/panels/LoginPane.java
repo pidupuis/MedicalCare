@@ -75,7 +75,7 @@ public class LoginPane extends JPanel {
 		{ //Role
 			JLabel lblRole = new JLabel("R\u00F4le");
 			lblRole.setFont(defaultFont);
-			JComboBox<String> cbRole = new JComboBox(new String[]{"Médecin", "Assistant de recherche clinique", "Data Manager"});
+			JComboBox<String> cbRole = new JComboBox(new String[]{"Médecin", "Attaché de recherche clinique", "Data Manager"});
 			cbRole.setFont(defaultFont);
 			role = new FormRow<JLabel, JComboBox<String>>(lblRole, cbRole);
 			this.add(role, "cell 0 2,grow");

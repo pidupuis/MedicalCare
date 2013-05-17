@@ -471,7 +471,7 @@ public class DB_connector {
                         statut = 1;
                     }
                 }
-                else if (user.equals("Assistant de recherche clinique")) {
+                else if (user.equals("Attaché de recherche clinique")) {
                     //if the user is a cra but the login is not corresponding to a cra
                     if (rsSelect.getString("ARC_ID") == null) {
                         throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant qu'Attaché de Recherche Clinique !");
