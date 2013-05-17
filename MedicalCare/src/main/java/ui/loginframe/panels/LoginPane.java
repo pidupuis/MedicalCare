@@ -42,7 +42,7 @@ public class LoginPane extends JPanel {
 
 	private Font defaultFont;
 	private JButton btnConnexion;
-
+	
 	/**
 	 * Constructs the login form with user, password, role and action buttons
 	 */
