@@ -1,15 +1,13 @@
 package ui.loginframe;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -37,33 +35,11 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 		
 		setLayout(new MigLayout("hidemode 3, inset 0 20 10 20", "[120px:n][grow][28px:28px:28px]", "[::30px,grow]"));
 		
-//		JLabel l = new JLabel("Label");
-//		add(l, "cell 0 0,growy");
-//		add(new JTextField(""), "cell 1 0,grow");
-//		add(this.status, "cell 2 0,growx,aligny top");
-		
 		add(this.label, "cell 0 0,grow");
 		add(this.field, "cell 1 0,grow");
 		add(this.status, "cell 2 0,grow");
 		
 		setBorder(BorderFactory.createEmptyBorder());
-	}
-	
-	/**
-	 * Get the text of the field (only if possible).
-	 * @return the text of the field or null if the JComponent of the field doesn't have text displayed
-	 */
-	public String getText() {
-		if(field instanceof JLabel)
-			return ((JLabel)field).getText();
-		else if(field instanceof JTextField)
-			return ((JTextField)field).getText();
-		else if(field instanceof JPasswordField)
-			return new String(((JPasswordField)field).getPassword());
-		else if(field instanceof JComboBox<?>)
-			return (String) ((JComboBox<?>)field).getSelectedItem();
-		else 
-			return null;
 	}
 	
 	/**
@@ -122,5 +98,17 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	 */
 	public F getField() {
 		return field;
+	}
+	
+	/**
+	 * Changes the font of the label and field component
+	 * @param f the desired Font for this component
+	 */
+	@Override
+	public void setFont(Font f) {
+		try {
+			label.setFont(f);
+			field.setFont(f);
+		} catch (Exception e) {}
 	}
 }

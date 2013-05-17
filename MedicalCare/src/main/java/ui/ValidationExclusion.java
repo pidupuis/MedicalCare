@@ -23,9 +23,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 import main.Main;
 import persons.CRA;
-import ui.listenersValidationExclusion.ListernerButtonNonExclusion;
+
 
 public class ValidationExclusion extends JPanel {
+
 
     private JTextField tfId;
     private JTextField textField;
@@ -71,7 +72,6 @@ public class ValidationExclusion extends JPanel {
         bottomPanel.setLayout(new MigLayout("", "[][][][][][][]", "[]"));
 
         JButton btnGarderEtude = new JButton("Garde dans l'étude");
-        btnGarderEtude.addActionListener(new ListernerButtonNonExclusion(this, null));
         bottomPanel.add(btnGarderEtude, "cell 0 0");
 
         JButton btnExclure = new JButton("Exclure");

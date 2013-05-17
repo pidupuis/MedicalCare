@@ -30,8 +30,8 @@ public abstract class Actor {
 	 */
 	public Actor(String firstName, String lastName) throws Exception {
             if (this.checkName(firstName) && this.checkName(lastName)) {
-                this.firstName = firstName;
-                this.lastName = lastName;
+                this.firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+                this.lastName = lastName.toUpperCase();
             }
             else {
                 throw new Exception();
@@ -54,15 +54,6 @@ public abstract class Actor {
             else {
                 throw new Exception();
             }
-	}
-	
-	/**
-	 * Temporary !!! Just in case of the database is not accessible
-	 * @param name
-	 * @param id
-	 */
-	public Actor(String id) {
-		this.id = id;
 	}
         
         /**

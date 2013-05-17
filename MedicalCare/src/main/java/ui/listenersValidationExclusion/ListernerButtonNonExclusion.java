@@ -15,7 +15,7 @@ import ui.ValidationExclusion;
 /**
  *
  * @author piotr
- */
+ *//*
 public class ListernerButtonNonExclusion implements ActionListener {
 
     private ValidationExclusion interf;
@@ -24,10 +24,11 @@ public class ListernerButtonNonExclusion implements ActionListener {
     public ListernerButtonNonExclusion(ValidationExclusion interf, Patient pat) {
         this.interf = interf;
         this.pat = pat;
-    }
+   }
 
     public void actionPerformed(ActionEvent e) {
         String why = JOptionPane.showInputDialog(interf, "Pourquoi ne pas exclure " + this.pat.getFirstName() + " " + this.pat.getLastName(), "Raison de la non exclusion");
         ((CRA) Main.getUser()).remove(pat);
     }
-}
+}*/
+

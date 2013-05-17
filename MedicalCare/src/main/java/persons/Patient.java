@@ -50,8 +50,7 @@ public class Patient extends Actor {
      * @param gender - Gender of the patient (male = 1 and female = 0)
      */
     public Patient(String firstname, String lastname, int year, int month, int day, boolean gender, Doctor doctor) throws Exception {
-        super(firstname.toLowerCase(), lastname.toUpperCase());
-        
+        super(firstname, lastname);
         int d, m, y, maxNbOfDays;
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         
@@ -105,14 +104,6 @@ public class Patient extends Actor {
 
     public Patient(String firstname, String lastname, String id) throws Exception {
 		super(firstname, lastname, id);
-	}
-    
-    /**
-     * Temporary !!! Just in case of the database is not accessible
-     * @param id
-     */
-    public Patient(String id) {
-		super(id);
 	}
 
 	/**
