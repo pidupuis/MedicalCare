@@ -3,6 +3,7 @@ package ui.loginframe.panels;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -161,7 +162,11 @@ public class LoginPane extends JPanel {
 		else if(ex instanceof WrongRoleException)
 			role.setError(true, ex.getMessage());
 
-		errorPane.setErrorMessage(ex.getMessage());
+		if(ex instanceof SQLException && ex.getMessage().contains("E/S"))
+			errorPane.setErrorMessage("Erreur: La connexion au serveur a échouée (Veuillez vérifier la connexion internet ou la connexion au serveur).");
+		else
+			errorPane.setErrorMessage(ex.getMessage());
+		
 		errorPane.setVisible(true);
 		parent.refreshUI();
 	}
@@ -197,6 +202,7 @@ public class LoginPane extends JPanel {
 		clearError();
 
 		parent.getRootPane().setDefaultButton(btnConnexion);
+		user.getField().requestFocus();
 	}
 
 	/**
@@ -213,5 +219,15 @@ public class LoginPane extends JPanel {
 			}
 		});
 		t.start();
+		t.setRepeats(false);
+	}
+	
+	/**
+	 * Requests the focus of the panel and the first field
+	 */
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		user.getField().requestFocus();
 	}
 }
