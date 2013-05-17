@@ -11,6 +11,7 @@ public class PatientNode extends DefaultMutableTreeNode {
 	private Patient myPatient;
 	
 	public PatientNode(Patient myPatient) {
+		super(myPatient.getFirstName()+" "+myPatient.getLastName());
 		this.myPatient = myPatient;
 	}
 	
