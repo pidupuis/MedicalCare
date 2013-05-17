@@ -5,7 +5,9 @@ package tests;
  * @author Vincent Emonet
  */
 public class EEG extends Analysis {
-
+        /**
+         * Contains the result of the EEG analysis
+         */
 	private int result;
 
 	/**

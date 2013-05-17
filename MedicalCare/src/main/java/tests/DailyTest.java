@@ -1,6 +1,5 @@
 package tests;
 
-import java.util.GregorianCalendar;
 import persons.Doctor;
 import persons.Patient;
 
@@ -9,10 +8,9 @@ import persons.Patient;
  * @author Vincent Emonet
  */
 public class DailyTest extends Analysis {
-
-	private Patient patientTested;
-	private Doctor med;
-
+        private int id;
+        private Patient patientTested;
+        private Doctor med;
 	private int[] bloodPressure;
 	private int heartBeats;
 	private String numeroLot;
@@ -29,19 +27,19 @@ public class DailyTest extends Analysis {
 	/**
 	 * Date of the test.
 	 */
-	private GregorianCalendar dailyDate;
+	private int date;
 	private String reasonExclusion;
-    private boolean prescEffort;
-    private boolean prescEEG;
-    private boolean prescBlood;
-    private EEG EEGTest;
-    private EffortTest effortTest;
-    private BloodTest bloodTest;
+        private boolean prescEffort;
+        private boolean prescEEG;
+        private boolean prescBlood;
+        private EEG EEGTest;
+        private EffortTest effortTest;
+        private BloodTest bloodTest;
 
 	/**
          * Constructor of the DailyTest class.
 	 * 
-	 * @param cystole
+	 * @param systole
 	 * @param diastole
 	 * @param heart
 	 * @param observations
@@ -49,31 +47,39 @@ public class DailyTest extends Analysis {
 	 * @param prescEEG
 	 * @param prescBlood
 	 */
-	public DailyTest(int cystole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood, GregorianCalendar dailyDate, Patient p, Doctor med) throws Exception {
+	public DailyTest(int systole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood, int date, Patient p) throws Exception {
             super(observations);
-            if (this.checkBeat(heart) && this.checkPressure(cystole) && this.checkPressure(diastole)) {
+            if (this.checkBeat(heart) && this.checkPressure(systole) && this.checkPressure(diastole)) {
                 this.heartBeats = heart;
                 this.prescBlood = prescBlood;
                 this.prescEffort = prescEffort;
                 this.prescEEG = prescEEG;
-                this.dailyDate = dailyDate;
+                this.date = date;
                 this.patientTested = p;
-                this.med = med;
                 
                 this.bloodPressure = new int[2];
-                this.bloodPressure[0] = cystole;
+                this.bloodPressure[0] = systole;
                 this.bloodPressure[1] = diastole;
                 
                 this.checked = false;
             }
-            else {
-                throw new Exception("Erreur dans l'entrée des infos pour le test quotidien.");
-            }
 	}
 
         public DailyTest() {}
+        
+        /**
+         * This method returns the identifier of the daily sheet
+         * @return the identifier of the daily sheet
+         */
+        public int getId() {
+            return id;
+        }
 
-		/**
+        public void setId(int id) {
+            this.id = id;
+        }
+        
+        /**
 	 * Returns the blood pressure.
 	 * @return int[]
 	 */
@@ -82,7 +88,7 @@ public class DailyTest extends Analysis {
 	}
         
         /**
-	 * Returns the cystole pressure.
+	 * Returns the systole pressure.
 	 * @return int
 	 */
 	public int getCystole() {
@@ -101,9 +107,9 @@ public class DailyTest extends Analysis {
 	 * 
 	 * @param bloodPressure
 	 */
-	public void setBloodPressure(int cystole, int diastole) throws Exception {
-            if (this.checkPressure(cystole) && this.checkPressure(diastole)) {
-                this.bloodPressure[0] = cystole;
+	public void setBloodPressure(int systole, int diastole) throws Exception {
+            if (this.checkPressure(systole) && this.checkPressure(diastole)) {
+                this.bloodPressure[0] = systole;
                 this.bloodPressure[1] = diastole;
             }
             else {
@@ -153,16 +159,16 @@ public class DailyTest extends Analysis {
 		this.checked = checked;
 	}
 
-	public GregorianCalendar getDailyDate() {
-		return this.dailyDate;
+	public int getDailyDate() {
+		return this.date;
 	}
 
 	/**
 	 * 
 	 * @param dailyDate
 	 */
-	public void setDailyDate(GregorianCalendar dailyDate) {
-		this.dailyDate = dailyDate;
+	public void setDailyDate(int date) {
+		this.date = date;
 	}
 
 	public String getReasonExclusion() {

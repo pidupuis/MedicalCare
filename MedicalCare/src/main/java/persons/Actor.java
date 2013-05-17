@@ -30,8 +30,8 @@ public abstract class Actor {
 	 */
 	public Actor(String firstName, String lastName) throws Exception {
             if (this.checkName(firstName) && this.checkName(lastName)) {
-                this.firstName = firstName;
-                this.lastName = lastName;
+                this.firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+                this.lastName = lastName.toUpperCase();
             }
             else {
                 throw new Exception();
