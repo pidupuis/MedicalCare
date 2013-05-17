@@ -21,7 +21,13 @@ public class ListenersButtonConnexion implements ActionListener {
 	{
 		parent = interf;
 	}
-
+        /**
+         * Fonction qui après clique du bouton 
+         * récupere les informations mit par l'utilisateur sur le login 
+         * Et envoie celle-ci au DB-connetor qui lui renvoie une erreur ou un Actor qui correspond au login.
+         * L'erreur est ciblé par mauvais login , mauvais mot de passe et mauvais rôle.
+         * @param e 
+         */
 	public void actionPerformed(ActionEvent e)
 	{
 		parent.clearError();
@@ -39,8 +45,7 @@ public class ListenersButtonConnexion implements ActionListener {
 			}
 		} catch (Exception ex) {
 			parent.displayError(ex);
-			//JOptionPane.showMessageDialog(null, "Error");
-			//ex.printStackTrace();
+			
 		}
 	}
 }

@@ -22,7 +22,10 @@ public class ListenersButtonRecovery implements ActionListener{
 		connexion = interf;
 
 	}
-
+/**
+ * Fonction qui va changer de Panel vers le panel de changer de password
+ * @param e 
+ */
 	public void actionPerformed(ActionEvent e) 
 	{
 		connexion.changeToPasswordRecovery();   
