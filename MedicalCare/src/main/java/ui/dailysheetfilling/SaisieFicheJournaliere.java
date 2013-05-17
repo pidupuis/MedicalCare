@@ -1,6 +1,7 @@
-package ui;
+package ui.dailysheetfilling;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import net.miginfocom.swing.MigLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JSeparator;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -43,10 +45,13 @@ public class SaisieFicheJournaliere extends JPanel {
 	 */
 	public SaisieFicheJournaliere(Actor user) throws Exception {
 		
+		this.setLayout(new GridLayout(1, 2));
+		
 		this.subpanelTree = new TreePanel(user);
-		this.subpanelForm = new DailyFormPanel();
+		this.subpanelForm = new FormPanel();
 		
 		this.add(this.subpanelTree);
+		//this.add(new JSeparator());
 		this.add(this.subpanelForm);
 		
 	}
@@ -62,7 +67,7 @@ public class SaisieFicheJournaliere extends JPanel {
 			e.printStackTrace();
 		}
 		plop.setVisible(true);
-		plop.setMinimumSize(new Dimension(200, 150));
+		plop.setMinimumSize(new Dimension(1000, 500));
 
 		
 	}
