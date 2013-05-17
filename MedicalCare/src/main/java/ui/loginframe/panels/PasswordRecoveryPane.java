@@ -249,7 +249,6 @@ public class PasswordRecoveryPane extends JPanel {
 	 * Clears all existent error message, clears content of form fields and goes back to the first screen
 	 */
 	public void clearAll() {
-		displayPassword();
 		clearFields();
 		clearError();
 	}

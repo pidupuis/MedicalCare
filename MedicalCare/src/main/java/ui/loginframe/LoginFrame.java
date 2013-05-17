@@ -74,7 +74,7 @@ public class LoginFrame extends JFrame {
 			remove(successPane);
 		} catch (Exception e) { }
 		
-		psswdPane.clearAll();
+		psswdPane.displayUser();
 		add(psswdPane, "cell 0 1,grow");
 		refreshUI();
 	}
