@@ -1,8 +1,6 @@
 package ui.dailysheetfilling;
 
 import java.util.ArrayList;
-
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTree;
@@ -10,30 +8,20 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-
-import main.DB_connector;
 import persons.Actor;
-import persons.Doctor;
 import persons.Patient;
 
 public class TreePanel extends JPanel {
-	
-	public TreePanel(Actor user) {
 
-		// Subpanel to construct the tree
+	private static final long serialVersionUID = 1L;
+
+	public TreePanel(Actor user, ArrayList<Patient> myPatients) {
+
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode((user.getLastName()+" "+user.getFirstName()).toString());
-
-		ArrayList<Patient> myPatients = null;
-
-		try {
-			myPatients = DB_connector.getInstance().getListPatientFromDoctor((Doctor) user);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		DefaultMutableTreeNode child;
 		for (Patient p : myPatients) {
-			child = new DefaultMutableTreeNode(p.getFirstName()+" "+p.getLastName());
+			child = new PatientNode(p);
 			root.add(child);
 		}
 
@@ -47,19 +35,17 @@ public class TreePanel extends JPanel {
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 
 			public void valueChanged(TreeSelectionEvent e) {
-				//JFrame plop = new JFrame();
 				
 				TreePath path = e.getNewLeadSelectionPath();
-                DefaultMutableTreeNode node = 
-                    (DefaultMutableTreeNode)path.getLastPathComponent();
+                PatientNode node = 
+                    (PatientNode)path.getLastPathComponent();
+
+                if (node != null) {
+                	String plop = node.toString();
+                	if (node.isLeaf())
+                		JOptionPane.showMessageDialog(null,  plop);
+                }
                 
-                String plop = node.toString();
-                
-                JOptionPane.showMessageDialog(null,  plop);
-				
-                
-				//plop.setSize(100, 100);
-				//plop.setVisible(true);
 			}
 
 		});

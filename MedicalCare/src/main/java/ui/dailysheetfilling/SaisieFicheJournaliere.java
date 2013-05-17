@@ -2,33 +2,13 @@ package ui.dailysheetfilling;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
 import javax.swing.JPanel;
-
 import main.DB_connector;
-import net.miginfocom.swing.MigLayout;
-
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-
-import oracle.jdbc.driver.DBConversion;
-
 import persons.Actor;
 import persons.Doctor;
 import persons.Patient;
-import tests.Analysis;
-import tests.BloodTest;
-import tests.EEG;
-import tests.EffortTest;
 /**
  * JPanel to insert new daily form
  * 
@@ -37,17 +17,18 @@ import tests.EffortTest;
  */
 public class SaisieFicheJournaliere extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel subpanelTree;
 	private JPanel subpanelForm;
 	/**
 	 * Create the panel.
 	 * @throws Exception 
 	 */
-	public SaisieFicheJournaliere(Actor user, ArrayList<Patient> myPatients ) throws Exception {
+	public SaisieFicheJournaliere(Actor user, ArrayList<Patient> myPatients) throws Exception {
 		
 		this.setLayout(new GridLayout(1, 2));
 		
-		this.subpanelTree = new TreePanel(user);
+		this.subpanelTree = new TreePanel(user, myPatients);
 		this.subpanelForm = new FormPanel(myPatients);
 		
 		this.add(this.subpanelTree);
