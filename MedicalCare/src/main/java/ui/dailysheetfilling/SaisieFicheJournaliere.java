@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+
 import main.DB_connector;
 import javax.swing.JFrame;
 import persons.Actor;
@@ -43,6 +45,10 @@ public class SaisieFicheJournaliere extends JPanel {
 	}
 	
 	public static void main (String[] args) {
+		
+		try{
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    	} catch(Exception e) {}
 		
 		JFrame plop = new JFrame();
 		

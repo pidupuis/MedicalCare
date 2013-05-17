@@ -30,29 +30,29 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 		String content = fp.getLot_number_txf().getText();
 		int cpt = content.length();
 		
-		if (cpt == 5)
+		if (cpt == 6)
 		{
 			try {
 				int errorTry = Integer.valueOf(content);
 				
-				fp.setAlert(true);
+				fp.setCorrect(0, true);
 				fp.getLot_number_txf().setBackground(Color.WHITE);
 				fp.getWarning_lbl().setVisible(false);
 				fp.getSuivant_btn().setEnabled(true);
 			} catch (Exception e1) {
-				fp.setAlert(false);
+				fp.setCorrect(0, false);
 				fp.getLot_number_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setText("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
 		else
 		{
-			fp.setAlert(false);
+			fp.setCorrect(0, false);
 			fp.getLot_number_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setText("La valeur du champ Numéro de Lot est invalide");
+			fp.getWarning_lbl().setErrorMessage("La valeur du champ Numéro de Lot est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		
@@ -63,29 +63,29 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 		String content = fp.getLot_number_txf().getText();
 		int cpt = content.length();
 		
-		if (cpt == 5)
+		if (cpt == 6)
 		{
 			try {
 				int errorTry = Integer.valueOf(content);
 				
-				fp.setAlert(true);
+				fp.setCorrect(0, true);
 				fp.getLot_number_txf().setBackground(Color.WHITE);
 				fp.getWarning_lbl().setVisible(false);
 				fp.getSuivant_btn().setEnabled(true);
 			} catch (Exception e1) {
-				fp.setAlert(false);
+				fp.setCorrect(0, false);
 				fp.getLot_number_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setText("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
 		else
 		{
-			fp.setAlert(false);
+			fp.setCorrect(0, false);
 			fp.getLot_number_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setText("La valeur du champ Numéro de Lot est invalide");
+			fp.getWarning_lbl().setErrorMessage("La valeur du champ Numéro de Lot est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		

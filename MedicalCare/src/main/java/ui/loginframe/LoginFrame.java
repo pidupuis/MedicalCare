@@ -111,7 +111,6 @@ public class LoginFrame extends JFrame {
 	 */
 	public void refreshUI() {
 		SwingUtilities.invokeLater(new Runnable() {
-			@Override
 			public void run() {
 				pack();
 				setLocationRelativeTo(null);

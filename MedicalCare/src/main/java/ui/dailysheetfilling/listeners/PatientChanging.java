@@ -36,17 +36,16 @@ public class PatientChanging implements ActionListener {
 		int last_p = myPatientNodes.size() - 1;
 
 		//when the button is click
-		if (fp.isAlert())
+		if (fp.isCorrect())
 		{
-			myPatientNodes.get(current_index-1).setValide(true); // If the current patient is validated
-
-			myPatientNodes.get(current_index-1).setFocused(false);
-			myPatientNodes.get(current_index).setFocused(true);
-			this.fp.getParent().repaint();
-
+			
 			//case 1 : to change the patient in the array
 			if (current_index < last_p)
 			{
+				myPatientNodes.get(current_index-1).setFocused(false);
+				myPatientNodes.get(current_index).setFocused(true);
+				myPatientNodes.get(current_index-1).setValide(true);
+				
 				//Control conditions are OK
 				String header_name = myPatientNodes.get(current_index).getMyPatient().getLastName() + " " + myPatientNodes.get(current_index).getMyPatient().getFirstName();
 				fp.setHeader_name_lbl(header_name);					
@@ -56,15 +55,27 @@ public class PatientChanging implements ActionListener {
 			//case 2 : the last patient of the array
 			else if (current_index == last_p)
 			{
+				myPatientNodes.get(current_index-1).setFocused(false);
+				myPatientNodes.get(current_index).setFocused(true);
+				myPatientNodes.get(current_index-1).setValide(true);
+				
 				String header_name = myPatientNodes.get(current_index).getMyPatient().getLastName() + " " + myPatientNodes.get(current_index).getMyPatient().getFirstName();
 				fp.setHeader_name_lbl(header_name);
 				fp.getSuivant_btn().setText("Valider et Finir");
-
+				current_index++;
 			}
+			else {
+				myPatientNodes.get(current_index-1).setFocused(false);
+				myPatientNodes.get(current_index-1).setValide(true);
+			}
+			
+			this.fp.getParent().repaint();
+			fp.cleanCorrect();
+			fp.cleanPanel();
 		}
 		else {
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setText("Des valeurs présentes non autorisées");
+			fp.getWarning_lbl().setErrorMessage("Veuillez remplir correctement le formulaire");
 		}
 
 

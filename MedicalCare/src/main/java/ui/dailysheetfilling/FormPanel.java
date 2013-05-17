@@ -1,5 +1,6 @@
 package ui.dailysheetfilling;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -12,14 +13,13 @@ import javax.swing.JTree;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
+import ui.loginframe.panels.ErrorPane;
+
+import javax.swing.SwingConstants;
 
 public class FormPanel extends JPanel {
-<<<<<<< HEAD
 
-=======
-	
 	private static final long serialVersionUID = 1L;
->>>>>>> branch 'develop' of https://github.com/pidupuis/MedicalCare.git
 	private JTextField lot_number_txf;
 	private JTextField room_number_txf;
 	private JTextField pres_sys_txf;
@@ -35,24 +35,27 @@ public class FormPanel extends JPanel {
 	private JLabel pres_dyas_lbl;
 	private JLabel bat_lbl;
 	private JLabel obs_lbl;
-	private JLabel warning_lbl;
+	private ErrorPane warning_lbl;
 
 	private JButton suivant_btn;
 
 	private ArrayList<PatientNode> myPatientNodes;
 	
 	private ArrayList<Boolean> correct;
-	
-	//TODO function check tab => renvoi un boolean
-	//function clean tab => nettoi le tableau
-	//function clena field => clean tous les text field
-
 
 	/**
 	 * Create the panel.
 	 */
 	public FormPanel(JTree myTree) {
 
+		this.correct = new ArrayList<Boolean>();
+		for (int i = 0; i < 4; i++)
+			this.correct.add(false);
+		
+		// TODO : remove it when listeners will be implemented
+		this.correct.set(2, true);
+		this.correct.set(3, true);
+		
 		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][][]"));
 
 		this.myPatientNodes = new ArrayList<PatientNode>();
@@ -64,8 +67,10 @@ public class FormPanel extends JPanel {
 		header_name_lbl = new JLabel(myPatientNodes.get(0).getMyPatient().getLastName() + " " + myPatientNodes.get(0).getMyPatient().getFirstName());
 		add(header_name_lbl, "cell 3 0");
 
-		warning_lbl = new JLabel("warning_message");
-		add(warning_lbl, "cell 3 2");
+		warning_lbl = new ErrorPane();//
+		warning_lbl.setErrorMessage("warning_message");
+		//warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		add(warning_lbl, "cell 0 2 4 1");
 		warning_lbl.setVisible(false);
 
 		lot_number_lbl = new JLabel("Numéro de Lot :");
@@ -176,13 +181,13 @@ public class FormPanel extends JPanel {
 		this.obs_txf = obs_txf;
 	}
 
-	public JLabel getWarning_lbl() {
+	public ErrorPane getWarning_lbl() {
 		return warning_lbl;
 	}
 
-	public void setWarning_lbl(JLabel warning_lbl) {
+	/*public void setWarning_lbl(JLabel warning_lbl) {
 		this.warning_lbl = warning_lbl;
-	}
+	}*/
 
 	public JButton getSuivant_btn() {
 		return suivant_btn;
@@ -200,12 +205,41 @@ public class FormPanel extends JPanel {
 		this.myPatientNodes = myPatientNodes;
 	}
 
-	public boolean isAlert() {
-		return alert;
+	public void setCorrect(int index, boolean correct) {
+		this.correct.set(index, correct);
 	}
-
-	public void setAlert(boolean alert) {
-		this.alert = alert;
+	
+	public void cleanCorrect() {
+		for (int i = 0; i < 4; i++)
+			this.correct.set(i, false);
+		
+		// TODO : remove it when listeners will be implemented
+		this.correct.set(2, true);
+		this.correct.set(3, true);
 	}
-
+	
+	public boolean isCorrect() {
+		for (Boolean b : this.correct) {
+			if (!b)
+				return false; 
+		}
+		return true;
+	}
+	
+	public void cleanPanel() {
+		this.lot_number_txf.setText("");
+		this.room_number_txf.setText("");
+		this.pres_sys_txf.setText("");
+		this.pres_dyas_txf.setText("");
+		this.bat_txf.setText("");
+		
+		this.lot_number_txf.setBackground(Color.white);
+		this.room_number_txf.setBackground(Color.white);
+		this.pres_sys_txf.setBackground(Color.white);
+		this.pres_dyas_txf.setBackground(Color.white);
+		this.bat_txf.setBackground(Color.white);
+	}
+	
+	
+	
 }

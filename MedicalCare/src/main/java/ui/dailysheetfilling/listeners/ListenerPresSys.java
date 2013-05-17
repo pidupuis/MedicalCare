@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.naming.directory.InvalidAttributeValueException;
+
 import ui.dailysheetfilling.FormPanel;
 
 public class ListenerPresSys implements ActionListener, FocusListener {
@@ -45,19 +47,19 @@ public class ListenerPresSys implements ActionListener, FocusListener {
 					fp.getSuivant_btn().setEnabled(true);
 				}
 			} catch (Exception e1) {
-				fp.setAlert(false);
+				fp.setCorrect(1, false);
 				fp.getPres_sys_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setText("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
 		else
 		{
-			fp.setAlert(false);
+			fp.setCorrect(1, false);
 			fp.getPres_sys_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setText("La valeur de pression systolique est invalide");
+			fp.getWarning_lbl().setErrorMessage("La valeur de pression systolique est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		
@@ -80,35 +82,42 @@ public class ListenerPresSys implements ActionListener, FocusListener {
 				System.out.println(errorTry);
 				
 				if (errorTry<30 || errorTry>300){
-					throw new Exception();
+					throw new InvalidAttributeValueException();
 				}
 				else if (errorTry<60 || errorTry > 140)
 				{
-					fp.setAlert(true);
+					fp.setCorrect(1, true);
 					fp.getPres_sys_txf().setBackground(Color.ORANGE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
 				else {
-					fp.setAlert(true);
+					fp.setCorrect(1, true);
 					fp.getPres_sys_txf().setBackground(Color.WHITE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
-			} catch (Exception e1) {
-				fp.setAlert(false);
+			} catch (InvalidAttributeValueException e1) {
+				fp.setCorrect(1, false);
 				fp.getPres_sys_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setText("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setErrorMessage("La valeur de pression systolique est invalide");
+				fp.getSuivant_btn().setEnabled(false);	
+			}
+			catch (Exception e2) {
+				fp.setCorrect(1, false);
+				fp.getPres_sys_txf().setBackground(Color.RED);
+				fp.getWarning_lbl().setVisible(true);
+				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
 		else
 		{
-			fp.setAlert(false);
+			fp.setCorrect(1, false);
 			fp.getPres_sys_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setText("La valeur de pression systolique est invalide");
+			fp.getWarning_lbl().setErrorMessage("La valeur de pression systolique est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		
