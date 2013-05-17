@@ -1,4 +1,4 @@
-package ui;
+package ui.dailysheetfilling;
 
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
