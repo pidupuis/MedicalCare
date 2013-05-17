@@ -43,12 +43,12 @@ public class SaisieFicheJournaliere extends JPanel {
 	 * Create the panel.
 	 * @throws Exception 
 	 */
-	public SaisieFicheJournaliere(Actor user) throws Exception {
+	public SaisieFicheJournaliere(Actor user, ArrayList<Patient> myPatients ) throws Exception {
 		
 		this.setLayout(new GridLayout(1, 2));
 		
 		this.subpanelTree = new TreePanel(user);
-		this.subpanelForm = new FormPanel();
+		this.subpanelForm = new FormPanel(myPatients);
 		
 		this.add(this.subpanelTree);
 		//this.add(new JSeparator());
@@ -59,10 +59,21 @@ public class SaisieFicheJournaliere extends JPanel {
 	public static void main (String[] args) {
 		
 		JFrame plop = new JFrame();
+		
 		Actor actor;
+		ArrayList<Patient> myPatients = null;
+		
 		try {
 			actor = new Doctor("Super","Docteur","1");
-			plop.add(new SaisieFicheJournaliere(actor));
+
+			try {
+				myPatients = DB_connector.getInstance().getListPatientFromDoctor((Doctor) actor);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			plop.add(new SaisieFicheJournaliere(actor, myPatients));
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

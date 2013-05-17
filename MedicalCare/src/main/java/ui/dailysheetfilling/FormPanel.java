@@ -1,10 +1,14 @@
 package ui.dailysheetfilling;
 
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
+import persons.Patient;
 
 public class FormPanel extends JPanel {
 	
@@ -30,7 +34,7 @@ public class FormPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public FormPanel() {
+	public FormPanel(ArrayList<Patient> myPatients) {
 		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][][]"));
 		
 		header_name_lbl = new JLabel("NOM Prenom");
@@ -38,6 +42,7 @@ public class FormPanel extends JPanel {
 		
 		warning_lbl = new JLabel("warning_message");
 		add(warning_lbl, "cell 3 2");
+		warning_lbl.setVisible(false);
 		
 		lot_number_lbl = new JLabel("Numéro de Lot :");
 		add(lot_number_lbl, "cell 0 3");
