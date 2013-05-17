@@ -6,6 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
@@ -14,10 +15,13 @@ import ui.loginframe.listeners.ListenersPasswordRecoveryAnnuler;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 
 /**
- *
+ * Panel managing the password recovery
  */
 public class PasswordRecoveryPane extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -35,6 +39,8 @@ public class PasswordRecoveryPane extends JPanel {
 	private Font defaultFont;
 	
 	private int currentScreen;
+	
+	private JButton btnOk;
 
 	/**
 	 * Constructs the different part of the password recovery panel
@@ -107,8 +113,7 @@ public class PasswordRecoveryPane extends JPanel {
 			submitPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			submitPane.setBorder(BorderFactory.createEmptyBorder());
 
-			JButton btnOk = new JButton("Ok");
-			parent.getRootPane().setDefaultButton(btnOk);
+			btnOk = new JButton("Ok");
 			btnOk.addActionListener(new ListenersPasswordRecovery(this));
 			submitPane.add(btnOk);
 
@@ -118,13 +123,11 @@ public class PasswordRecoveryPane extends JPanel {
 
 			add(submitPane, "cell 0 7,alignx right,growy");
 		}
-		
-		user.getField().requestFocus();
 	}
 
 
 	/**
-	 * 
+	 * Gets the login name entered on the first screen
 	 * @return
 	 */
 	public String getLogin() {
@@ -133,7 +136,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Gets the new password entered on the third screen
 	 * @return
 	 */
 	public String getNewPasswd() {
@@ -142,7 +145,7 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Gets the new password confirmation entered on the third screen
 	 * @return
 	 */
 	public String getNewPasswdConf() {
@@ -151,8 +154,8 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
-	 * @return
+	 * Gets the answer entered on the second screen
+	 * @return the answer
 	 */
 	public String getAnswer() {
 		return answer.getField().getText();
@@ -160,39 +163,51 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
-	 * @param error
+	 * Displays an error message at the bottom of the panel 
+	 * @param error the error message
 	 */
 	public void displayError(String error) {
 		errorPane.setErrorMessage(error);
+		errorPane.setVisible(true);
+		parent.refreshUI();
 	}
 
 
 	/**
-	 * 
+	 * Displays an success message on the new panel
 	 * @param error
 	 */
 	public void displaySuccess(String success) {
 		parent.changeToSuccess(success);
+		Timer t = new Timer(3000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parent.changeToLogin();
+			}
+		});
+		t.start();
+		t.setRepeats(false);
 	}
 
 	/**
-	 * 
+	 * Displays the first screen with user name field
 	 */
 	public void displayUser() {
 		errorPane.setVisible(false);
 		question.setVisible(false);
 		answer.setVisible(false);
 		passwd.setVisible(false);
-		passwd.setVisible(false);
+		passwdConf.setVisible(false);
 		user.setVisible(true);
 		currentScreen = 0;
 		clearAll();
+		parent.getRootPane().setDefaultButton(btnOk);
+		user.getField().requestFocus();
 	}
 	
 
 	/**
-	 * 
+	 * Displays the second screen with the question and answer field
 	 * @param question
 	 */
 	public void displayQuestion(String questionText) {
@@ -200,15 +215,17 @@ public class PasswordRecoveryPane extends JPanel {
 		errorPane.setVisible(false);
 		user.setVisible(false);
 		passwd.setVisible(false);
-		passwd.setVisible(false);
+		passwdConf.setVisible(false);
 		question.setVisible(true);
 		answer.setVisible(true);
 		currentScreen = 1;
+		parent.refreshUI();
+		answer.getField().requestFocus();
 	}
 
 
 	/**
-	 * 
+	 * Displays the third screen with the password and password confirmation field
 	 */
 	public void displayPassword() {
 		errorPane.setVisible(false);
@@ -216,8 +233,10 @@ public class PasswordRecoveryPane extends JPanel {
 		question.setVisible(false);
 		answer.setVisible(false);
 		passwd.setVisible(true);
-		passwd.setVisible(true);
+		passwdConf.setVisible(true);
 		currentScreen = 2;
+		parent.refreshUI();
+		passwd.getField().requestFocus();
 	}
 	
 	/**
@@ -245,7 +264,7 @@ public class PasswordRecoveryPane extends JPanel {
 	}
 	
 	/**
-	 * Clears all existent error message and clear content of form fields
+	 * Clears all existent error message, clears content of form fields and goes back to the first screen
 	 */
 	public void clearAll() {
 		clearFields();
@@ -254,10 +273,19 @@ public class PasswordRecoveryPane extends JPanel {
 
 
 	/**
-	 * 
+	 * Gets the currently displayed screen
 	 * @return 0 login, 1 question, 2 password
 	 */
 	public int getCurrentScreen() {
 		return currentScreen;
+	}
+	
+	/**
+	 * Requests the focus of the panel and the first field
+	 */
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		user.getField().requestFocus();
 	}
 }

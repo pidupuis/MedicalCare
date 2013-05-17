@@ -2,7 +2,6 @@ package ui.loginframe;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.lang.reflect.Method;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -35,11 +34,6 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 		this.status = new JLabel();
 		
 		setLayout(new MigLayout("hidemode 3, inset 0 20 10 20", "[120px:n][grow][28px:28px:28px]", "[::30px,grow]"));
-		
-//		JLabel l = new JLabel("Label");
-//		add(l, "cell 0 0,growy");
-//		add(new JTextField(""), "cell 1 0,grow");
-//		add(this.status, "cell 2 0,growx,aligny top");
 		
 		add(this.label, "cell 0 0,grow");
 		add(this.field, "cell 1 0,grow");

@@ -366,8 +366,7 @@ public class DB_connector {
         String query = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
         System.out.println(query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
-        rs.next();
-        if (rs.getInt("Total") >= 1)    {
+        if (rs.next() && rs.getInt("Total") >= 1)    {
             return true;
         }
         else    {
@@ -520,7 +519,7 @@ public class DB_connector {
                         statut = 1;
                     }
                 }
-                else if (user.equals("Assistant de recherche clinique")) {
+                else if (user.equals("Attaché de recherche clinique")) {
                     //if the user is a cra but the login is not corresponding to a cra
                     if (rsSelect.getString("ARC_ID") == null) {
                         throw new WrongRoleException("Vous n'êtes pas autorisé à vous connecter en tant qu'Attaché de Recherche Clinique !");
@@ -597,10 +596,10 @@ public class DB_connector {
      * @return
      */
     public boolean checkPassword(String password) throws Exception {
-        if (password.length() < 4 || password.length() > 15) {
+        if (password.length() > 4 && password.length() < 15) {
             return true;
         } else {
-            throw new Exception("Password is not good!");
+            throw new Exception("Le mot de passe doit contenir entre 4 et 15 caractère!");
         }
     }
     
@@ -611,7 +610,7 @@ public class DB_connector {
      */
     public void resetPassword(String login, String password) throws Exception {        
         if (this.checkPassword(password))   {
-            String query = "UPDATE Utilisateur SET Utilisateur_Password ('"+ password +"')";
+            String query = "UPDATE Utilisateur SET Utilisateur_Password = ('"+ password +"')";
             System.out.println("query => " + query);
             ResultSet rs = this.connect.createStatement().executeQuery(query);
             rs.next();

@@ -1,6 +1,9 @@
 package ui.loginframe.panels;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -11,13 +14,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersButtonConnexion;
-import ui.loginframe.listeners.ListenersButtonAnnuler;
+import ui.loginframe.listeners.ListenersButtonQuit;
 import ui.loginframe.listeners.ListenersButtonRecovery;
 
+import main.Main;
 import main.exception.UnknownUsernameException;
 import main.exception.WrongPasswordException;
 import main.exception.WrongRoleException;
@@ -38,7 +43,7 @@ public class LoginPane extends JPanel {
 
 	private Font defaultFont;
 	private JButton btnConnexion;
-
+	
 	/**
 	 * Constructs the login form with user, password, role and action buttons
 	 */
@@ -71,7 +76,7 @@ public class LoginPane extends JPanel {
 		{ //Role
 			JLabel lblRole = new JLabel("R\u00F4le");
 			lblRole.setFont(defaultFont);
-			JComboBox<String> cbRole = new JComboBox(new String[]{"Médecin", "Assistant de recherche clinique", "Data Manager"});
+			JComboBox<String> cbRole = new JComboBox(new String[]{"Médecin", "Attaché de recherche clinique", "Data Manager"});
 			cbRole.setFont(defaultFont);
 			role = new FormRow<JLabel, JComboBox<String>>(lblRole, cbRole);
 			this.add(role, "cell 0 2,grow");
@@ -95,10 +100,10 @@ public class LoginPane extends JPanel {
 			submitPane.add(btnConnexion);
 
 			//Annuler Button
-			JButton btnAnnuler = new JButton("Annuler");
-			btnAnnuler.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
-			btnAnnuler.addActionListener(new ListenersButtonAnnuler());
-			submitPane.add(btnAnnuler);
+			JButton btnQuit = new JButton("Quitter");
+			btnQuit.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
+			btnQuit.addActionListener(new ListenersButtonQuit());
+			submitPane.add(btnQuit);
 
 			//Recovery Button
 			JButton btnRecovery = new JButton();
@@ -157,7 +162,11 @@ public class LoginPane extends JPanel {
 		else if(ex instanceof WrongRoleException)
 			role.setError(true, ex.getMessage());
 
-		errorPane.setErrorMessage(ex.getMessage());
+		if(ex instanceof SQLException && ex.getMessage().contains("E/S"))
+			errorPane.setErrorMessage("Erreur: La connexion au serveur a échouée (Veuillez vérifier la connexion internet ou la connexion au serveur).");
+		else
+			errorPane.setErrorMessage(ex.getMessage());
+		
 		errorPane.setVisible(true);
 		parent.refreshUI();
 	}
@@ -191,6 +200,9 @@ public class LoginPane extends JPanel {
 	public void clearAll() {
 		clearFields();
 		clearError();
+
+		parent.getRootPane().setDefaultButton(btnConnexion);
+		user.getField().requestFocus();
 	}
 
 	/**
@@ -199,5 +211,23 @@ public class LoginPane extends JPanel {
 	 */
 	public void displaySuccess(String success) {
 		parent.changeToSuccess(success);
+		
+		Timer t = new Timer(3000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.launchMainWindow();
+			}
+		});
+		t.start();
+		t.setRepeats(false);
+	}
+	
+	/**
+	 * Requests the focus of the panel and the first field
+	 */
+	@Override
+	public void requestFocus() {
+		super.requestFocus();
+		user.getField().requestFocus();
 	}
 }

@@ -1,15 +1,13 @@
 package ui.loginframe.listeners;
 
 import java.awt.event.*;
-
-import persons.Actor;
-
 import main.DB_connector;
 import main.Main;
+import persons.Actor;
 import ui.loginframe.panels.LoginPane;
 
 /**
- *
+ * Listener sur le bouton connexion de l'interface de connexion
  * @author Julien_Lavigne
  */
 public class ListenersButtonConnexion implements ActionListener {
@@ -45,7 +43,6 @@ public class ListenersButtonConnexion implements ActionListener {
 			}
 		} catch (Exception ex) {
 			parent.displayError(ex);
-			
 		}
 	}
 }

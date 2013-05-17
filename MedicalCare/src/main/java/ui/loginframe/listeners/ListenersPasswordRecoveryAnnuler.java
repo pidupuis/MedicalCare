@@ -1,16 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ui.loginframe.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import main.Main;
 import ui.loginframe.LoginFrame;
 
 /**
- *
+ *Listeners sur le bouton annuler de l'interface de reinitialision de mot de passe
  * @author Julien_Lavigne
  */
 public class ListenersPasswordRecoveryAnnuler implements ActionListener {

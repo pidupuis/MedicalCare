@@ -6,11 +6,10 @@ package ui.loginframe.listeners;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import ui.loginframe.LoginFrame;
 
 /**
- *
+ * listeners sur le bouton ? de l'interface de connexion
  * @author Julien_Lavigne
  */
 public class ListenersButtonRecovery implements ActionListener{
