@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import main.exception.EmptySQLResultException;
 
 import main.exception.UnknownUsernameException;
 import main.exception.WrongParameterException;
@@ -182,7 +183,7 @@ public class DB_connector {
      * @param electro contains all the information about the EEG analysis
      * @param p is the patient link to the EEG analysis
      */
-    private void addEEG(EEG electro, Patient p) {
+    public void addEEG(EEG electro, Patient p) {
         String query, query2 = "";
         try {        
             query = "SELECT * FROM analyseeeg "
@@ -205,7 +206,7 @@ public class DB_connector {
      *
      * @param effort
      */
-    private boolean addEffortTest(EffortTest effort) {
+    public boolean addEffortTest(EffortTest effort) {
 //        Recap of the table Analyseeffort
 //        PK_ID_ANALYSEEFFORT
 //        PK_ID_FICHEQUOTIDIENNE
@@ -215,6 +216,38 @@ public class DB_connector {
 //        OBSERVATIONS_EFFORT
         System.out.println("addEffortTest");
         throw new UnsupportedOperationException();
+    }
+    
+    public boolean checkIfAnalysisExists(String analyse, String idPatient) throws WrongParameterException, SQLException {
+        String table;
+        if ((!(analyse.equals("eeg"))) && (!(analyse.equals("sang"))) && (!(analyse.equals("effort"))))  {
+            throw new WrongParameterException("Le type d'analyse doit être 'eeg' ou 'valide' ou 'sang' ou 'effort' !");
+        }
+        else    {
+            if (analyse.equals("eeg")) {
+                table = "analyseEEG";
+            }
+            else if (analyse.equals("eeg")) {
+                table = "analyseSang";
+            }
+            else    {
+                table = "analyseEffort";                
+            }
+            String queryEEG = "SELECT COUNT(*) AS total FROM "+ table +" "
+                    + "JOIN fichequotidienne "
+                    + "ON "+ table +".pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne  "
+                    + "JOIN rempli_fiche "
+                    + "ON fichequotidienne.pk_id_fichequotidienne = rempli_fiche.pk_id_fichequotidienne "
+                    + "WHERE rempli_fiche.pk_id_personne = '"+ idPatient +"'";
+            System.out.println("query => " + queryEEG);
+            ResultSet rs = this.connect.createStatement().executeQuery(queryEEG);
+            rs.next();
+            if (rs.getString("total").equals("1")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     }
     
     /**
@@ -695,6 +728,73 @@ public class DB_connector {
             }
         }
     }
+    
+    public Patient getPatientById(String id) throws Exception {
+        Patient tmpPatient;
+        Boolean sexe, inclut;
+        int y, m, d;
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        
+        String query = "SELECT COUNT (*) AS Total FROM Patient WHERE PK_ID_PERSONNE ='" + id + "'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        if (rs.getInt("Total") > 1)    {
+            throw new Exception("Ce patient existe au moins deux fois !");
+        }
+        if (rs.getInt("Total") == 0) {
+            throw new Exception("Ce patient n'existe pas !");            
+        }
+        else    {
+            try {
+        
+                String query2 = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient"
+                    + " WHERE PK_ID_PERSONNE = '" + id + "'";
+
+                System.out.println("query2 => " + query2);
+                ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+                rs2.next();
+                SimpleDateFormat birth = new SimpleDateFormat();
+                birth.applyPattern("dd/MM/yyyy");
+
+                Pattern p = Pattern.compile("(\\d{4})-(\\d{2})-(\\d{2}).*");
+                Matcher match = p.matcher(rs2.getString("DATE_NAISSANCE"));
+                
+                if (match.find())   {
+                    y = Integer.parseInt(match.group(1));
+                    m = Integer.parseInt(match.group(2));
+                    d = Integer.parseInt(match.group(3));
+
+                    //y = (y < (currentYear%100)) ? y + 2000 : y + 1900;
+                }
+                else    {
+                    throw new Exception("Erreur de date !");
+                }
+
+                if (rs2.getString("SEXE").equals("0"))    {
+                    sexe = false;
+                }
+                else    {
+                    sexe = true;
+                }
+                if (rs2.getString("STATUT").equals("0"))    {
+                    inclut = false;
+                }
+                else    {
+                    inclut = true;
+                }
+                tmpPatient = new Patient(rs2.getString("PRENOM"), rs2.getString("NOM"), y, m, d, sexe, null);
+                tmpPatient.setInclusion(inclut);
+                tmpPatient.setId(id);
+
+                return tmpPatient;
+            }
+            catch (SQLException ex) {
+                System.out.println("Erreur lors de l'obtention du patient => " + ex);
+                return null;
+            }
+        }
+    }
 
     
     /**
@@ -841,6 +941,56 @@ public class DB_connector {
     }
     
     /**
+     * This method permits to get one Doctor with his/her name and his/her firstname
+     * @param nom name of the doctor
+     * @param prenom firstname of the doctor
+     * @return 
+     */
+    public Doctor getDoctorByName(String nom, String prenom) throws SQLException, Exception   {        
+        String query = "SELECT * FROM Medecin"
+                + "WHERE nom = '"+ nom +"'"
+                + "AND prenom = '"+ prenom +"'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        
+        if(rs.getString("pk_id_personne") == null)  {
+            throw new Exception("Il n'existe aucun médecin comportant ce nom et ce prénom !");
+        }
+        else    {
+            String query2 = "SELECT * FROM ARC"
+                + "WHERE pk_id_personne = '"+ rs.getString("ARC_pk_id_personne") +"'";
+            System.out.println("query => " + query2);
+            ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+            
+            return new Doctor(rs.getString("prenom"), rs.getString("nom"), rs.getString("pk_id_personne"), new CRA(rs2.getString("pk_id_personne"), rs2.getString("prenom"), rs2.getString("nom")));
+        }
+    }
+    
+    /**
+     * 
+     * @param id
+     * @return 
+     */
+    public Doctor getDoctorById(String id) throws SQLException, Exception   {
+        String query = "SELECT * FROM Medecin"
+                + "WHERE pk_id_personne = '"+ id +"'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        
+        if(rs.getString("pk_id_personne") == null)  {
+            throw new Exception("Il n'existe aucun médecin comportant ce nom et ce prénom !");
+        }
+        else    {
+            String query2 = "SELECT * FROM ARC"
+                + "WHERE pk_id_personne = '"+ rs.getString("ARC_pk_id_personne") +"'";
+            System.out.println("query => " + query2);
+            ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+            
+            return new Doctor(rs.getString("prenom"), rs.getString("nom"), rs.getString("pk_id_personne"), new CRA(rs2.getString("pk_id_personne"), rs2.getString("prenom"), rs2.getString("nom")));
+        }
+    }
+    
+    /**
      * This method is used to select all the doctors which works wich the loged ARC
      * @return This method returns an ArrayList of Doctor which contains all information about Doctor
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
@@ -908,8 +1058,8 @@ public class DB_connector {
                     throw new Exception("Erreur de date !");
                 }
                 GregorianCalendar birthDate = new GregorianCalendar(y, m, d);
-                Analysis a = new DailyTest(pression_systolique,pression_diastolique, rythme_cardiaque ,obs, false, false, false, birthDate, pat, null);
-                tmpListAnalysis.add(a);            
+                //Analysis a = new DailyTest(pression_systolique,pression_diastolique, rythme_cardiaque ,obs, false, false, false, birthDate, pat, null);
+                //tmpListAnalysis.add(a);            
             }
             
             return tmpListAnalysis;
@@ -921,17 +1071,26 @@ public class DB_connector {
     }
     
     
-//    public void addDailyTest(DailyTest instance, Patient p) throws SQLException, Exception {
-//        String query = "";
-//        String date = "";
-//        
-//        String query = "INSERT INTO FicheQuotidienne "
-//                + "VALUES ("
-//                + "'',"
-//                + "''"
-//                + ")"
-//        
-//        
+    public void addDailyTest(DailyTest dt, Patient p, Doctor d, EEG eeg, BloodTest sang, EffortTest effort) throws SQLException, Exception {
+        
+        String querySelectPatient = "SELECT * FROM Patient WHERE pk_id_personne = '"+ p.getId() +"'";
+        System.out.println("querySelect => " + querySelectPatient);
+        ResultSet rsSelectPatient = this.connect.createStatement().executeQuery(querySelectPatient);
+        rsSelectPatient.next();
+        
+        String queryAjoutFiche = "INSERT INTO FicheQuotidienne "
+                + "VALUES ("
+                + "''," //pk_id_fichequotidienne => auto-increment
+                + "''," //date_fiche => day of clinical assay
+                + "''," //pression_systolique
+                + "''," //pression_diastolique
+                + "''," //rythme_cardiaque
+                + "''," //observation_quotidienne
+                + "'en_cours'" //state => status is 'en_cours' (default)
+                + ")";
+        System.out.println("queryAjout => " + queryAjoutFiche);
+        
+        
 //        GregorianCalendar dateTest = instance.getDailyDate();
 //        
 //        String strDate = String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.YEAR));
@@ -985,9 +1144,16 @@ public class DB_connector {
 //            ResultSet rs_effort = this.connect.createStatement().executeQuery(query_effort);
 //            rs_effort.next();
 //        }
-//    }
+    }
     
-    public void setState (DailyTest d, String statut) throws WrongParameterException, SQLException {
+    /**
+     * This method permits to update the status of one specific daily sheet which is given in parameters
+     * @param d is a DailyTest object
+     * @param statut is a String which contains the new statut
+     * @throws WrongParameterException is raised when the parameter statut contains the wrong word for update the status
+     * @throws SQLException is raised when there are SQL errors
+     */
+    public void updateStateDailyTest (DailyTest d, String statut) throws WrongParameterException, SQLException {
         String query = "";
         System.out.println("statut : " + statut);
         if ((!(statut.equals("en_cours"))) && (!(statut.equals("valide"))) && (!(statut.equals("invalide"))) && (!(statut.equals("a_verifier"))))  {
@@ -1003,13 +1169,48 @@ public class DB_connector {
     }
 
     /**
-     *
-     * @param idPatient
-     * @param day
+     * This method permits to get a specific daily test thanks to a patient identifier and a day
+     * @param idPatient is the patient identifier
+     * @param day is the day of the clinical assay
+     * @return a filled DailyTest
+     * @throws SQLException warn if there have been SQL errors
+     * @throws EmptySQLResultException warn if there any are empty results of queries
+     * @throws Exception warn you for each others errors
      */
-    public void getDailyTests(String idPatient, String day) {
-        System.out.println("getDailyTests");
-        throw new UnsupportedOperationException();
+    public DailyTest getDailyTests(String idPatient, String day) throws SQLException, EmptySQLResultException, Exception {
+        boolean eeg = false;
+        boolean sang = false;
+        boolean effort = false;
+        
+        String query = "SELECT * FROM fichequotidienne "
+                + "JOIN rempli_fiche "
+                + "ON rempli_fiche.pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne "
+                + "WHERE rempli_fiche.pk_id_personne = '"+ idPatient +"' "
+                + "AND fichequotidienne.date_fiche = '"+ day +"'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+        
+        if (rs.getString("pk_id_fichequotidienne") == null) {
+            throw new EmptySQLResultException("Il n'y a aucune fiche correspondante !");
+        }
+        else    {
+            Patient p = getPatientById(idPatient);
+            
+            if (checkIfAnalysisExists("eeg", idPatient)){
+                eeg = true;
+            }
+            if (checkIfAnalysisExists("sang", idPatient)){
+                sang = true;
+            }
+            if (checkIfAnalysisExists("effort", idPatient)){
+                effort = true;
+            }
+        
+            //Recap of the constructor of the Daily Test
+            //public DailyTest(int systole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood, int date, Patient p)
+            return new DailyTest(Integer.parseInt(rs.getString("pression_systolique")), Integer.parseInt(rs.getString("pression_diastolique")), Integer.parseInt(rs.getString("rythme_cardiaque")), rs.getString("observations_quotidiennes"), effort, eeg, sang, Integer.parseInt(rs.getString("date_fiche")), p);
+        }
     }
 
     /**
@@ -1184,5 +1385,4 @@ public class DB_connector {
             return null;
         }
     }
-    
 }
