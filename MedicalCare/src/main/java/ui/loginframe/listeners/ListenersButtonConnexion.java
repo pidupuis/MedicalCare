@@ -9,7 +9,7 @@ import main.Main;
 import ui.loginframe.panels.LoginPane;
 
 /**
- *
+ * Listener sur le bouton connexion de l'interface de connexion
  * @author Julien_Lavigne
  */
 public class ListenersButtonConnexion implements ActionListener {
