@@ -12,7 +12,7 @@ import ui.loginframe.panels.LoginPane;
 import ui.loginframe.panels.PasswordRecoveryPane;
 
 /**
- *
+ *listeners sur le bouton Ok de l'interface de récupération de mot de passe 
  * @author Julien_Lavigne
  */
 public class ListenersPasswordRecovery implements ActionListener {
@@ -26,17 +26,17 @@ public class ListenersPasswordRecovery implements ActionListener {
 
          /**
           * Le bouton sert plusieurs action , on a spécifier ces actions par l'utilisation d'un type d'écran 
-          * 0 = Fênetre de recherche de question avec le login 
+          * 0 = Fenêtre de recherche de question avec le login 
           * 
           * Recherche de la question grâce au login rentrér par l'utilisateur
           * Si il n'y a pas de question alors il y a un message d'erreur pour mauvais login
           * 
-          * 1 = Fênetre de question avec remise de la réponse à celle-ci.
+          * 1 = Fenêtre de question avec remise de la réponse à celle-ci.
           * 
           * On récupére la réponse à la question ensuite on test si celle-ci correspond à la réponse enregistrer.
           * Si c'est juste alors on change l'écran sinon on envoie un message d'erreur
           * 
-          * Autre = Fênetre changement de password !
+          * Autre = Fenêtre changement de password !
           * 
           * L'utilisateur change de password , si les deux password ne sont pas identique alors on lui demande de
           * recommencer sinon on lui remet la fênetre de connexion.
