@@ -1,11 +1,9 @@
 package ui.loginframe.listeners;
 
 import java.awt.event.*;
-
-import persons.Actor;
-
 import main.DB_connector;
 import main.Main;
+import persons.Actor;
 import ui.loginframe.panels.LoginPane;
 
 /**
