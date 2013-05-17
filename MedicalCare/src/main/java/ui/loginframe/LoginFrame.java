@@ -35,7 +35,7 @@ public class LoginFrame extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 518, 327);
-		setLayout(new MigLayout("inset 5", "[400px:n,grow]", "[70px][grow]"));
+		getContentPane().setLayout(new MigLayout("inset 5", "[400px:n,grow]", "[70px][grow]"));
 		
 		lblTitle = new JLabel("Medical Care Connect");
 		lblTitle.setFont(new Font("Helvetica Neue", Font.PLAIN, 16));
@@ -44,12 +44,12 @@ public class LoginFrame extends JFrame {
 			lblTitle.setIcon(new ImageIcon(getClass().getResource("/icon/globe.png")));
 			lblTitle.setHorizontalTextPosition(SwingConstants.LEFT);
 		} catch (Exception e) { }
-		add(lblTitle, "cell 0 0,grow");
+		getContentPane().add(lblTitle, "cell 0 0,grow");
 		
 		loginPane =  new LoginPane(this);
 		psswdPane = new PasswordRecoveryPane(this);
 		successPane = new SuccessPane(this);
-		add(loginPane, "cell 0 1,grow");
+		getContentPane().add(loginPane, "cell 0 1,grow");
 
 		setLocationRelativeTo(null);
 		setUndecorated(true);
@@ -70,8 +70,9 @@ public class LoginFrame extends JFrame {
 		} catch (Exception e) { }
 		
 		psswdPane.displayUser();
-		add(psswdPane, "cell 0 1,grow");
+		getContentPane().add(psswdPane, "cell 0 1,grow");
 		refreshUI();
+		psswdPane.requestFocus();
 	}
 	
 	/**
@@ -85,7 +86,7 @@ public class LoginFrame extends JFrame {
 		} catch (Exception e) { }
 		
 		successPane.setSuccessMessage(message);
-		add(successPane, "cell 0 1,grow");
+		getContentPane().add(successPane, "cell 0 1,grow");
 		refreshUI();
 	}
 	
@@ -100,8 +101,9 @@ public class LoginFrame extends JFrame {
 		} catch (Exception e) { }
 		
 		loginPane.clearAll();
-		add(loginPane, "cell 0 1,grow");
+		getContentPane().add(loginPane, "cell 0 1,grow");
 		refreshUI();
+		loginPane.requestFocus();
 	}
 	
 	/**

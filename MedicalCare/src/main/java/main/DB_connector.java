@@ -317,8 +317,7 @@ public class DB_connector {
         String query = "SELECT COUNT (*) AS Total FROM UTILISATEUR WHERE UTILISATEUR_LOGIN ='" + login + "'";
         System.out.println(query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
-        rs.next();
-        if (rs.getInt("Total") >= 1)    {
+        if (rs.next() && rs.getInt("Total") >= 1)    {
             return true;
         }
         else    {

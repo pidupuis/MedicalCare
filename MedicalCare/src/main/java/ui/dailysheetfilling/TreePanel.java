@@ -3,11 +3,13 @@ package ui.dailysheetfilling;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import main.DB_connector;
 import persons.Actor;
@@ -36,13 +38,28 @@ public class TreePanel extends JPanel {
 		}
 
 		JTree tree = new JTree(root);
+		
+		tree.setCellRenderer(new TreePanelRenderer()); // Add renderer to tree
+		
+		//tree.setEditable(true);
+        //tree.setCellEditor(new TreePanelEditor());
 
 		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 
 			public void valueChanged(TreeSelectionEvent e) {
-				JFrame plop = new JFrame();
-				plop.setSize(100, 100);
-				plop.setVisible(true);
+				//JFrame plop = new JFrame();
+				
+				TreePath path = e.getNewLeadSelectionPath();
+                DefaultMutableTreeNode node = 
+                    (DefaultMutableTreeNode)path.getLastPathComponent();
+                
+                String plop = node.toString();
+                
+                JOptionPane.showMessageDialog(null,  plop);
+				
+                
+				//plop.setSize(100, 100);
+				//plop.setVisible(true);
 			}
 
 		});
@@ -50,3 +67,4 @@ public class TreePanel extends JPanel {
 		this.add(tree);
 	}
 }
+
