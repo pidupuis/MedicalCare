@@ -14,6 +14,8 @@ import persons.Patient;
 public class TreePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	private JTree tree;
 
 	public TreePanel(Actor user, ArrayList<Patient> myPatients) {
 
@@ -25,20 +27,18 @@ public class TreePanel extends JPanel {
 			child = new PatientNode(p);
 			if (firstChild)
 				child.setFocused(true);
-			else
-				child.setFocused(false);
 			firstChild = false;
 			root.add(child);
 		}
 
-		JTree tree = new JTree(root);
+		this.tree = new JTree(root);
 		
-		tree.setCellRenderer(new TreePanelRenderer()); // Add renderer to tree
+		this.tree.setCellRenderer(new TreePanelRenderer()); // Add renderer to tree
 		
 		//tree.setEditable(true);
         //tree.setCellEditor(new TreePanelEditor());
 
-		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+		/*tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 
 			public void valueChanged(TreeSelectionEvent e) {
 				
@@ -54,9 +54,14 @@ public class TreePanel extends JPanel {
                 
 			}
 
-		});
+		});*/
 
-		this.add(tree);
+		this.add(this.tree);
+		
+	}
+	
+	public JTree getTree() {
+		return tree;
 	}
 }
 

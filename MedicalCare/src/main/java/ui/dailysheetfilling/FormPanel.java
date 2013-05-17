@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JTree;
 
 import persons.Patient;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
@@ -35,7 +36,7 @@ public class FormPanel extends JPanel {
 	
 	private JButton suivant_btn;
 
-	private ArrayList<Patient> myPatients;
+	private ArrayList<PatientNode> myPatientNodes;
 	
 	private boolean alert = true;
 	
@@ -50,13 +51,17 @@ public class FormPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public FormPanel(ArrayList<Patient> myPatients) {
-		
-		this.myPatients = myPatients;
+	public FormPanel(JTree myTree) {
 		
 		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][][]"));
 		
-		header_name_lbl = new JLabel(myPatients.get(0).getLastName() + " " + myPatients.get(0).getFirstName());
+		this.myPatientNodes = new ArrayList<PatientNode>();
+		
+		for (int i=0; i< myTree.getModel().getChildCount(myTree.getModel().getRoot()); i++) {
+			this.myPatientNodes.add((PatientNode) ((PatientNode) myTree.getModel().getRoot()).getChildAt(i));
+		}
+		
+		header_name_lbl = new JLabel(myPatientNodes.get(0).getMyPatient().getLastName() + " " + myPatientNodes.get(0).getMyPatient().getFirstName());
 		add(header_name_lbl, "cell 3 0");
 		
 		warning_lbl = new JLabel("warning_message");
@@ -187,12 +192,12 @@ public class FormPanel extends JPanel {
 		this.suivant_btn = suivant_btn;
 	}
 
-	public ArrayList<Patient> getMyPatients() {
-		return myPatients;
+	public ArrayList<PatientNode> getMyPatientNodes() {
+		return myPatientNodes;
 	}
-
-	public void setMyPatients(ArrayList<Patient> myPatients) {
-		this.myPatients = myPatients;
+	
+	public void setMyPatientNodes(ArrayList<PatientNode> myPatientNodes) {
+		this.myPatientNodes = myPatientNodes;
 	}
 
 }

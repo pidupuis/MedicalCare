@@ -18,8 +18,8 @@ import persons.Patient;
 public class SaisieFicheJournaliere extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel subpanelTree;
-	private JPanel subpanelForm;
+	private TreePanel subpanelTree;
+	private FormPanel subpanelForm;
 	
 	/**
 	 * Create the panel.
@@ -30,12 +30,16 @@ public class SaisieFicheJournaliere extends JPanel {
 		this.setLayout(new GridLayout(1, 2));
 		
 		this.subpanelTree = new TreePanel(user, myPatients);
-		this.subpanelForm = new FormPanel(myPatients);
+		this.subpanelForm = new FormPanel(this.subpanelTree.getTree());
 		
 		this.add(this.subpanelTree);
 		//this.add(new JSeparator());
 		this.add(this.subpanelForm);
 		
+	}
+	
+	public TreePanel getSubpanelTree() {
+		return subpanelTree;
 	}
 	
 	public static void main (String[] args) {
