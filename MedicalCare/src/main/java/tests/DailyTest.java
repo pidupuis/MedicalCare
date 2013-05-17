@@ -10,9 +10,9 @@ import persons.Patient;
  */
 public class DailyTest extends Analysis {
 
-        private Patient patientTested;
-        private Doctor med;
-        
+	private Patient patientTested;
+	private Doctor med;
+
 	private int[] bloodPressure;
 	private int heartBeats;
 	private String numeroLot;
