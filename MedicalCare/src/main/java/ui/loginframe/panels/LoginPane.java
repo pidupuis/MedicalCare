@@ -1,6 +1,8 @@
 package ui.loginframe.panels;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -11,13 +13,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersButtonConnexion;
-import ui.loginframe.listeners.ListenersButtonAnnuler;
+import ui.loginframe.listeners.ListenersButtonQuit;
 import ui.loginframe.listeners.ListenersButtonRecovery;
 
+import main.Main;
 import main.exception.UnknownUsernameException;
 import main.exception.WrongPasswordException;
 import main.exception.WrongRoleException;
@@ -95,10 +99,10 @@ public class LoginPane extends JPanel {
 			submitPane.add(btnConnexion);
 
 			//Annuler Button
-			JButton btnAnnuler = new JButton("Annuler");
-			btnAnnuler.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
-			btnAnnuler.addActionListener(new ListenersButtonAnnuler());
-			submitPane.add(btnAnnuler);
+			JButton btnQuit = new JButton("Quitter");
+			btnQuit.setFont(new Font("Helvetica Neue", Font.PLAIN, 13));
+			btnQuit.addActionListener(new ListenersButtonQuit());
+			submitPane.add(btnQuit);
 
 			//Recovery Button
 			JButton btnRecovery = new JButton();
@@ -191,6 +195,8 @@ public class LoginPane extends JPanel {
 	public void clearAll() {
 		clearFields();
 		clearError();
+
+		parent.getRootPane().setDefaultButton(btnConnexion);
 	}
 
 	/**
@@ -199,5 +205,13 @@ public class LoginPane extends JPanel {
 	 */
 	public void displaySuccess(String success) {
 		parent.changeToSuccess(success);
+		
+		Timer t = new Timer(3000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Main.launchMainWindow();
+			}
+		});
+		t.start();
 	}
 }

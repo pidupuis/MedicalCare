@@ -85,7 +85,7 @@ public class ListenersPasswordRecovery implements ActionListener {
 				String login = connexion.getLogin();
 				String pass = connexion.getNewPasswd();
 				String pass2 = connexion.getNewPasswdConf();
-				if(pass==pass2)
+				if(pass.equals(pass2))
 				{
 					DB_connector.getInstance().resetPassword(login,pass);
                                        connexion.displaySuccess("Mot de passe réinialisé ");

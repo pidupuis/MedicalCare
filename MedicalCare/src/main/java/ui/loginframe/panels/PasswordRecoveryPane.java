@@ -6,14 +6,19 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersPasswordRecovery;
 import ui.loginframe.listeners.ListenersPasswordRecoveryAnnuler;
+import main.Main;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 
 /**
@@ -35,6 +40,8 @@ public class PasswordRecoveryPane extends JPanel {
 	private Font defaultFont;
 	
 	private int currentScreen;
+	
+	private JButton btnOk;
 
 	/**
 	 * Constructs the different part of the password recovery panel
@@ -107,8 +114,7 @@ public class PasswordRecoveryPane extends JPanel {
 			submitPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			submitPane.setBorder(BorderFactory.createEmptyBorder());
 
-			JButton btnOk = new JButton("Ok");
-			parent.getRootPane().setDefaultButton(btnOk);
+			btnOk = new JButton("Ok");
 			btnOk.addActionListener(new ListenersPasswordRecovery(this));
 			submitPane.add(btnOk);
 
@@ -118,8 +124,6 @@ public class PasswordRecoveryPane extends JPanel {
 
 			add(submitPane, "cell 0 7,alignx right,growy");
 		}
-		
-		user.getField().requestFocus();
 	}
 
 
@@ -166,6 +170,7 @@ public class PasswordRecoveryPane extends JPanel {
 	public void displayError(String error) {
 		errorPane.setErrorMessage(error);
 		errorPane.setVisible(true);
+		parent.refreshUI();
 	}
 
 
@@ -175,6 +180,13 @@ public class PasswordRecoveryPane extends JPanel {
 	 */
 	public void displaySuccess(String success) {
 		parent.changeToSuccess(success);
+		Timer t = new Timer(3000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				parent.changeToLogin();
+			}
+		});
+		t.start();
 	}
 
 	/**
@@ -185,10 +197,12 @@ public class PasswordRecoveryPane extends JPanel {
 		question.setVisible(false);
 		answer.setVisible(false);
 		passwd.setVisible(false);
-		passwd.setVisible(false);
+		passwdConf.setVisible(false);
 		user.setVisible(true);
 		currentScreen = 0;
 		clearAll();
+		parent.getRootPane().setDefaultButton(btnOk);
+		user.getField().requestFocus();
 	}
 	
 
@@ -201,10 +215,12 @@ public class PasswordRecoveryPane extends JPanel {
 		errorPane.setVisible(false);
 		user.setVisible(false);
 		passwd.setVisible(false);
-		passwd.setVisible(false);
+		passwdConf.setVisible(false);
 		question.setVisible(true);
 		answer.setVisible(true);
 		currentScreen = 1;
+		parent.refreshUI();
+		answer.getField().requestFocus();
 	}
 
 
@@ -219,6 +235,8 @@ public class PasswordRecoveryPane extends JPanel {
 		passwd.setVisible(true);
 		passwdConf.setVisible(true);
 		currentScreen = 2;
+		parent.refreshUI();
+		passwd.getField().requestFocus();
 	}
 	
 	/**
