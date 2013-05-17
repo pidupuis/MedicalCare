@@ -18,7 +18,11 @@ import ui.loginframe.panels.ErrorPane;
 import javax.swing.SwingConstants;
 
 public class FormPanel extends JPanel {
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> branch 'develop' of https://github.com/pidupuis/MedicalCare.git
 	private static final long serialVersionUID = 1L;
 	private JTextField lot_number_txf;
 	private JTextField room_number_txf;
