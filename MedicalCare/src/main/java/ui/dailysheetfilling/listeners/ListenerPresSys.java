@@ -97,7 +97,8 @@ public class ListenerPresSys implements ActionListener, FocusListener {
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
-			} catch (InvalidAttributeValueException e1) {
+			} 
+			catch (InvalidAttributeValueException e1) {
 				fp.setCorrect(1, false);
 				fp.getPres_sys_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
