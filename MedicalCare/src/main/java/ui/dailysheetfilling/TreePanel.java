@@ -3,6 +3,7 @@ package ui.dailysheetfilling;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -14,25 +15,31 @@ import persons.Patient;
 public class TreePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	private JTree tree;
 
 	public TreePanel(Actor user, ArrayList<Patient> myPatients) {
 
-		DefaultMutableTreeNode root = new DefaultMutableTreeNode((user.getLastName()+" "+user.getFirstName()).toString());
+		PatientNode root = new PatientNode(user);
 
-		DefaultMutableTreeNode child;
+		PatientNode child;
+		boolean firstChild = true;
 		for (Patient p : myPatients) {
 			child = new PatientNode(p);
+			if (firstChild)
+				child.setFocused(true);
+			firstChild = false;
 			root.add(child);
 		}
 
-		JTree tree = new JTree(root);
+		this.tree = new JTree(root);
 		
-		tree.setCellRenderer(new TreePanelRenderer()); // Add renderer to tree
+		this.tree.setCellRenderer(new TreePanelRenderer()); // Add renderer to tree
 		
 		//tree.setEditable(true);
         //tree.setCellEditor(new TreePanelEditor());
 
-		tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
+		/*tree.getSelectionModel().addTreeSelectionListener(new TreeSelectionListener() {
 
 			public void valueChanged(TreeSelectionEvent e) {
 				
@@ -48,9 +55,18 @@ public class TreePanel extends JPanel {
                 
 			}
 
-		});
-
-		this.add(tree);
+		});*/
+		
+		//this.tree.setSize(width, height)
+		
+		this.add(new JScrollPane(this.tree));
+		
+		
+		
+	}
+	
+	public JTree getTree() {
+		return tree;
 	}
 }
 

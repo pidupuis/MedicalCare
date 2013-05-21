@@ -213,7 +213,6 @@ public class LoginPane extends JPanel {
 		parent.changeToSuccess(success);
 		
 		Timer t = new Timer(3000, new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				Main.launchMainWindow();
 			}

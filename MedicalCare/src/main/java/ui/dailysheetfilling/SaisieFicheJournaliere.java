@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+
 import main.DB_connector;
 import javax.swing.JFrame;
 import persons.Actor;
@@ -18,8 +20,9 @@ import persons.Patient;
 public class SaisieFicheJournaliere extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel subpanelTree;
-	private JPanel subpanelForm;
+	private TreePanel subpanelTree;
+	private FormPanel subpanelForm;
+	
 	/**
 	 * Create the panel.
 	 * @throws Exception 
@@ -29,7 +32,7 @@ public class SaisieFicheJournaliere extends JPanel {
 		this.setLayout(new GridLayout(1, 2));
 		
 		this.subpanelTree = new TreePanel(user, myPatients);
-		this.subpanelForm = new FormPanel(myPatients);
+		this.subpanelForm = new FormPanel(this.subpanelTree.getTree());
 		
 		this.add(this.subpanelTree);
 		//this.add(new JSeparator());
@@ -37,7 +40,15 @@ public class SaisieFicheJournaliere extends JPanel {
 		
 	}
 	
+	public TreePanel getSubpanelTree() {
+		return subpanelTree;
+	}
+	
 	public static void main (String[] args) {
+		
+		try{
+    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    	} catch(Exception e) {}
 		
 		JFrame plop = new JFrame();
 		
