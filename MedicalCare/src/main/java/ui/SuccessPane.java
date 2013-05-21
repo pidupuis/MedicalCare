@@ -1,4 +1,4 @@
-package ui.loginframe.panels;
+package ui;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,15 +21,13 @@ public class SuccessPane extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblSuccess;
-	private LoginFrame parent;
 	
 	/**
 	 * Create the panel.
 	 */
-	public SuccessPane(LoginFrame parent) {
+	public SuccessPane() {
 		setLayout(new FlowLayout());
 		
-		this.parent = parent;
 		lblSuccess = new JLabel("Success Panel");
 		
 		lblSuccess.setOpaque(true);
