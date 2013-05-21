@@ -49,7 +49,7 @@ public class ListenerBattCard implements FocusListener, ActionListener{
 				fp.setCorrect(3, false);
 				fp.getBat_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
@@ -58,7 +58,7 @@ public class ListenerBattCard implements FocusListener, ActionListener{
 			fp.setCorrect(3, false);
 			fp.getBat_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setErrorMessage("La valeur de pression systolique est invalide");
+			fp.getWarning_lbl().setMessage("La valeur de pression systolique est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		
@@ -101,7 +101,7 @@ public class ListenerBattCard implements FocusListener, ActionListener{
 				fp.setCorrect(3, false);
 				fp.getBat_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
@@ -110,7 +110,7 @@ public class ListenerBattCard implements FocusListener, ActionListener{
 			fp.setCorrect(3, false);
 			fp.getBat_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setErrorMessage("La valeur de pression systolique est invalide");
+			fp.getWarning_lbl().setMessage("La valeur de pression systolique est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		
