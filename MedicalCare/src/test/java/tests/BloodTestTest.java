@@ -140,8 +140,8 @@ public class BloodTestTest {
     public void testGetHb() {
         System.out.println("getHb");
         BloodTest instance = new BloodTest();
-        float expResult = 0.0F;
-        float result = instance.getHb();
+        int expResult = 0;
+        int result = instance.getHb();
         assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -153,7 +153,7 @@ public class BloodTestTest {
     @Test
     public void testSetHb() throws Exception {
         System.out.println("setHb");
-        float Hb = 0.0F;
+        int Hb = 0;
         BloodTest instance = new BloodTest();
         instance.setHb(Hb);
         // TODO review the generated test code and remove the default call to fail.
@@ -167,8 +167,8 @@ public class BloodTestTest {
     public void testGetGR() {
         System.out.println("getGR");
         BloodTest instance = new BloodTest();
-        float expResult = 0.0F;
-        float result = instance.getGR();
+        int expResult = 0;
+        int result = instance.getGR();
         assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -180,7 +180,7 @@ public class BloodTestTest {
     @Test
     public void testSetGR() throws Exception {
         System.out.println("setGR");
-        float GR = 0.0F;
+        int GR = 0;
         BloodTest instance = new BloodTest();
         instance.setGR(GR);
         // TODO review the generated test code and remove the default call to fail.
@@ -194,8 +194,8 @@ public class BloodTestTest {
     public void testGetGB() {
         System.out.println("getGB");
         BloodTest instance = new BloodTest();
-        float expResult = 0.0F;
-        float result = instance.getGB();
+        int expResult = 0;
+        int result = instance.getGB();
         assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -207,7 +207,7 @@ public class BloodTestTest {
     @Test
     public void testSetGB() throws Exception {
         System.out.println("setGB");
-        float GB = 0.0F;
+        int GB = 0;
         BloodTest instance = new BloodTest();
         instance.setGB(GB);
         // TODO review the generated test code and remove the default call to fail.
@@ -221,8 +221,8 @@ public class BloodTestTest {
     public void testGetHemato() {
         System.out.println("getHemato");
         BloodTest instance = new BloodTest();
-        float expResult = 0.0F;
-        float result = instance.getHemato();
+        int expResult = 0;
+        int result = instance.getHemato();
         assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -234,7 +234,7 @@ public class BloodTestTest {
     @Test
     public void testSetHemato() throws Exception {
         System.out.println("setHemato");
-        float hemato = 0.0F;
+        int hemato = 0;
         BloodTest instance = new BloodTest();
         instance.setHemato(hemato);
         // TODO review the generated test code and remove the default call to fail.
@@ -248,8 +248,8 @@ public class BloodTestTest {
     public void testGetP() {
         System.out.println("getP");
         BloodTest instance = new BloodTest();
-        float expResult = 0.0F;
-        float result = instance.getP();
+        int expResult = 0;
+        int result = instance.getP();
         assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -261,7 +261,7 @@ public class BloodTestTest {
     @Test
     public void testSetP() throws Exception {
         System.out.println("setP");
-        float P = 0.0F;
+        int P = 0;
         BloodTest instance = new BloodTest();
         instance.setP(P);
         // TODO review the generated test code and remove the default call to fail.
