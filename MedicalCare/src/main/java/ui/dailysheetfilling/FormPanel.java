@@ -20,7 +20,9 @@ import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.ListenerPresDias;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
-import ui.loginframe.FormRow;
+import ui.form.FormRow;
+import ui.form.FormRowAutoCorrect;
+import ui.form.StatusField;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -28,10 +30,10 @@ import javax.swing.border.LineBorder;
 public class FormPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private FormRow<JLabel, JTextField>  lot_number;
-	private FormRow<JLabel, JTextField>  pres_sys;
-	private FormRow<JLabel, JTextField>  pres_dias;
-	private FormRow<JLabel, JTextField>  bat;
+	private FormRowAutoCorrect<JLabel, JTextField>  lot_number;
+	private FormRowAutoCorrect<JLabel, JTextField>  pres_sys;
+	private FormRowAutoCorrect<JLabel, JTextField>  pres_dias;
+	private FormRowAutoCorrect<JLabel, JTextField>  bat;
 	private FormRow<JLabel, JTextArea>  obs;
 
 	private JTextField lot_number_txf;
@@ -54,7 +56,7 @@ public class FormPanel extends JPanel {
 	private ArrayList<PatientNode> myPatientNodes;
 
 	private ArrayList<Boolean> correct;
-
+	
 	/**
 	 * Create the panel.
 	 */
@@ -86,11 +88,19 @@ public class FormPanel extends JPanel {
 		{
 			lot_number_lbl = new JLabel("Numéro de Lot :");
 			lot_number_txf = new JTextField();
-			lot_number = new FormRow<JLabel, JTextField>(lot_number_lbl, lot_number_txf);
+			lot_number = new FormRowAutoCorrect<JLabel, JTextField>(lot_number_lbl, lot_number_txf) {
+				private static final long serialVersionUID = 1L;
+				public StatusField check() {
+					StatusField s = new StatusField();
+					
+					if(!lot_number_txf.getText().equals(""))
+						s = (new ListenerLotNumber()).check(lot_number_txf);
+					//TODO: change "correct" arraylist & message pane content
+					return s;
+				}
+			};
 			add(lot_number, "cell 0 2 4 1,grow");
 
-			lot_number_txf.addActionListener(new ListenerLotNumber(this));
-			lot_number_txf.addFocusListener(new ListenerLotNumber(this));
 			lot_number_txf.setColumns(10);
 		}
 
@@ -98,10 +108,17 @@ public class FormPanel extends JPanel {
 			JLabel pres_sys_lbl = new JLabel("Pression Systolique :");
 
 			pres_sys_txf = new JTextField();
-			pres_sys_txf.addActionListener(new ListenerPresSys(this));
-			pres_sys_txf.addFocusListener(new ListenerPresSys(this));
-			pres_sys_txf.setColumns(10);
-			pres_sys =  new FormRow<JLabel, JTextField>(pres_sys_lbl, pres_sys_txf);
+			pres_sys =  new FormRowAutoCorrect<JLabel, JTextField>(pres_sys_lbl, pres_sys_txf) {
+				private static final long serialVersionUID = 1L;
+				public StatusField check() {
+					StatusField s = new StatusField();
+					
+					if(!pres_sys_txf.getText().equals(""))
+						s = (new ListenerPresSys()).check(pres_sys_txf);
+					//TODO: change "correct" arraylist & message pane content
+					return s;
+				}
+			};
 			add(pres_sys, "cell 0 3 4 1,grow");
 		}
 
@@ -109,11 +126,19 @@ public class FormPanel extends JPanel {
 			JLabel pres_dias_lbl = new JLabel("Pression Diastolique :");
 
 			pres_dias_txf = new JTextField();
-			pres_dias_txf.addActionListener(new ListenerPresDias(this));
-			pres_dias_txf.addFocusListener(new ListenerPresDias(this));
 			pres_dias_txf.setColumns(10);
 
-			pres_dias =  new FormRow<JLabel, JTextField>(pres_dias_lbl, pres_dias_txf);
+			pres_dias =  new FormRowAutoCorrect<JLabel, JTextField>(pres_dias_lbl, pres_dias_txf){
+				private static final long serialVersionUID = 1L;
+				public StatusField check() {
+					StatusField s = new StatusField();
+					
+					if(!pres_dias_txf.getText().equals(""))
+						s = (new ListenerPresDias()).check(pres_dias_txf);
+					//TODO: change "correct" arraylist & message pane content
+					return s;
+				}
+			};
 			add(pres_dias, "cell 0 4 4 1,grow");
 		}
 
@@ -121,11 +146,20 @@ public class FormPanel extends JPanel {
 			JLabel bat_lbl = new JLabel("Battements par min :");
 
 			bat_txf = new JTextField();
-			pres_dias_txf.addActionListener(new ListenerBattCard(this));
-			pres_dias_txf.addFocusListener(new ListenerBattCard(this));
 			bat_txf.setColumns(10);
 			
-			bat =  new FormRow<JLabel, JTextField>(bat_lbl, bat_txf);
+			bat =  new FormRowAutoCorrect<JLabel, JTextField>(bat_lbl, bat_txf){
+				private static final long serialVersionUID = 1L;
+				public StatusField check() {
+					StatusField s = new StatusField();
+					
+					if(!bat_txf.getText().equals(""))
+						s = (new ListenerBattCard()).check(bat_txf);
+					
+					//TODO: change "correct" arraylist & message pane content
+					return s;
+				}
+			};
 			add(bat, "cell 0 5 4 1,grow");
 		}
 
