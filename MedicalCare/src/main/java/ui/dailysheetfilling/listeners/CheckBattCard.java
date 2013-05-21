@@ -4,7 +4,7 @@ import javax.swing.JTextField;
 import ui.form.StatusField;
 import ui.form.StatusFieldEnum;
 
-public class ListenerBattCard {
+public class CheckBattCard {
 
 	public StatusField check(JTextField bat) {
 		String content = bat.getText();

@@ -15,14 +15,15 @@ import javax.swing.JTree;
 import javax.swing.RootPaneContainer;
 
 import ui.MessagePane;
-import ui.dailysheetfilling.listeners.ListenerBattCard;
-import ui.dailysheetfilling.listeners.ListenerLotNumber;
-import ui.dailysheetfilling.listeners.ListenerPresDias;
-import ui.dailysheetfilling.listeners.ListenerPresSys;
+import ui.dailysheetfilling.listeners.CheckBattCard;
+import ui.dailysheetfilling.listeners.CheckLotNumber;
+import ui.dailysheetfilling.listeners.CheckPresDias;
+import ui.dailysheetfilling.listeners.CheckPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
 import ui.form.FormRow;
 import ui.form.FormRowAutoCorrect;
 import ui.form.StatusField;
+import ui.form.StatusFieldEnum;
 
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -49,14 +50,14 @@ public class FormPanel extends JPanel {
 	private JLabel pres_dias_lbl;
 	private JLabel bat_lbl;
 	private JLabel obs_lbl;
-	private MessagePane warning_lbl;
+	private MessagePane messagePane;
 
 	private JButton suivant_btn;
 
 	private ArrayList<PatientNode> myPatientNodes;
 
 	private ArrayList<Boolean> correct;
-	
+
 	/**
 	 * Create the panel.
 	 */
@@ -78,11 +79,11 @@ public class FormPanel extends JPanel {
 		add(header_name_lbl, "cell 3 0");
 
 		{
-			warning_lbl = new MessagePane();//
-			warning_lbl.setErrorDisplayed(false);
-			warning_lbl.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
-			add(warning_lbl, "cell 0 1 4 1,growx");
-			warning_lbl.setVisible(true);
+			messagePane = new MessagePane();
+			messagePane.setErrorDisplayed(false);
+			messagePane.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
+			add(messagePane, "cell 0 1 4 1,growx");
+			messagePane.setVisible(true);
 		}
 
 		{
@@ -92,9 +93,14 @@ public class FormPanel extends JPanel {
 				private static final long serialVersionUID = 1L;
 				public StatusField check() {
 					StatusField s = new StatusField();
-					
-					if(!lot_number_txf.getText().equals(""))
-						s = (new ListenerLotNumber()).check(lot_number_txf);
+
+					if(!lot_number_txf.getText().equals("")) {
+						s = (new CheckLotNumber()).check(lot_number_txf);
+						correct.set(0, (s.getStatus()==StatusFieldEnum.error) ? false : true);
+					}
+					else
+						correct.set(0, false);
+
 					//TODO: change "correct" arraylist & message pane content
 					return s;
 				}
@@ -112,9 +118,13 @@ public class FormPanel extends JPanel {
 				private static final long serialVersionUID = 1L;
 				public StatusField check() {
 					StatusField s = new StatusField();
-					
-					if(!pres_sys_txf.getText().equals(""))
-						s = (new ListenerPresSys()).check(pres_sys_txf);
+
+					if(!pres_sys_txf.getText().equals("")) {
+						s = (new CheckPresSys()).check(pres_sys_txf);
+						correct.set(1, (s.getStatus()==StatusFieldEnum.error) ? false : true);
+					}
+					else correct.set(1, false);
+
 					//TODO: change "correct" arraylist & message pane content
 					return s;
 				}
@@ -132,9 +142,13 @@ public class FormPanel extends JPanel {
 				private static final long serialVersionUID = 1L;
 				public StatusField check() {
 					StatusField s = new StatusField();
+
+					if(!pres_dias_txf.getText().equals("")) {
+						s = (new CheckPresDias()).check(pres_dias_txf);
+						correct.set(2, (s.getStatus()==StatusFieldEnum.error) ? false : true);
+					}
+					else correct.set(2, false);
 					
-					if(!pres_dias_txf.getText().equals(""))
-						s = (new ListenerPresDias()).check(pres_dias_txf);
 					//TODO: change "correct" arraylist & message pane content
 					return s;
 				}
@@ -147,15 +161,18 @@ public class FormPanel extends JPanel {
 
 			bat_txf = new JTextField();
 			bat_txf.setColumns(10);
-			
+
 			bat =  new FormRowAutoCorrect<JLabel, JTextField>(bat_lbl, bat_txf){
 				private static final long serialVersionUID = 1L;
 				public StatusField check() {
 					StatusField s = new StatusField();
-					
-					if(!bat_txf.getText().equals(""))
-						s = (new ListenerBattCard()).check(bat_txf);
-					
+
+					if(!bat_txf.getText().equals("")) {
+						s = (new CheckBattCard()).check(bat_txf);
+						correct.set(3, (s.getStatus()==StatusFieldEnum.error) ? false : true);
+					}
+					else correct.set(3, false);
+
 					//TODO: change "correct" arraylist & message pane content
 					return s;
 				}
@@ -169,7 +186,7 @@ public class FormPanel extends JPanel {
 			obs_txf = new JTextArea(30, 10);
 			obs_txf.setColumns(10);
 			obs_txf.setBorder(new LineBorder(new Color(0,0,0, 50)));
-			
+
 			obs =  new FormRow<JLabel, JTextArea>(obs_lbl, obs_txf);
 			add(obs, "cell 0 6 4 1,grow");
 		}
@@ -179,8 +196,8 @@ public class FormPanel extends JPanel {
 			suivant_btn.addActionListener(new PatientChanging(this));
 			add(suivant_btn, "cell 0 7 4 1,alignx right");
 		}
-		
-		
+
+
 		parentRootPane.setDefaultButton(suivant_btn);
 	}
 
@@ -233,11 +250,11 @@ public class FormPanel extends JPanel {
 	}
 
 	public MessagePane getWarning_lbl() {
-		return warning_lbl;
+		return messagePane;
 	}
 
 	public void setWarning_lbl(MessagePane message) {
-		this.warning_lbl = message;
+		this.messagePane = message;
 	}
 
 	public JButton getSuivant_btn() {

@@ -4,7 +4,7 @@ import javax.swing.JTextField;
 import ui.form.StatusField;
 import ui.form.StatusFieldEnum;
 
-public class ListenerPresSys{
+public class CheckPresSys{
 	
 	public StatusField check(JTextField presSys) {
 		String content = presSys.getText();

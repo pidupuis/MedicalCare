@@ -4,7 +4,7 @@ import javax.swing.JTextField;
 import ui.form.StatusField;
 import ui.form.StatusFieldEnum;
 
-public class ListenerLotNumber {
+public class CheckLotNumber {
 	public StatusField check(JTextField lotNumber) {
 		String content = lotNumber.getText();
 		int cpt = content.length();
