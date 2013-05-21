@@ -8,18 +8,18 @@ import java.awt.event.FocusListener;
 
 import ui.dailysheetfilling.FormPanel;
 
-public class ListenerPresDias implements FocusListener, ActionListener {
+public class ListenerBattCard implements FocusListener, ActionListener{
 
 	
 	private FormPanel fp;
 	
-	public ListenerPresDias(FormPanel fp) {
+	public ListenerBattCard(FormPanel fp) {
 		this.fp = fp;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
 		
-		String content = fp.getPres_dias_txf().getText();
+		String content = fp.getBat_txf().getText();
 		
 		int cpt = content.length();
 		
@@ -31,23 +31,23 @@ public class ListenerPresDias implements FocusListener, ActionListener {
 				
 				System.out.println(errorTry);
 				
-				if (errorTry<30 || errorTry>250){
+				if (errorTry<0 || errorTry>300){
 					throw new Exception();
 				}
-				else if (errorTry<60 || errorTry > 80)
+				else if (errorTry<25 || errorTry >220)
 				{
-					fp.getPres_dias_txf().setBackground(Color.ORANGE);
+					fp.getBat_txf().setBackground(Color.ORANGE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
 				else {
-					fp.getPres_dias_txf().setBackground(Color.WHITE);
+					fp.getBat_txf().setBackground(Color.WHITE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
 			} catch (Exception e1) {
-				fp.setCorrect(2, false);
-				fp.getPres_dias_txf().setBackground(Color.RED);
+				fp.setCorrect(3, false);
+				fp.getBat_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
 				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
@@ -55,8 +55,8 @@ public class ListenerPresDias implements FocusListener, ActionListener {
 		}
 		else
 		{
-			fp.setCorrect(2, false);
-			fp.getPres_dias_txf().setBackground(Color.RED);
+			fp.setCorrect(3, false);
+			fp.getBat_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
 			fp.getWarning_lbl().setErrorMessage("La valeur de pression systolique est invalide");
 			fp.getSuivant_btn().setEnabled(false);
@@ -66,13 +66,12 @@ public class ListenerPresDias implements FocusListener, ActionListener {
 
 
 	public void focusGained(FocusEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void focusLost(FocusEvent e) {
 		
-		String content = fp.getPres_dias_txf().getText();
+		String content = fp.getBat_txf().getText();
 		
 		int cpt = content.length();
 		
@@ -89,18 +88,18 @@ public class ListenerPresDias implements FocusListener, ActionListener {
 				}
 				else if (errorTry<60 || errorTry > 80)
 				{
-					fp.getPres_dias_txf().setBackground(Color.ORANGE);
+					fp.getBat_txf().setBackground(Color.ORANGE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
 				else {
-					fp.getPres_dias_txf().setBackground(Color.WHITE);
+					fp.getBat_txf().setBackground(Color.WHITE);
 					fp.getWarning_lbl().setVisible(false);
 					fp.getSuivant_btn().setEnabled(true);
 				}
 			} catch (Exception e1) {
-				fp.setCorrect(2, false);
-				fp.getPres_dias_txf().setBackground(Color.RED);
+				fp.setCorrect(3, false);
+				fp.getBat_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
 				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
@@ -108,8 +107,8 @@ public class ListenerPresDias implements FocusListener, ActionListener {
 		}
 		else
 		{
-			fp.setCorrect(2, false);
-			fp.getPres_dias_txf().setBackground(Color.RED);
+			fp.setCorrect(3, false);
+			fp.getBat_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
 			fp.getWarning_lbl().setErrorMessage("La valeur de pression systolique est invalide");
 			fp.getSuivant_btn().setEnabled(false);
