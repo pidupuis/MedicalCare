@@ -20,6 +20,7 @@ public class BloodTest extends Analysis {
         this.GB = GB;
         this.hemato = hemato;
         this.P = P;
+
         this.pat = pat;
 
         try {
@@ -30,8 +31,8 @@ public class BloodTest extends Analysis {
 
     }
 
-    public BloodTest() {
-    }
+    public BloodTest() {}
+
 
     /**
      *
