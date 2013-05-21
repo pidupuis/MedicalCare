@@ -2,18 +2,15 @@ package ui.dailysheetfilling;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
-
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.JTree;
-import javax.swing.RootPaneContainer;
-
+import javax.swing.border.LineBorder;
+import net.miginfocom.swing.MigLayout;
 import ui.MessagePane;
 import ui.dailysheetfilling.listeners.CheckBattCard;
 import ui.dailysheetfilling.listeners.CheckLotNumber;
@@ -25,17 +22,14 @@ import ui.form.FormRowAutoCorrect;
 import ui.form.StatusField;
 import ui.form.StatusFieldEnum;
 
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-
 public class FormPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private FormRowAutoCorrect<JLabel, JTextField>  lot_number;
-	private FormRowAutoCorrect<JLabel, JTextField>  pres_sys;
-	private FormRowAutoCorrect<JLabel, JTextField>  pres_dias;
-	private FormRowAutoCorrect<JLabel, JTextField>  bat;
-	private FormRow<JLabel, JTextArea>  obs;
+	private FormRowAutoCorrect<JLabel, JTextField> lot_number;
+	private FormRowAutoCorrect<JLabel, JTextField> pres_sys;
+	private FormRowAutoCorrect<JLabel, JTextField> pres_dias;
+	private FormRowAutoCorrect<JLabel, JTextField> bat;
+	private FormRow<JLabel, JTextArea> obs;
 
 	private JTextField lot_number_txf;
 	private JTextField pres_sys_txf;
@@ -67,21 +61,27 @@ public class FormPanel extends JPanel {
 		for (int i = 0; i < 4; i++)
 			this.correct.add(false);
 
-		setLayout(new MigLayout("hidemode 3, inset 0 0 0 0", "[][][][grow]", "[][][][][][][100px:n][]"));
+		setLayout(new MigLayout("hidemode 3, inset 0 0 0 0", "[][][][grow]",
+				"[][][][][][][100px:n][]"));
 
 		this.myPatientNodes = new ArrayList<PatientNode>();
 
-		for (int i=0; i< myTree.getModel().getChildCount(myTree.getModel().getRoot()); i++) {
-			this.myPatientNodes.add((PatientNode) ((PatientNode) myTree.getModel().getRoot()).getChildAt(i));
+		for (int i = 0; i < myTree.getModel().getChildCount(
+				myTree.getModel().getRoot()); i++) {
+			this.myPatientNodes.add((PatientNode) ((PatientNode) myTree
+					.getModel().getRoot()).getChildAt(i));
 		}
 
-		header_name_lbl = new JLabel(myPatientNodes.get(0).getMyPatient().getLastName() + " " + myPatientNodes.get(0).getMyPatient().getFirstName());
+		header_name_lbl = new JLabel(myPatientNodes.get(0).getMyPatient()
+				.getLastName()
+				+ " " + myPatientNodes.get(0).getMyPatient().getFirstName());
 		add(header_name_lbl, "cell 3 0");
 
 		{
 			messagePane = new MessagePane();
 			messagePane.setErrorDisplayed(false);
-			messagePane.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
+			messagePane
+					.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
 			add(messagePane, "cell 0 1 4 1,growx");
 			messagePane.setVisible(true);
 		}
@@ -89,19 +89,23 @@ public class FormPanel extends JPanel {
 		{
 			lot_number_lbl = new JLabel("Numéro de Lot :");
 			lot_number_txf = new JTextField();
-			lot_number = new FormRowAutoCorrect<JLabel, JTextField>(lot_number_lbl, lot_number_txf) {
+			lot_number = new FormRowAutoCorrect<JLabel, JTextField>(
+					lot_number_lbl, lot_number_txf) {
 				private static final long serialVersionUID = 1L;
+
 				public StatusField check() {
 					StatusField s = new StatusField();
 
-					if(!lot_number_txf.getText().equals("")) {
+					if (!lot_number_txf.getText().equals("")) {
 						s = (new CheckLotNumber()).check(lot_number_txf);
-						correct.set(0, (s.getStatus()==StatusFieldEnum.error) ? false : true);
-					}
-					else
+						correct.set(
+								0,
+								(s.getStatus() == StatusFieldEnum.error) ? false
+										: true);
+					} else
 						correct.set(0, false);
 
-					//TODO: change "correct" arraylist & message pane content
+					// TODO: change "correct" arraylist & message pane content
 					return s;
 				}
 			};
@@ -114,18 +118,23 @@ public class FormPanel extends JPanel {
 			JLabel pres_sys_lbl = new JLabel("Pression Systolique :");
 
 			pres_sys_txf = new JTextField();
-			pres_sys =  new FormRowAutoCorrect<JLabel, JTextField>(pres_sys_lbl, pres_sys_txf) {
+			pres_sys = new FormRowAutoCorrect<JLabel, JTextField>(pres_sys_lbl,
+					pres_sys_txf) {
 				private static final long serialVersionUID = 1L;
+
 				public StatusField check() {
 					StatusField s = new StatusField();
 
-					if(!pres_sys_txf.getText().equals("")) {
+					if (!pres_sys_txf.getText().equals("")) {
 						s = (new CheckPresSys()).check(pres_sys_txf);
-						correct.set(1, (s.getStatus()==StatusFieldEnum.error) ? false : true);
-					}
-					else correct.set(1, false);
+						correct.set(
+								1,
+								(s.getStatus() == StatusFieldEnum.error) ? false
+										: true);
+					} else
+						correct.set(1, false);
 
-					//TODO: change "correct" arraylist & message pane content
+					// TODO: change "correct" arraylist & message pane content
 					return s;
 				}
 			};
@@ -138,18 +147,23 @@ public class FormPanel extends JPanel {
 			pres_dias_txf = new JTextField();
 			pres_dias_txf.setColumns(10);
 
-			pres_dias =  new FormRowAutoCorrect<JLabel, JTextField>(pres_dias_lbl, pres_dias_txf){
+			pres_dias = new FormRowAutoCorrect<JLabel, JTextField>(
+					pres_dias_lbl, pres_dias_txf) {
 				private static final long serialVersionUID = 1L;
+
 				public StatusField check() {
 					StatusField s = new StatusField();
 
-					if(!pres_dias_txf.getText().equals("")) {
+					if (!pres_dias_txf.getText().equals("")) {
 						s = (new CheckPresDias()).check(pres_dias_txf);
-						correct.set(2, (s.getStatus()==StatusFieldEnum.error) ? false : true);
-					}
-					else correct.set(2, false);
-					
-					//TODO: change "correct" arraylist & message pane content
+						correct.set(
+								2,
+								(s.getStatus() == StatusFieldEnum.error) ? false
+										: true);
+					} else
+						correct.set(2, false);
+
+					// TODO: change "correct" arraylist & message pane content
 					return s;
 				}
 			};
@@ -162,18 +176,22 @@ public class FormPanel extends JPanel {
 			bat_txf = new JTextField();
 			bat_txf.setColumns(10);
 
-			bat =  new FormRowAutoCorrect<JLabel, JTextField>(bat_lbl, bat_txf){
+			bat = new FormRowAutoCorrect<JLabel, JTextField>(bat_lbl, bat_txf) {
 				private static final long serialVersionUID = 1L;
+
 				public StatusField check() {
 					StatusField s = new StatusField();
 
-					if(!bat_txf.getText().equals("")) {
+					if (!bat_txf.getText().equals("")) {
 						s = (new CheckBattCard()).check(bat_txf);
-						correct.set(3, (s.getStatus()==StatusFieldEnum.error) ? false : true);
-					}
-					else correct.set(3, false);
+						correct.set(
+								3,
+								(s.getStatus() == StatusFieldEnum.error) ? false
+										: true);
+					} else
+						correct.set(3, false);
 
-					//TODO: change "correct" arraylist & message pane content
+					// TODO: change "correct" arraylist & message pane content
 					return s;
 				}
 			};
@@ -185,9 +203,9 @@ public class FormPanel extends JPanel {
 
 			obs_txf = new JTextArea(30, 10);
 			obs_txf.setColumns(10);
-			obs_txf.setBorder(new LineBorder(new Color(0,0,0, 50)));
+			obs_txf.setBorder(new LineBorder(new Color(0, 0, 0, 50)));
 
-			obs =  new FormRow<JLabel, JTextArea>(obs_lbl, obs_txf);
+			obs = new FormRow<JLabel, JTextArea>(obs_lbl, obs_txf);
 			add(obs, "cell 0 6 4 1,grow");
 		}
 
@@ -196,7 +214,6 @@ public class FormPanel extends JPanel {
 			suivant_btn.addActionListener(new PatientChanging(this));
 			add(suivant_btn, "cell 0 7 4 1,alignx right");
 		}
-
 
 		parentRootPane.setDefaultButton(suivant_btn);
 	}
@@ -285,7 +302,7 @@ public class FormPanel extends JPanel {
 	public boolean isCorrect() {
 		for (Boolean b : this.correct) {
 			if (!b)
-				return false; 
+				return false;
 		}
 		return true;
 	}
@@ -301,7 +318,5 @@ public class FormPanel extends JPanel {
 		this.pres_dias_txf.setBackground(Color.white);
 		this.bat_txf.setBackground(Color.white);
 	}
-
-
 
 }
