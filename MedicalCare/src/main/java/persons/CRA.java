@@ -51,7 +51,6 @@ public class CRA extends Actor {
         super(id, firstName, lastName);
         this.generateLogin();
         this.password = this.login;
-        
         this.listDoc = DB_connector.getInstance().getListDoctor(this);
     }
 

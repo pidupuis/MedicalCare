@@ -1,4 +1,4 @@
-package ui.loginframe.panels;
+package ui;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;

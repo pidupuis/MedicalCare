@@ -10,10 +10,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTree;
+
+import ui.ErrorPane;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
-import ui.loginframe.panels.ErrorPane;
 
 import javax.swing.SwingConstants;
 
@@ -22,7 +23,7 @@ public class FormPanel extends JPanel {
 	private JTextField lot_number_txf;
 	private JTextField room_number_txf;
 	private JTextField pres_sys_txf;
-	private JTextField pres_dyas_txf;
+	private JTextField pres_dias_txf;
 	private JTextField bat_txf;
 
 	private JTextArea obs_txf;
@@ -31,7 +32,7 @@ public class FormPanel extends JPanel {
 	private JLabel lot_number_lbl;
 	private JLabel room_number_lbl;
 	private JLabel pres_sys_lbl;
-	private JLabel pres_dyas_lbl;
+	private JLabel pres_dias_lbl;
 	private JLabel bat_lbl;
 	private JLabel obs_lbl;
 	private ErrorPane warning_lbl;
@@ -100,9 +101,9 @@ public class FormPanel extends JPanel {
 		JLabel pres_dyas_lbl = new JLabel("Pression Diastolique :");
 		add(pres_dyas_lbl, "cell 0 9");
 
-		pres_dyas_txf = new JTextField();
-		add(pres_dyas_txf, "cell 3 9,growx");
-		pres_dyas_txf.setColumns(10);
+		pres_dias_txf = new JTextField();
+		add(pres_dias_txf, "cell 3 9,growx");
+		pres_dias_txf.setColumns(10);
 
 		JLabel bat_lbl = new JLabel("Battements par min :");
 		add(bat_lbl, "cell 0 11");
@@ -156,12 +157,12 @@ public class FormPanel extends JPanel {
 		this.pres_sys_txf = pres_sys_txf;
 	}
 
-	public JTextField getPres_dyas_txf() {
-		return pres_dyas_txf;
+	public JTextField getPres_dias_txf() {
+		return pres_dias_txf;
 	}
 
-	public void setPres_dyas_txf(JTextField pres_dyas_txf) {
-		this.pres_dyas_txf = pres_dyas_txf;
+	public void setPres_dias_txf(JTextField pres_dyas_txf) {
+		this.pres_dias_txf = pres_dyas_txf;
 	}
 
 	public JTextField getBat_txf() {
@@ -229,13 +230,13 @@ public class FormPanel extends JPanel {
 		this.lot_number_txf.setText("");
 		this.room_number_txf.setText("");
 		this.pres_sys_txf.setText("");
-		this.pres_dyas_txf.setText("");
+		this.pres_dias_txf.setText("");
 		this.bat_txf.setText("");
 		
 		this.lot_number_txf.setBackground(Color.white);
 		this.room_number_txf.setBackground(Color.white);
 		this.pres_sys_txf.setBackground(Color.white);
-		this.pres_dyas_txf.setBackground(Color.white);
+		this.pres_dias_txf.setBackground(Color.white);
 		this.bat_txf.setBackground(Color.white);
 	}
 	
