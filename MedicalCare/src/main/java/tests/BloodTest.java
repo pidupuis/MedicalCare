@@ -21,17 +21,8 @@ public class BloodTest extends Analysis {
         this.GB = GB;
         this.hemato = hemato;
         this.P = P;
-    
-        try {
-            checkResult(p);
-        } catch (Exception e) {
-            throw new Exception ("The results is not good!");
-        }
 
     }
-
-    
-   
 
     public BloodTest() {}
 
@@ -121,8 +112,6 @@ public class BloodTest extends Analysis {
         }
         return true;
     }
-
-    
 
     public float getHb() {
         return Hb;

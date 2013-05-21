@@ -1106,16 +1106,18 @@ public class DB_connector {
         int duree, idFiche;
         String idPatient;
         String jour = "";
+        Date debutDate;
         
         /**
          * Requête de sélection de la date d'entrée du patient
          */
-        String querySelectPatient = "SELECT pk_id_personne, date_debut FROM Patient WHERE pk_id_personne = '"+ p.getId() +"'";
+        String querySelectPatient = "SELECT pk_id_personne, date_debut FROM Patient "
+                + "WHERE pk_id_personne = '"+ p.getId() +"'";
         System.out.println("querySelect => " + querySelectPatient);
         ResultSet rsSelectPatient = this.connect.createStatement().executeQuery(querySelectPatient);
         rsSelectPatient.next();
         idPatient = rsSelectPatient.getString("pk_id_personne");
-        Date debutDate = rsSelectPatient.getDate("date_debut");
+        debutDate = rsSelectPatient.getDate("date_debut");
         
         /*
          * Attention ce qui suit est extrêment moche et dégueulasse !
@@ -1129,15 +1131,18 @@ public class DB_connector {
         String queryAjoutFiche = "INSERT INTO FicheQuotidienne "
                 + "VALUES ("
                 + "''," //pk_id_fichequotidienne => auto-increment
+                + "'"+ this.getLotByIdPatient(idPatient) +"'," //pk_num_lot
                 + "'"+ dt.getSystole() +"'," //pression_systolique
                 + "'"+ dt.getDiastole() +"'," //pression_diastolique
                 + "'"+ dt.getHeartBeats() +"'," //rythme_cardiaque
                 + "'"+ dt.getObservations() +"'," //observation_quotidienne
                 + "'en_cours'," //state => status is 'en_cours' (default)
-                + "'"+ duree +"'" //date_fiche => day of clinical assay
+                + "'"+ jour +"'" //date_fiche => day of clinical assay
                 + ") RETURNING pk_id_fichequotidienne";
         System.out.println("queryAjout => " + queryAjoutFiche);
         ResultSet rsAjoutFiche = this.connect.createStatement().executeQuery(queryAjoutFiche);
+        rsAjoutFiche.next();
+        
         idFiche = rsAjoutFiche.getInt(1);
         System.out.println("id : " + idFiche);
                 
@@ -1151,7 +1156,8 @@ public class DB_connector {
                 + "'"+ d.getId() +"'" //Med_pk_id_personne
                 + ")";
         System.out.println("queryAjout => " + queryRempliFiche);
-        ResultSet rsRempliFiche = this.connect.createStatement().executeQuery(queryRempliFiche);        
+        ResultSet rsRempliFiche = this.connect.createStatement().executeQuery(queryRempliFiche);  
+        rsRempliFiche.next();    
         
         /**
          * Si on doit aussi insérer une analyse EEG
@@ -1166,14 +1172,15 @@ public class DB_connector {
                     + "'"+ ((((EEG)eeg).checkEEG(((EEG)eeg).getResult())) ? 1 : 0) +"'" //correct_eeg
                     + ")";
             System.out.println("queryAjout => " + queryAjoutEEG);
-            ResultSet rsAjoutEEG = this.connect.createStatement().executeQuery(queryAjoutEEG);
+            ResultSet rsAjoutEEG = this.connect.createStatement().executeQuery(queryAjoutEEG);  
+            rsAjoutEEG.next();    
         }
         
         /**
          * Si on doit aussi insérer une analyse de sang
          * getResults
          */
-        if (sang != null)    {
+//        if (sang != null)    {
 //            String queryAjoutSang = "INSERT INTO AnalyseSang "
 //                + "VALUES ("
 //                    + "''," //pk_id_analysesang => auto-increment
@@ -1194,7 +1201,8 @@ public class DB_connector {
 //                    + ")";
 //            System.out.println("queryAjout => " + queryAjoutSang);
 //            ResultSet rsAjoutSang = this.connect.createStatement().executeQuery(queryAjoutSang);
-        }
+//            rsAjoutSang.next();
+//        }
         
         /**
          * Si on doit aussi insérer une analyse d'effort
@@ -1215,6 +1223,7 @@ public class DB_connector {
                     + ")";
             System.out.println("queryAjout => " + queryAjoutEffort);
             ResultSet rsAjoutEffort = this.connect.createStatement().executeQuery(queryAjoutEffort);
+            rsAjoutEffort.next();
         }
     }
     
