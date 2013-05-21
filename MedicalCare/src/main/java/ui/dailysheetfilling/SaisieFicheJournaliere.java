@@ -55,7 +55,7 @@ public class SaisieFicheJournaliere extends JPanel {
 		ArrayList<Patient> myPatients = null;
 		
 		try {
-			actor = new Doctor("Super","Docteur","1");
+			actor = new Doctor("1", "Super","Docteur");
 
 			try {
 				myPatients = DB_connector.getInstance().getListPatientFromDoctor((Doctor) actor);
