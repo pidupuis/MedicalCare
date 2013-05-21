@@ -1120,7 +1120,7 @@ public class DB_connector {
          * Attention ce qui suit est extrêment moche et dégueulasse !
          */
         duree = currentDate.getTime().getDate() - debutDate.getDate();
-        jour = (duree>10) ? String.valueOf(duree) : '0'+String.valueOf(duree);
+        jour = (duree>10) ? String.valueOf(duree) : '0' +String.valueOf(duree);
                 
         /**
          * Requête d'insertion dans la table FicheQuotidienne
@@ -1317,7 +1317,17 @@ public class DB_connector {
      * @return
      */
     public Lot getLotByIdFiche(String id) throws SQLException, Exception {
-        String query = "SELECT * FROM Lot " + "JOIN Patient " + "ON Lot.pk_id_personne = " + "Patient.pk_id_personne " + "JOIN Rempli_fiche " + "ON Patient.pk_id_personne = " + "Rempli_fiche.pk_id_personne " + "JOIN FicheQuotidienne " + "ON Rempli_fiche.pk_id_fichequotidienne = " + "FicheQuotidienne.pk_id_fichequotidienne ";
+        String query = "SELECT * FROM Lot " 
+                + "JOIN Patient " 
+                + "ON Lot.pk_id_personne = " 
+                + "Patient.pk_id_personne " 
+                + "JOIN Rempli_fiche " 
+                + "ON Patient.pk_id_personne = " 
+                + "Rempli_fiche.pk_id_personne " 
+                + "JOIN FicheQuotidienne " 
+                + "ON Rempli_fiche.pk_id_fichequotidienne = " 
+                + "FicheQuotidienne.pk_id_fichequotidienne"
+                + "WHERE FicheQuotidienne.pk_id_fichequotidienne = '" + id + "'";        
         System.out.println("query1 => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
