@@ -13,6 +13,7 @@ import javax.swing.JTree;
 
 import ui.ErrorPane;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
+import ui.dailysheetfilling.listeners.ListenerPresDias;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
 
@@ -98,8 +99,10 @@ public class FormPanel extends JPanel {
 		add(pres_sys_txf, "cell 3 7,growx");
 		pres_sys_txf.setColumns(10);
 
-		JLabel pres_dyas_lbl = new JLabel("Pression Diastolique :");
-		add(pres_dyas_lbl, "cell 0 9");
+		JLabel pres_dias_lbl = new JLabel("Pression Diastolique :");
+		pres_dias_txf.addActionListener(new ListenerPresDias(this));
+		pres_dias_txf.addFocusListener(new ListenerPresDias(this));
+		add(pres_dias_lbl, "cell 0 9");
 
 		pres_dias_txf = new JTextField();
 		add(pres_dias_txf, "cell 3 9,growx");
