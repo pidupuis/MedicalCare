@@ -23,7 +23,7 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 	}
 
 	/**
-	 * 
+	 * The action perform of the skip button
 	 */
 	public void actionPerformed(ActionEvent e) {
 		

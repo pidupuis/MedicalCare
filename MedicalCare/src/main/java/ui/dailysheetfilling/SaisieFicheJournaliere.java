@@ -43,6 +43,10 @@ public class SaisieFicheJournaliere extends JPanel {
 		return subpanelTree;
 	}
 	
+	/**
+	 * a transitory main to run our window alone, with anything else
+	 * @param args
+	 */
 	public static void main (String[] args) {
 		
 		try{
