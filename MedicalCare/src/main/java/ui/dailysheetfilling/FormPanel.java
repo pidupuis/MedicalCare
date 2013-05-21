@@ -2,7 +2,6 @@ package ui.dailysheetfilling;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
@@ -10,20 +9,25 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTree;
-
+import ui.MessagePane;
 import ui.dailysheetfilling.listeners.ListenerBattCard;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.ListenerPresDias;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
-import ui.messages.ErrorPane;
+import ui.loginframe.FormRow;
 
 import javax.swing.SwingConstants;
 
 public class FormPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
+	private FormRow<JLabel, JTextField>  lot_number;
+	private FormRow<JLabel, JTextField>  pres_sys;
+	private FormRow<JLabel, JTextField>  pres_dias;
+	private FormRow<JLabel, JTextField>  bat;
+	
 	private JTextField lot_number_txf;
-	private JTextField room_number_txf;
 	private JTextField pres_sys_txf;
 	private JTextField pres_dias_txf;
 	private JTextField bat_txf;
@@ -32,12 +36,11 @@ public class FormPanel extends JPanel {
 
 	private JLabel header_name_lbl;
 	private JLabel lot_number_lbl;
-	private JLabel room_number_lbl;
 	private JLabel pres_sys_lbl;
 	private JLabel pres_dias_lbl;
 	private JLabel bat_lbl;
 	private JLabel obs_lbl;
-	private ErrorPane warning_lbl;
+	private MessagePane warning_lbl;
 
 	private JButton suivant_btn;
 
@@ -54,7 +57,7 @@ public class FormPanel extends JPanel {
 		for (int i = 0; i < 4; i++)
 			this.correct.add(false);
 		
-		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][][]"));
+		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][]"));
 
 		this.myPatientNodes = new ArrayList<PatientNode>();
 
@@ -65,65 +68,60 @@ public class FormPanel extends JPanel {
 		header_name_lbl = new JLabel(myPatientNodes.get(0).getMyPatient().getLastName() + " " + myPatientNodes.get(0).getMyPatient().getFirstName());
 		add(header_name_lbl, "cell 3 0");
 
-		warning_lbl = new ErrorPane();//
-		warning_lbl.setMessage("warning_message");
-		//warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
+		warning_lbl = new MessagePane();//
+		warning_lbl.setErrorDisplayed(false);
+		warning_lbl.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
 		add(warning_lbl, "cell 0 2 4 1");
-		warning_lbl.setVisible(false);
+		warning_lbl.setVisible(true);
 
 		lot_number_lbl = new JLabel("Numéro de Lot :");
-		add(lot_number_lbl, "cell 0 3");
-
+		//add(lot_number_lbl, "cell 0 3");
 		lot_number_txf = new JTextField();
-		add(lot_number_txf, "cell 3 3,growx");
+		//add(lot_number_txf, "cell 3 3,growx");
+		lot_number = new FormRow<JLabel, JTextField>(lot_number_lbl, lot_number_txf);
+		add(lot_number, "cell 0 3 4 1,grow");
+		
 		lot_number_txf.addActionListener(new ListenerLotNumber(this));
 		lot_number_txf.addFocusListener(new ListenerLotNumber(this));
 		lot_number_txf.setColumns(10);
 
-		room_number_lbl = new JLabel("Numéro de chambre :");
-		add(room_number_lbl, "cell 0 5");
-
-		room_number_txf = new JTextField();
-		add(room_number_txf, "cell 3 5,growx");
-		room_number_txf.setColumns(10);
-
 		JLabel pres_sys_lbl = new JLabel("Pression Systolique :");
-		add(pres_sys_lbl, "cell 0 7");
+		add(pres_sys_lbl, "cell 0 5");
 
 		pres_sys_txf = new JTextField();
 		pres_sys_txf.addActionListener(new ListenerPresSys(this));
 		pres_sys_txf.addFocusListener(new ListenerPresSys(this));
-		add(pres_sys_txf, "cell 3 7,growx");
+		add(pres_sys_txf, "cell 3 5,growx");
 		pres_sys_txf.setColumns(10);
 
 		JLabel pres_dias_lbl = new JLabel("Pression Diastolique :");
-		add(pres_dias_lbl, "cell 0 9");
+		add(pres_dias_lbl, "cell 0 7");
 
 		pres_dias_txf = new JTextField();
 		pres_dias_txf.addActionListener(new ListenerPresDias(this));
 		pres_dias_txf.addFocusListener(new ListenerPresDias(this));
-		add(pres_dias_txf, "cell 3 9,growx");
+		add(pres_dias_txf, "cell 3 7,growx");
 		pres_dias_txf.setColumns(10);
 
 		JLabel bat_lbl = new JLabel("Battements par min :");
-		add(bat_lbl, "cell 0 11");
+		add(bat_lbl, "cell 0 9");
 
 		bat_txf = new JTextField();
 		pres_dias_txf.addActionListener(new ListenerBattCard(this));
 		pres_dias_txf.addFocusListener(new ListenerBattCard(this));
-		add(bat_txf, "cell 3 11,growx");
+		add(bat_txf, "cell 3 9,growx");
 		bat_txf.setColumns(10);
 
 		JLabel obs_lbl = new JLabel("Observations :");
-		add(obs_lbl, "cell 0 13");
+		add(obs_lbl, "cell 0 11");
 
 		obs_txf = new JTextArea(10, 10);
-		add(obs_txf, "cell 3 13,growx");
+		add(obs_txf, "cell 3 11,growx");
 		obs_txf.setColumns(10);
 
 		suivant_btn = new JButton("Suivant >");
 		suivant_btn.addActionListener(new PatientChanging(this));
-		add(suivant_btn, "cell 4 15");
+		add(suivant_btn, "cell 4 14");
 
 	}
 
@@ -141,14 +139,6 @@ public class FormPanel extends JPanel {
 
 	public void setLot_number_txf(JTextField lot_number_txf) {
 		this.lot_number_txf = lot_number_txf;
-	}
-
-	public JTextField getRoom_number_txf() {
-		return room_number_txf;
-	}
-
-	public void setRoom_number_txf(JTextField room_number_txf) {
-		this.room_number_txf = room_number_txf;
 	}
 
 	public JTextField getPres_sys_txf() {
@@ -183,8 +173,12 @@ public class FormPanel extends JPanel {
 		this.obs_txf = obs_txf;
 	}
 
-	public ErrorPane getWarning_lbl() {
+	public MessagePane getWarning_lbl() {
 		return warning_lbl;
+	}
+	
+	public void setWarning_lbl(MessagePane message) {
+		this.warning_lbl = message;
 	}
 
 	public JButton getSuivant_btn() {
@@ -222,13 +216,11 @@ public class FormPanel extends JPanel {
 	
 	public void cleanPanel() {
 		this.lot_number_txf.setText("");
-		this.room_number_txf.setText("");
 		this.pres_sys_txf.setText("");
 		this.pres_dias_txf.setText("");
 		this.bat_txf.setText("");
 		
 		this.lot_number_txf.setBackground(Color.white);
-		this.room_number_txf.setBackground(Color.white);
 		this.pres_sys_txf.setBackground(Color.white);
 		this.pres_dias_txf.setBackground(Color.white);
 		this.bat_txf.setBackground(Color.white);

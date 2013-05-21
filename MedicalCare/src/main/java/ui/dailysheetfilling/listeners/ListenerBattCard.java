@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.naming.directory.InvalidAttributeValueException;
+
 import ui.dailysheetfilling.FormPanel;
 
 public class ListenerBattCard implements FocusListener, ActionListener{
@@ -18,59 +20,21 @@ public class ListenerBattCard implements FocusListener, ActionListener{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		
-		String content = fp.getBat_txf().getText();
-		
-		int cpt = content.length();
-		
-		if (cpt < 4)
-		{
-						
-			try {
-				int errorTry = Integer.valueOf(content);
-				
-				System.out.println(errorTry);
-				
-				if (errorTry<0 || errorTry>300){
-					throw new Exception();
-				}
-				else if (errorTry<25 || errorTry >220)
-				{
-					fp.getBat_txf().setBackground(Color.ORANGE);
-					fp.getWarning_lbl().setVisible(false);
-					fp.getSuivant_btn().setEnabled(true);
-				}
-				else {
-					fp.getBat_txf().setBackground(Color.WHITE);
-					fp.getWarning_lbl().setVisible(false);
-					fp.getSuivant_btn().setEnabled(true);
-				}
-			} catch (Exception e1) {
-				fp.setCorrect(3, false);
-				fp.getBat_txf().setBackground(Color.RED);
-				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
-				fp.getSuivant_btn().setEnabled(false);			
-			}
-		}
-		else
-		{
-			fp.setCorrect(3, false);
-			fp.getBat_txf().setBackground(Color.RED);
-			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setMessage("La valeur de pression systolique est invalide");
-			fp.getSuivant_btn().setEnabled(false);
-		}
-		
+		listenerTreatment();		
 	}	
 
-
 	public void focusGained(FocusEvent e) {
-		
+		if (!fp.getBat_txf().getText().equalsIgnoreCase("")) {
+			PatientChanging test = new PatientChanging(fp);
+			test.actionPerformed(null);
+		}
 	}
 
 	public void focusLost(FocusEvent e) {
-		
+		listenerTreatment();
+	}
+	
+	public void listenerTreatment() {
 		String content = fp.getBat_txf().getText();
 		
 		int cpt = content.length();
@@ -84,37 +48,56 @@ public class ListenerBattCard implements FocusListener, ActionListener{
 				System.out.println(errorTry);
 				
 				if (errorTry<30 || errorTry>250){
-					throw new Exception();
+					throw new InvalidAttributeValueException();
 				}
 				else if (errorTry<60 || errorTry > 80)
 				{
-					fp.getBat_txf().setBackground(Color.ORANGE);
-					fp.getWarning_lbl().setVisible(false);
-					fp.getSuivant_btn().setEnabled(true);
+					displayWarning("Veuillez noter que la valeur du rythme cardiaque indiquée est hors norme sans pour autant être impossible. La saisie sera validée telle quelle.");
 				}
 				else {
-					fp.getBat_txf().setBackground(Color.WHITE);
-					fp.getWarning_lbl().setVisible(false);
-					fp.getSuivant_btn().setEnabled(true);
+					displayInfo("Veuillez remplir l'intégralité du formulaire ci-dessous");
 				}
-			} catch (Exception e1) {
-				fp.setCorrect(3, false);
-				fp.getBat_txf().setBackground(Color.RED);
-				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
-				fp.getSuivant_btn().setEnabled(false);			
+			}
+			catch (InvalidAttributeValueException e1) {
+				if (!fp.getWarning_lbl().isErrorDisplayed())
+					displayError("La valeur du rythme cardiaque est invalide");
+			}
+			catch (Exception e2) {
+				if (!fp.getWarning_lbl().isErrorDisplayed())
+					displayError("La saisie de la valeur du rythme cardiaque contient des lettres ou caractères interdits");		
 			}
 		}
 		else
 		{
-			fp.setCorrect(3, false);
-			fp.getBat_txf().setBackground(Color.RED);
-			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setMessage("La valeur de pression systolique est invalide");
-			fp.getSuivant_btn().setEnabled(false);
+			if (!fp.getWarning_lbl().isErrorDisplayed())
+				displayError("La valeur du rythme cardiaque est invalide");
 		}
+	}
 		
-	}	
+	public void displayError(String message) {
+		fp.setCorrect(3, false);
+		fp.getBat_txf().setBackground(Color.RED);
+		fp.getWarning_lbl().setErrorMessage(message);
+		fp.getWarning_lbl().setErrorDisplayed(true);
+		fp.getSuivant_btn().setEnabled(false);
+		fp.repaint();
+	}
+	
+	public void displayWarning(String message) {
+		fp.getBat_txf().setBackground(Color.ORANGE);
+		fp.getWarning_lbl().setWarningMessage(message);
+		fp.getWarning_lbl().setErrorDisplayed(false);
+		fp.getSuivant_btn().setEnabled(true);
+		fp.repaint();
+	}
+	
+	public void displayInfo(String message) {
+		fp.getBat_txf().setBackground(Color.WHITE);
+		fp.getWarning_lbl().setInfoMessage(message);
+		fp.getWarning_lbl().setErrorDisplayed(false);
+		fp.getSuivant_btn().setEnabled(true);
+		fp.repaint();
+	}
 
 		
 }

@@ -7,7 +7,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
 import ui.dailysheetfilling.FormPanel;
 
 public class ListenerLotNumber implements ActionListener, FocusListener {
@@ -22,44 +21,22 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 		this.fp = fp;
 	}
 
-	/**
-	 * 
-	 */
 	public void actionPerformed(ActionEvent e) {
-		
-		String content = fp.getLot_number_txf().getText();
-		int cpt = content.length();
-		
-		if (cpt == 6)
-		{
-			try {
-				int errorTry = Integer.valueOf(content);
-				
-				fp.setCorrect(0, true);
-				fp.getLot_number_txf().setBackground(Color.WHITE);
-				fp.getWarning_lbl().setVisible(false);
-				fp.getSuivant_btn().setEnabled(true);
-			} catch (Exception e1) {
-				fp.setCorrect(0, false);
-				fp.getLot_number_txf().setBackground(Color.RED);
-				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
-				fp.getSuivant_btn().setEnabled(false);			
-			}
+		listenerTreatment();		
+	}	
+
+	public void focusGained(FocusEvent e) {
+		if (!fp.getLot_number_txf().getText().equalsIgnoreCase("")) {
+			PatientChanging test = new PatientChanging(fp);
+			test.actionPerformed(null);
 		}
-		else
-		{
-			fp.setCorrect(0, false);
-			fp.getLot_number_txf().setBackground(Color.RED);
-			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setMessage("La valeur du champ Numéro de Lot est invalide");
-			fp.getSuivant_btn().setEnabled(false);
-		}
-		
 	}
 
 	public void focusLost(FocusEvent e) {
-		
+		listenerTreatment();
+	}
+	
+	public void listenerTreatment() {
 		String content = fp.getLot_number_txf().getText();
 		int cpt = content.length();
 		
@@ -68,32 +45,35 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 			try {
 				int errorTry = Integer.valueOf(content);
 				
-				fp.setCorrect(0, true);
-				fp.getLot_number_txf().setBackground(Color.WHITE);
-				fp.getWarning_lbl().setVisible(false);
-				fp.getSuivant_btn().setEnabled(true);
+				displayInfo("Veuillez remplir l'intégralité du formulaire ci-dessous");
 			} catch (Exception e1) {
-				fp.setCorrect(0, false);
-				fp.getLot_number_txf().setBackground(Color.RED);
-				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
-				fp.getSuivant_btn().setEnabled(false);			
+				if (!fp.getWarning_lbl().isErrorDisplayed())
+					displayError("La saisie du numéro de lot contient des lettres ou caractères interdits");
 			}
 		}
 		else
 		{
-			fp.setCorrect(0, false);
-			fp.getLot_number_txf().setBackground(Color.RED);
-			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setMessage("La valeur du champ Numéro de Lot est invalide");
-			fp.getSuivant_btn().setEnabled(false);
+			if (!fp.getWarning_lbl().isErrorDisplayed())
+				displayError("La valeur du champ Numéro de Lot est invalide");
 		}
-		
-	}
-
-	public void focusGained(FocusEvent e) {
-		
 	}
 	
+	public void displayError(String message) {
+		fp.setCorrect(0, false);
+		fp.getLot_number_txf().setBackground(Color.RED);
+		fp.getWarning_lbl().setErrorMessage(message);
+		fp.getWarning_lbl().setErrorDisplayed(true);
+		fp.getSuivant_btn().setEnabled(false);
+		fp.repaint();
+	}
+	
+	public void displayInfo(String message) {
+		fp.setCorrect(0, true);
+		fp.getLot_number_txf().setBackground(Color.WHITE);
+		fp.getWarning_lbl().setInfoMessage(message);
+		fp.getWarning_lbl().setErrorDisplayed(false);
+		fp.getSuivant_btn().setEnabled(true);
+		fp.repaint();
+	}
 
 }

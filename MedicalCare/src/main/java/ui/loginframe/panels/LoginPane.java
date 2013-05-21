@@ -21,7 +21,7 @@ import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersButtonConnexion;
 import ui.loginframe.listeners.ListenersButtonQuit;
 import ui.loginframe.listeners.ListenersButtonRecovery;
-import ui.messages.ErrorPane;
+import ui.MessagePane;
 
 import main.Main;
 import main.exception.UnknownUsernameException;
@@ -40,7 +40,7 @@ public class LoginPane extends JPanel {
 	private FormRow<JLabel, JTextField>  user;
 	private FormRow<JLabel, JPasswordField> passwd;
 	private FormRow<JLabel, JComboBox<String>> role;
-	private ErrorPane errorPane;
+	private MessagePane errorPane;
 
 	private Font defaultFont;
 	private JButton btnConnexion;
@@ -84,7 +84,7 @@ public class LoginPane extends JPanel {
 		}
 
 		{ //Error pane
-			errorPane = new ErrorPane();
+			errorPane = new MessagePane();
 			errorPane.setVisible(false);
 			this.add(errorPane, "cell 0 3,grow");
 		}
@@ -164,9 +164,9 @@ public class LoginPane extends JPanel {
 			role.setError(true, ex.getMessage());
 
 		if(ex instanceof SQLException && ex.getMessage().contains("E/S"))
-			errorPane.setMessage("Erreur: La connexion au serveur a échouée (Veuillez vérifier la connexion internet ou la connexion au serveur).");
+			errorPane.setErrorMessage("Erreur: La connexion au serveur a échouée (Veuillez vérifier la connexion internet ou la connexion au serveur).");
 		else
-			errorPane.setMessage(ex.getMessage());
+			errorPane.setErrorMessage(ex.getMessage());
 		
 		errorPane.setVisible(true);
 		parent.refreshUI();
@@ -180,7 +180,7 @@ public class LoginPane extends JPanel {
 		passwd.setError(false);
 		role.setError(false);
 
-		errorPane.setMessage("");
+		errorPane.setErrorMessage("");
 		errorPane.setVisible(false);
 		
 		parent.refreshUI();
