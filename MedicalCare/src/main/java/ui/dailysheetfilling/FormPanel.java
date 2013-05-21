@@ -54,10 +54,6 @@ public class FormPanel extends JPanel {
 		for (int i = 0; i < 4; i++)
 			this.correct.add(false);
 		
-		// TODO : remove it when listeners will be implemented
-		this.correct.set(2, true);
-		this.correct.set(3, true);
-		
 		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][][]"));
 
 		this.myPatientNodes = new ArrayList<PatientNode>();
