@@ -17,6 +17,7 @@ import persons.CRA;
 import persons.DataManager;
 import persons.Doctor;
 import persons.Patient;
+import tests.Analysis;
 import tests.BloodTest;
 import tests.DailyTest;
 import tests.EEG;
@@ -50,7 +51,7 @@ public class DB_connectorTest {
     /**
      * Test of getInstance method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetInstance() throws Exception {
         System.out.println("getInstance");
         DB_connector expResult = null;
@@ -61,21 +62,9 @@ public class DB_connectorTest {
     }
 
     /**
-     * Test of finalize method, of class DB_connector.
-     */
-    //@Test
-    public void testFinalize() throws Exception, Throwable {
-        System.out.println("finalize");
-        DB_connector instance = null;
-        instance.finalize();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of addPatient method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testAddPatient() throws Exception {
         System.out.println("addPatient");
         Patient p = null;
@@ -86,15 +75,29 @@ public class DB_connectorTest {
     }
 
     /**
+     * Test of addBloodTest method, of class DB_connector.
+     */
+    @Test
+    public void testAddBloodTest() throws Exception {
+        System.out.println("addBloodTest");
+        BloodTest bt = null;
+        String idFiche = "";
+        DB_connector instance = null;
+        instance.addBloodTest(bt, idFiche);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
      * Test of addEEG method, of class DB_connector.
      */
-    //@Test
-    public void testAddEEG() {
+    @Test
+    public void testAddEEG() throws Exception {
         System.out.println("addEEG");
         EEG electro = null;
-        Patient p = null;
+        String idFiche = "";
         DB_connector instance = null;
-        instance.addEEG(electro, p);
+        instance.addEEG(electro, idFiche);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -102,14 +105,13 @@ public class DB_connectorTest {
     /**
      * Test of addEffortTest method, of class DB_connector.
      */
-    //@Test
-    public void testAddEffortTest() {
+    @Test
+    public void testAddEffortTest() throws Exception {
         System.out.println("addEffortTest");
         EffortTest effort = null;
+        String idFiche = "";
         DB_connector instance = null;
-        boolean expResult = false;
-        boolean result = instance.addEffortTest(effort);
-        assertEquals(expResult, result);
+        instance.addEffortTest(effort, idFiche);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -117,7 +119,7 @@ public class DB_connectorTest {
     /**
      * Test of checkIfAnalysisExists method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testCheckIfAnalysisExists() throws Exception {
         System.out.println("checkIfAnalysisExists");
         String analyse = "";
@@ -133,7 +135,7 @@ public class DB_connectorTest {
     /**
      * Test of addDoctor method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testAddDoctor() throws Exception {
         System.out.println("addDoctor");
         Doctor d = null;
@@ -148,7 +150,7 @@ public class DB_connectorTest {
     /**
      * Test of addCRA method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testAddCRA() throws Exception {
         System.out.println("addCRA");
         CRA c = null;
@@ -162,7 +164,7 @@ public class DB_connectorTest {
     /**
      * Test of addDataManager method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testAddDataManager() throws Exception {
         System.out.println("addDataManager");
         DataManager dm = null;
@@ -175,7 +177,7 @@ public class DB_connectorTest {
     /**
      * Test of addUser method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testAddUser() throws Exception {
         System.out.println("addUser");
         String id = "";
@@ -192,7 +194,7 @@ public class DB_connectorTest {
     /**
      * Test of checkUser method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testCheckUser() throws Exception {
         System.out.println("checkUser");
         String login = "";
@@ -207,7 +209,7 @@ public class DB_connectorTest {
     /**
      * Test of getUserId method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetUserId() throws Exception {
         System.out.println("getUserId");
         String firstname = "";
@@ -224,7 +226,7 @@ public class DB_connectorTest {
     /**
      * Test of getUserById method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetUserById() throws Exception {
         System.out.println("getUserById");
         int id = 0;
@@ -240,7 +242,7 @@ public class DB_connectorTest {
     /**
      * Test of connectionUser method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testConnectionUser() throws Exception {
         System.out.println("connectionUser");
         String login = "";
@@ -257,7 +259,7 @@ public class DB_connectorTest {
     /**
      * Test of getUserQuestion method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetUserQuestion() throws Exception {
         System.out.println("getUserQuestion");
         String login = "";
@@ -272,7 +274,7 @@ public class DB_connectorTest {
     /**
      * Test of checkUserAnswer method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testCheckUserAnswer() throws Exception {
         System.out.println("checkUserAnswer");
         String answer = "";
@@ -288,7 +290,7 @@ public class DB_connectorTest {
     /**
      * Test of checkPassword method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testCheckPassword() throws Exception {
         System.out.println("checkPassword");
         String password = "";
@@ -303,7 +305,7 @@ public class DB_connectorTest {
     /**
      * Test of resetPassword method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testResetPassword() throws Exception {
         System.out.println("resetPassword");
         String login = "";
@@ -317,7 +319,7 @@ public class DB_connectorTest {
     /**
      * Test of excludePatient method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testExcludePatient() throws Exception {
         System.out.println("excludePatient");
         String id = "";
@@ -331,7 +333,7 @@ public class DB_connectorTest {
     /**
      * Test of getPatient method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetPatient() throws Exception {
         System.out.println("getPatient");
         String lastname = "";
@@ -351,19 +353,19 @@ public class DB_connectorTest {
     @Test
     public void testGetPatientById() throws Exception {
         System.out.println("getPatientById");
-        String id = "1";
-        DB_connector instance = DB_connector.getInstance();
-        Patient expResult = new Patient("John", "Smith", "1");
+        String id = "";
+        DB_connector instance = null;
+        Patient expResult = null;
         Patient result = instance.getPatientById(id);
-        assertEquals(expResult.getFirstName(), result.getFirstName());
-        assertEquals(expResult.getLastName(), result.getLastName());
-        assertEquals(expResult.getId(), result.getId());
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getListPatient method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetListPatient() throws Exception {
         System.out.println("getListPatient");
         DB_connector instance = null;
@@ -377,7 +379,7 @@ public class DB_connectorTest {
     /**
      * Test of getListPatientFromDoctor method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetListPatientFromDoctor() throws Exception {
         System.out.println("getListPatientFromDoctor");
         Doctor Doc = null;
@@ -392,7 +394,7 @@ public class DB_connectorTest {
     /**
      * Test of getDoctorByName method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetDoctorByName() throws Exception {
         System.out.println("getDoctorByName");
         String nom = "";
@@ -408,7 +410,7 @@ public class DB_connectorTest {
     /**
      * Test of getDoctorById method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetDoctorById() throws Exception {
         System.out.println("getDoctorById");
         String id = "";
@@ -423,7 +425,7 @@ public class DB_connectorTest {
     /**
      * Test of getListDoctor method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetListDoctor() throws Exception {
         System.out.println("getListDoctor");
         CRA cra = null;
@@ -438,7 +440,7 @@ public class DB_connectorTest {
     /**
      * Test of getAnalysis method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetAnalysis() throws Exception {
         System.out.println("getAnalysis");
         Patient pat = null;
@@ -453,15 +455,15 @@ public class DB_connectorTest {
     /**
      * Test of addDailyTest method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testAddDailyTest() throws Exception {
         System.out.println("addDailyTest");
         DailyTest dt = null;
         Patient p = null;
         Doctor d = null;
-        EEG eeg = null;
-        BloodTest sang = null;
-        EffortTest effort = null;
+        Analysis eeg = null;
+        Analysis sang = null;
+        Analysis effort = null;
         DB_connector instance = null;
         instance.addDailyTest(dt, p, d, eeg, sang, effort);
         // TODO review the generated test code and remove the default call to fail.
@@ -471,13 +473,13 @@ public class DB_connectorTest {
     /**
      * Test of updateStateDailyTest method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testUpdateStateDailyTest() throws Exception {
         System.out.println("updateStateDailyTest");
-        String d = null;
+        String id = "";
         String statut = "";
         DB_connector instance = null;
-        instance.updateStateDailyTest(d, statut);
+        instance.updateStateDailyTest(id, statut);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -485,7 +487,7 @@ public class DB_connectorTest {
     /**
      * Test of getDailyTests method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetDailyTests() throws Exception {
         System.out.println("getDailyTests");
         String idPatient = "";
@@ -501,7 +503,7 @@ public class DB_connectorTest {
     /**
      * Test of updateDailyTest method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testUpdateDailyTest() {
         System.out.println("updateDailyTest");
         int idTest = 0;
@@ -512,30 +514,30 @@ public class DB_connectorTest {
     }
 
     /**
-     * Test of addSubGroup method, of class DB_connector.
+     * Test of getLotByIdPatient method, of class DB_connector.
      */
-    //@Test
-    public void testAddSubGroup() {
-        System.out.println("addSubGroup");
-        Group sg = null;
+    @Test
+    public void testGetLotByIdPatient() throws Exception {
+        System.out.println("getLotByIdPatient");
+        String id = "";
         DB_connector instance = null;
-        boolean expResult = false;
-        boolean result = instance.addSubGroup(sg);
+        Lot expResult = null;
+        Lot result = instance.getLotByIdPatient(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of setSubGroup method, of class DB_connector.
+     * Test of getLotByIdFiche method, of class DB_connector.
      */
-    //@Test
-    public void testSetSubGroup() {
-        System.out.println("setSubGroup");
-        Patient p = null;
+    @Test
+    public void testGetLotByIdFiche() throws Exception {
+        System.out.println("getLotByIdFiche");
+        String id = "";
         DB_connector instance = null;
-        boolean expResult = false;
-        boolean result = instance.setSubGroup(p);
+        Lot expResult = null;
+        Lot result = instance.getLotByIdFiche(id);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -544,7 +546,7 @@ public class DB_connectorTest {
     /**
      * Test of addPatientToGroup method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testAddPatientToGroup() throws Exception {
         System.out.println("addPatientToGroup");
         Group g = null;
@@ -558,7 +560,7 @@ public class DB_connectorTest {
     /**
      * Test of getGroupId method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetGroupId() throws Exception {
         System.out.println("getGroupId");
         String g = "";
@@ -571,24 +573,9 @@ public class DB_connectorTest {
     }
 
     /**
-     * Test of getInfoSubGroup method, of class DB_connector.
-     */
-    //@Test
-    public void testGetInfoSubGroup() {
-        System.out.println("getInfoSubGroup");
-        String id = "";
-        DB_connector instance = null;
-        Group expResult = null;
-        Group result = instance.getInfoSubGroup(id);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getPatientsWithAnalysis method, of class DB_connector.
      */
-    //@Test
+    @Test
     public void testGetPatientsWithAnalysis() throws Exception {
         System.out.println("getPatientsWithAnalysis");
         String idMedecin = "";

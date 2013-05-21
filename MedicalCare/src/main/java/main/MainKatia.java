@@ -68,10 +68,13 @@ public class MainKatia {
         Doctor dct = db.getDoctorById("21");
         DailyTest d = db.getDailyTests("1", "05");
         //System.out.println("D1 : " + d.getObservations());
-        BloodTest bt = new BloodTest(13.0f, 4.0f, 6.0f, 40.0f, 250.0f, p);
+        BloodTest bt = new BloodTest(13, 4, 6, 40, 250, p);
+        //db.addBloodTest(bt, "1");
         EEG eeg = new EEG(8);
+        //db.addEEG(eeg, "1");
         EffortTest et = new EffortTest(70, 180, 100);
-        db.addDailyTest(d, p, dct, eeg, bt, et);
+        //db.addEffortTest(et, "1");
+        //db.addDailyTest(d, p, dct, eeg, bt, et);
         //Lot l = db.getLotByIdPatient("1565");
         //l = db.getLotByIdFiche("1");
         
