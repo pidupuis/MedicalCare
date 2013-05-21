@@ -13,9 +13,9 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
 
+import ui.MessagePane;
 import ui.loginframe.panels.LoginPane;
 import ui.loginframe.panels.PasswordRecoveryPane;
-import ui.messages.SuccessPane;
 
 public class LoginFrame extends JFrame {
 
@@ -25,7 +25,7 @@ public class LoginFrame extends JFrame {
 	
 	private LoginPane loginPane;
 	private PasswordRecoveryPane psswdPane;
-	private SuccessPane successPane;
+	private MessagePane successPane;
 	
 	/**
 	 * Create the frame.
@@ -48,7 +48,7 @@ public class LoginFrame extends JFrame {
 		
 		loginPane =  new LoginPane(this);
 		psswdPane = new PasswordRecoveryPane(this);
-		successPane = new SuccessPane();
+		successPane = new MessagePane();
 		getContentPane().add(loginPane, "cell 0 1,grow");
 
 		setLocationRelativeTo(null);
@@ -85,7 +85,7 @@ public class LoginFrame extends JFrame {
 			remove(successPane);
 		} catch (Exception e) { }
 		
-		successPane.setMessage(message);
+		successPane.setSuccessMessage(message);
 		getContentPane().add(successPane, "cell 0 1,grow");
 		refreshUI();
 	}

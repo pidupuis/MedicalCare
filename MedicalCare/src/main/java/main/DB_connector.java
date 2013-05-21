@@ -1229,7 +1229,7 @@ public class DB_connector {
                     + "SET state = '"+ statut +"' "
                     + "WHERE pk_id_fichequotidienne = '"+ id +"'";
             System.out.println("query => " + query);
-            ResultSet rs = this.connect.createStatement().executeQuery(query);
+            this.connect.createStatement().executeUpdate(query);
         }
     }
 
@@ -1486,5 +1486,9 @@ public class DB_connector {
             System.out.println("Fin de la méthode de récupération des patients");
             return null;
         }
+    }
+    
+    public String toto() {
+        return "totototo";
     }
 }

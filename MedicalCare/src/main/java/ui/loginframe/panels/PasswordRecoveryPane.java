@@ -1,24 +1,21 @@
 package ui.loginframe.panels;
 
 import java.awt.Font;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersPasswordRecovery;
 import ui.loginframe.listeners.ListenersPasswordRecoveryAnnuler;
-import ui.messages.ErrorPane;
+import ui.MessagePane;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.SwingConstants;
 
 /**
@@ -27,7 +24,7 @@ import javax.swing.SwingConstants;
 public class PasswordRecoveryPane extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private ErrorPane errorPane;
+	private MessagePane errorPane;
 
 	private LoginFrame parent;
 
@@ -104,7 +101,7 @@ public class PasswordRecoveryPane extends JPanel {
 		}
 
 		{ //Error panel
-			errorPane = new ErrorPane();
+			errorPane = new MessagePane();
 			errorPane.setVisible(false);
 			this.add(errorPane, "cell 0 6,grow");
 		}
@@ -168,7 +165,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @param error the error message
 	 */
 	public void displayError(String error) {
-		errorPane.setMessage(error);
+		errorPane.setErrorMessage(error);
 		errorPane.setVisible(true);
 		parent.refreshUI();
 	}
@@ -246,7 +243,7 @@ public class PasswordRecoveryPane extends JPanel {
 		/*user.setError(false);
 		passwd.setError(false);*/
 
-		errorPane.setMessage("");
+		errorPane.setErrorMessage("");
 		errorPane.setVisible(false);
 		
 		parent.refreshUI();
