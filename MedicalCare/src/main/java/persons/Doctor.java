@@ -36,7 +36,7 @@ public class Doctor extends Actor {
      * @throws Exception 
      */
     public Doctor(String firstName, String lastName, String id, CRA cra) throws Exception {
-        super(firstName, lastName, id);
+        super(id, firstName, lastName);
         this.generateLogin();
         this.password = this.login;
         this.cra = cra;

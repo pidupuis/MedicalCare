@@ -7,37 +7,31 @@ import persons.*;
 
 public class BloodTest extends Analysis {
 
-    private float[] results;
+
+    
     private float Hb;
     private float GR;
     private float GB;
     private float hemato;
     private float P;
 
-    /**
-     *
-     * @param Hb
-     * @param GR
-     * @param GB
-     * @param hemato
-     * @param P
-     */
     public BloodTest(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
-        this.results = new float[5];
-
-        this.results[0] = Hb;
-        this.results[1] = GR;
-        this.results[2] = GB;
-        this.results[3] = hemato;
-        this.results[4] = P;
-
+        this.Hb = Hb;
+        this.GR = GR;
+        this.GB = GB;
+        this.hemato = hemato;
+        this.P = P;
+    
         try {
-            checkResult(Hb, GR, GB, hemato, P, p);
+            checkResult(p);
         } catch (Exception e) {
             throw new Exception ("The results is not good!");
         }
 
     }
+
+    
+   
 
     public BloodTest() {}
 
@@ -51,7 +45,7 @@ public class BloodTest extends Analysis {
      * @param p
      * @throws Exception
      */
-    public void checkResult(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
+    public void checkResult(Patient p) throws Exception {
         if (P < 150.0 || P > 400.0) {
             throw new Exception("the result given was not included in the physiologic norms");
         }
@@ -94,7 +88,7 @@ public class BloodTest extends Analysis {
      * @param p
      * @throws Exception
      */
-    public boolean checkAllResults(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
+    public boolean checkAllResults(Patient p) throws Exception {
         if (P < 150.0 || P > 400.0) {
             return false;
         }
@@ -128,29 +122,47 @@ public class BloodTest extends Analysis {
         return true;
     }
 
-    /**
-     *
-     * @param index
-     * @return
-     */
-    public float getResults(int index) {
-        return this.results[index];
+    
+
+    public float getHb() {
+        return Hb;
     }
 
-    /**
-     *
-     * @param results
-     */
-    public void setResults(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
-        this.results[0] = Hb;
-        this.results[1] = GR;
-        this.results[2] = GB;
-        this.results[3] = hemato;
-        this.results[4] = P;
-        try {
-            checkResult(Hb, GR, GB, hemato, P, p);
-        } catch (Exception e) {
-            System.out.println("The results is not good!");
-        }
+    public void setHb(float Hb) {
+        this.Hb = Hb;
     }
+
+    public float getGR() {
+        return GR;
+    }
+
+    public void setGR(float GR) {
+        this.GR = GR;
+    }
+
+    public float getGB() {
+        return GB;
+    }
+
+    public void setGB(float GB) {
+        this.GB = GB;
+    }
+
+    public float getHemato() {
+        return hemato;
+    }
+
+    public void setHemato(float hemato) {
+        this.hemato = hemato;
+    }
+
+    public float getP() {
+        return P;
+    }
+
+    public void setP(float P) {
+        this.P = P;
+    }
+
+
 }

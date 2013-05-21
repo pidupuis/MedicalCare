@@ -49,13 +49,9 @@ public class CRA extends Actor {
      */
     public CRA(String id, String firstName, String lastName) throws Exception {
         super(id, firstName, lastName);
-        System.out.println("id : " + id);
-        System.out.println("prenom : " + firstName);
-        System.out.println("nom : " + lastName);
         this.generateLogin();
         this.password = this.login;
         this.listDoc = DB_connector.getInstance().getListDoctor(this);
-        System.out.println("liste : "+ listDoc.toString());
     }
 
     /**
