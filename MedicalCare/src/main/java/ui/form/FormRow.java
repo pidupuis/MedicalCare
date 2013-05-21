@@ -2,8 +2,7 @@ package ui.form;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.lang.reflect.Method;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -13,7 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.TextUI;
+import javax.swing.plaf.basic.BasicPasswordFieldUI;
+import javax.swing.plaf.basic.BasicTextAreaUI;
+import javax.swing.plaf.basic.BasicTextFieldUI;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -28,21 +34,46 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	private L label;
 	private F field;
 	private JLabel status;
+	
+	private Border defaultBorder;
+	private Border errorBorder;
+	private Border warningBorder;
+	private boolean stylable;
 
 	/**
 	 * Constructs a form row with a label and a field.
 	 * @param label A label that can be any type of swing JComponent
 	 * @param field A field that can be any type of swing JComponent
 	 */
-	public FormRow(L label, F field) {
+	public FormRow(L label, final F field) {
 		this.label = label;
 		this.field = field;
 		this.status = new JLabel();
+		
+		this.defaultBorder = new CompoundBorder(new LineBorder(new Color(0,0,0, 50)), new EmptyBorder(0, 5, 0, 5));
+		this.errorBorder = new CompoundBorder(new LineBorder(new Color(255, 0 , 0, 100)), new EmptyBorder(0, 5, 0, 5));
+		this.warningBorder = new CompoundBorder(new LineBorder(new Color(255, 127, 0, 100)), new EmptyBorder(0, 5, 0, 5));
 
 		setLayout(new MigLayout("hidemode 3, inset 0 20 10 20", "[140px:n][grow][28px:28px:28px]", "[30px,grow]"));
-
-		if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
-			this.field.setBorder(new LineBorder(new Color(0,0,0, 50)));
+		
+		this.field.setBackground(Color.WHITE);
+		
+		//Change field to raw white background and simple border
+		Class<?> fieldClass = this.field.getClass();
+		try {
+			Method getUI = fieldClass.getMethod("getUI");
+			Object ui = getUI.invoke(this.field);
+			if(ui instanceof TextUI) {
+	            this.field.setBorder(defaultBorder);
+	            this.stylable = true;
+	            if(this.field instanceof JPasswordField)
+	            	((JPasswordField)this.field).setUI(new BasicPasswordFieldUI());
+	            else if(this.field instanceof JTextField)
+	            	((JTextField)this.field).setUI(new BasicTextFieldUI());
+	            else if(this.field instanceof JTextArea) 
+	    			((JTextArea)this.field).setUI(new BasicTextAreaUI());
+			}
+		} catch (Exception e) {}
 
 		add(this.label, "cell 0 0,grow");
 		add(this.field, "cell 1 0,grow");
@@ -62,7 +93,7 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	}
 
 	/**
-	 * Display the field as invalid with red color, error icon and reason in tooltip
+	 * Display the field as invalid with red color, error icon and reason in a tool tip
 	 * @param arg true to make the row appear with error; false otherwise
 	 * @param reason the reason of the error
 	 */
@@ -71,15 +102,14 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 			status.setIcon(new ImageIcon(getClass().getResource("/icon/error_mini.png")));
 		} catch (Exception e) { }
 		status.setToolTipText(reason);
-		field.setBackground(new Color(255, 0 , 0, 40));
-		if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
-			this.field.setBorder(new LineBorder(new Color(255, 0 , 0, 100)));
+		field.setBackground(new Color(244, 203, 203));
+		if(stylable) this.field.setBorder(errorBorder);
 
 		status.revalidate();
 	}
 
 	/**
-	 * Display the field as invalid with orange color, orange icon and reason in tooltip
+	 * Display the field as invalid with orange color, orange icon and reason in a tool tip
 	 * @param arg true to make the row appear with a warning; false otherwise
 	 * @param reason the reason of the warning
 	 */
@@ -89,22 +119,20 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 		} catch (Exception e) {}
 
 		status.setToolTipText(reason);
-		field.setBackground(new Color(255, 127, 0, 40));
-		if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
-			this.field.setBorder(new LineBorder(new Color(255, 127, 0, 100)));
+		field.setBackground(new Color(255, 234, 215));
+		if(stylable) this.field.setBorder(warningBorder);
 
 		status.revalidate();
 	}
 
 	/**
-	 * 
+	 * Clears errors and warnings making the field appear like default
 	 */
 	public void setCorrect() {
 		status.setToolTipText("");
 		status.setIcon(null);
 		field.setBackground(Color.WHITE);
-		if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
-			this.field.setBorder(new LineBorder(new Color(0, 0, 0, 50)));
+		if(stylable) this.field.setBorder(defaultBorder);
 	}
 
 	/**
