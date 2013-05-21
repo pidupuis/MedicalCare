@@ -13,7 +13,6 @@ public abstract class FormRowAutoCorrect<L extends JComponent, F extends JCompon
 		super(label, field);
 		field.addFocusListener(new FocusListener() {
 
-			@Override
 			public void focusLost(FocusEvent e) {
 				StatusField s = check();
 				switch (s.getStatus()) {
@@ -29,7 +28,6 @@ public abstract class FormRowAutoCorrect<L extends JComponent, F extends JCompon
 				}
 			}
 
-			@Override
 			public void focusGained(FocusEvent e) {
 				setCorrect();
 			}
