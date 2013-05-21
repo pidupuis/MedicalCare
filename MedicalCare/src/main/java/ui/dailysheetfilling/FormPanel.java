@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JTree;
 
 import ui.ErrorPane;
+import ui.dailysheetfilling.listeners.ListenerBattCard;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.ListenerPresDias;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
@@ -100,11 +101,11 @@ public class FormPanel extends JPanel {
 		pres_sys_txf.setColumns(10);
 
 		JLabel pres_dias_lbl = new JLabel("Pression Diastolique :");
-		pres_dias_txf.addActionListener(new ListenerPresDias(this));
-		pres_dias_txf.addFocusListener(new ListenerPresDias(this));
 		add(pres_dias_lbl, "cell 0 9");
 
 		pres_dias_txf = new JTextField();
+		pres_dias_txf.addActionListener(new ListenerPresDias(this));
+		pres_dias_txf.addFocusListener(new ListenerPresDias(this));
 		add(pres_dias_txf, "cell 3 9,growx");
 		pres_dias_txf.setColumns(10);
 
@@ -112,6 +113,8 @@ public class FormPanel extends JPanel {
 		add(bat_lbl, "cell 0 11");
 
 		bat_txf = new JTextField();
+		pres_dias_txf.addActionListener(new ListenerBattCard(this));
+		pres_dias_txf.addFocusListener(new ListenerBattCard(this));
 		add(bat_txf, "cell 3 11,growx");
 		bat_txf.setColumns(10);
 
@@ -188,10 +191,6 @@ public class FormPanel extends JPanel {
 		return warning_lbl;
 	}
 
-	/*public void setWarning_lbl(JLabel warning_lbl) {
-		this.warning_lbl = warning_lbl;
-	}*/
-
 	public JButton getSuivant_btn() {
 		return suivant_btn;
 	}
@@ -215,10 +214,6 @@ public class FormPanel extends JPanel {
 	public void cleanCorrect() {
 		for (int i = 0; i < 4; i++)
 			this.correct.set(i, false);
-		
-		// TODO : remove it when listeners will be implemented
-		this.correct.set(2, true);
-		this.correct.set(3, true);
 	}
 	
 	public boolean isCorrect() {
