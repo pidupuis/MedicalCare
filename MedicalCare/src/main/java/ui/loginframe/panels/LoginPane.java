@@ -16,6 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import ui.ErrorPane;
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersButtonConnexion;

@@ -29,13 +29,8 @@ public abstract class Actor {
 	 * @param lastName
 	 */
 	public Actor(String firstName, String lastName) throws Exception {
-            if (this.checkName(firstName) && this.checkName(lastName)) {
-                this.firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
-                this.lastName = lastName.toUpperCase();
-            }
-            else {
-                throw new Exception();
-            }
+            this.firstName = firstName.substring(0, 1).toUpperCase() + firstName.substring(1);
+            this.lastName = lastName.toUpperCase();
 	}
 	
 	/**
@@ -45,15 +40,10 @@ public abstract class Actor {
 	 * @param firstName
 	 * @param lastName
 	 */
-	public Actor(String firstName, String lastName, String id) throws Exception {
-            if (this.checkName(firstName) && this.checkName(lastName)) {
-                this.firstName = firstName;
-                this.lastName = lastName;
-                this.id = id;
-            }
-            else {
-                throw new Exception();
-            }
+	public Actor(String id, String firstName, String lastName) throws Exception {
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.id = id;
 	}
         
         /**

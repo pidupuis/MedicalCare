@@ -39,6 +39,7 @@ public class MainKatia {
             System.out.println("Connection failed !");
             //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("MAIN KATIA");
         
 //        tmp = db.getUserById(db.getUserId("katia", "chiron", 1), 1);
         //tmpListPatient = db.getListPatientFromDoctor("1");
@@ -70,7 +71,8 @@ public class MainKatia {
         BloodTest bt = new BloodTest(23.5f, 23.5f, 23.5f, 23.5f, 23.5f, p);
         EEG eeg = new EEG(8);
         EffortTest et = new EffortTest(70, 180, 100);
-        db.addDailyTest(d, p, dct, eeg, bt, et);
+        //db.addDailyTest(d, p, dct, eeg, bt, et);
+        db.getLot("1565");
         
     }
 
