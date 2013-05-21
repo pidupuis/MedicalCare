@@ -74,7 +74,9 @@ public class MainKatia {
         //db.addEEG(eeg, "1");
         EffortTest et = new EffortTest(70, 180, 100);
         //db.addEffortTest(et, "1");
-        db.addDailyTest(d, p, dct, eeg, bt, et);
+        //db.addDailyTest(d, p, dct, eeg, bt, et);
+        //d = db.getDailyTests("1", "09");
+        //System.out.println("patient : " + d.getPatient().getFirstName());
         //Lot l = db.getLotByIdPatient("1565");
         //l = db.getLotByIdFiche("1");
         

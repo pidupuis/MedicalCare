@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -474,7 +475,7 @@ public class DB_connector {
                 return tmpCRA;
             }
             else    {
-                Doctor tmpDoctor = new Doctor(rs2.getNString("PRENOM"), rs2.getNString("NOM"), rs2.getNString("PK_ID_PERSONNE"), null);
+                Doctor tmpDoctor = new Doctor(rs2.getNString("PK_ID_PERSONNE"), rs2.getNString("PRENOM"), rs2.getNString("NOM"), null);
                 tmpDoctor.setId(rs2.getNString("PK_ID_PERSONNE"));
                 return tmpDoctor;
             }
@@ -981,7 +982,7 @@ public class DB_connector {
             System.out.println("query => " + query2);
             ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
             rs2.next();
-            return new Doctor(rs.getString("prenom"), rs.getString("nom"), rs.getString("pk_id_personne"), new CRA(rs2.getString("pk_id_personne"), rs2.getString("prenom"), rs2.getString("nom")));
+            return new Doctor(rs.getString("pk_id_personne"), rs.getString("prenom"), rs.getString("nom"), new CRA(rs2.getString("pk_id_personne"), rs2.getString("prenom"), rs2.getString("nom")));
         }
     }
     
@@ -1009,9 +1010,9 @@ public class DB_connector {
                         rs2.getString("prenom"), 
                         rs2.getString("nom"));
             Doctor d = new Doctor(
+                    rs.getString("pk_id_personne"),
                     rs.getString("prenom"), 
                     rs.getString("nom"), 
-                    rs.getString("pk_id_personne"),
                     c);
             /*
             return new Doctor(
@@ -1047,7 +1048,7 @@ public class DB_connector {
                 String lastname = rs.getString("nom");
 
                 Doctor tmpDoctor;
-                tmpDoctor = new Doctor(firstname, lastname, id, cra); 
+                tmpDoctor = new Doctor(id, firstname, lastname, cra); 
                 tmpDoctor.setPatientList(this.getListPatientFromDoctor(tmpDoctor));
                 tmpListDoctor.add(tmpDoctor);
             }
@@ -1154,38 +1155,17 @@ public class DB_connector {
         /**
          * Requête d'insertion dans la table FicheQuotidienne
          */
-        String queryAjoutFiche = "DECLARE X NUMBER; BEGIN "
-                    + "INSERT INTO FicheQuotidienne "
-                    + "VALUES ("
-                    + "'',"
-                    + "'"+ this.getLotByIdPatient(idPatient).getNumero() +"'," //pk_num_lot
-                    + "'"+ dt.getSystole() +"'," //pression_systolique
-                    + "'"+ dt.getDiastole() +"'," //pression_diastolique
-                    + "'"+ dt.getHeartBeats() +"'," //rythme_cardiaque
-                    + "'"+ dt.getObservations() +"'," //observation_quotidienne
-                    + "'en_cours'," //state => status is 'en_cours' (default)
-                    + "'"+ jour +"'" //date_fiche => day of clinical assay
-                    + ") RETURNING pk_id_fichequotidienne INTO X; "
-                    + "END;";
-        System.out.println("queryAjout => " + queryAjoutFiche);
-        //declare x number; begin INSERT INTO fichequotidienne VALUES ('', '101', '12', '8', '70', '', 'en_cours', '05') RETURNING pk_id_fichequotidienne INTO x; UPDATE testu SET testu.X = x; end;
-        
-        /**
-         * TEST
-         */
-        CallableStatement statement = this.connect.prepareCall(queryAjoutFiche);
-        statement.executeQuery();
-        this.connect.commit();
-        
-//        ResultSet rsAjoutFiche = this.connect.createStatement().executeQuery(queryAjoutFiche);  
-//        rsAjoutFiche.next();
-//        rsAjoutFiche.getInt(9);
-        
-        for (int i = 0; i < statement.getMetaData().getColumnCount(); i++) {
-            System.out.println(i + " : " + statement.getMetaData().getColumnName(i) + " " + statement.getString(i));
-        }
+        CallableStatement cs = this.connect.prepareCall("{call ?:=getIdFiche(?, ?, ?, ?, ?, ?)}");
+	cs.registerOutParameter(1, Statement.RETURN_GENERATED_KEYS);        
+	cs.setInt(2, Integer.parseInt(this.getLotByIdPatient(idPatient).getNumero()));        
+	cs.setInt(3, dt.getSystole());        
+	cs.setInt(4, dt.getDiastole());        
+	cs.setInt(5, dt.getHeartBeats());        
+	cs.setString(6, dt.getObservations());        
+	cs.setString(7, jour);        
+        cs.execute();
                 
-        idFiche = "toto";
+        idFiche = cs.getString(1);
         
         /**
          * Requête d'insertion dans la table Rempli_Fiche
