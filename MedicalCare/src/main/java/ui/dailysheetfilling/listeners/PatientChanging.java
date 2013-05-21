@@ -75,7 +75,7 @@ public class PatientChanging implements ActionListener {
 		}
 		else {
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setErrorMessage("Veuillez remplir correctement le formulaire");
+			fp.getWarning_lbl().setMessage("Veuillez remplir correctement le formulaire");
 		}
 
 

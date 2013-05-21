@@ -11,10 +11,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTree;
 
-import ui.ErrorPane;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
+import ui.messages.ErrorPane;
 
 import javax.swing.SwingConstants;
 
@@ -68,7 +68,7 @@ public class FormPanel extends JPanel {
 		add(header_name_lbl, "cell 3 0");
 
 		warning_lbl = new ErrorPane();//
-		warning_lbl.setErrorMessage("warning_message");
+		warning_lbl.setMessage("warning_message");
 		//warning_lbl.setHorizontalAlignment(SwingConstants.CENTER);
 		add(warning_lbl, "cell 0 2 4 1");
 		warning_lbl.setVisible(false);

@@ -43,7 +43,7 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 				fp.setCorrect(0, false);
 				fp.getLot_number_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
@@ -52,7 +52,7 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 			fp.setCorrect(0, false);
 			fp.getLot_number_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setErrorMessage("La valeur du champ Numéro de Lot est invalide");
+			fp.getWarning_lbl().setMessage("La valeur du champ Numéro de Lot est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		
@@ -76,7 +76,7 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 				fp.setCorrect(0, false);
 				fp.getLot_number_txf().setBackground(Color.RED);
 				fp.getWarning_lbl().setVisible(true);
-				fp.getWarning_lbl().setErrorMessage("Cette saisie contient des lettres ou caractères interdits");
+				fp.getWarning_lbl().setMessage("Cette saisie contient des lettres ou caractères interdits");
 				fp.getSuivant_btn().setEnabled(false);			
 			}
 		}
@@ -85,7 +85,7 @@ public class ListenerLotNumber implements ActionListener, FocusListener {
 			fp.setCorrect(0, false);
 			fp.getLot_number_txf().setBackground(Color.RED);
 			fp.getWarning_lbl().setVisible(true);
-			fp.getWarning_lbl().setErrorMessage("La valeur du champ Numéro de Lot est invalide");
+			fp.getWarning_lbl().setMessage("La valeur du champ Numéro de Lot est invalide");
 			fp.getSuivant_btn().setEnabled(false);
 		}
 		

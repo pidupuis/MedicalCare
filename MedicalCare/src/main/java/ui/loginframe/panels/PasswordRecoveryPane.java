@@ -8,11 +8,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import ui.ErrorPane;
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersPasswordRecovery;
 import ui.loginframe.listeners.ListenersPasswordRecoveryAnnuler;
+import ui.messages.ErrorPane;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
@@ -168,7 +168,7 @@ public class PasswordRecoveryPane extends JPanel {
 	 * @param error the error message
 	 */
 	public void displayError(String error) {
-		errorPane.setErrorMessage(error);
+		errorPane.setMessage(error);
 		errorPane.setVisible(true);
 		parent.refreshUI();
 	}
@@ -246,7 +246,7 @@ public class PasswordRecoveryPane extends JPanel {
 		/*user.setError(false);
 		passwd.setError(false);*/
 
-		errorPane.setErrorMessage("");
+		errorPane.setMessage("");
 		errorPane.setVisible(false);
 		
 		parent.refreshUI();

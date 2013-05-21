@@ -68,7 +68,7 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 	public void setError(boolean arg, String reason) {
 		if(arg) {
 			try {
-				status.setIcon(new ImageIcon(getClass().getResource("/icon/error.png")));
+				status.setIcon(new ImageIcon(getClass().getResource("/icon/warning.png")));
 			} catch (Exception e) {
 				status.setText("/!\\");
 			}

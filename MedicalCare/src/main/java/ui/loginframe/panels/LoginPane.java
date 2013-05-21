@@ -16,12 +16,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import ui.ErrorPane;
 import ui.loginframe.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersButtonConnexion;
 import ui.loginframe.listeners.ListenersButtonQuit;
 import ui.loginframe.listeners.ListenersButtonRecovery;
+import ui.messages.ErrorPane;
 
 import main.Main;
 import main.exception.UnknownUsernameException;
@@ -164,9 +164,9 @@ public class LoginPane extends JPanel {
 			role.setError(true, ex.getMessage());
 
 		if(ex instanceof SQLException && ex.getMessage().contains("E/S"))
-			errorPane.setErrorMessage("Erreur: La connexion au serveur a échouée (Veuillez vérifier la connexion internet ou la connexion au serveur).");
+			errorPane.setMessage("Erreur: La connexion au serveur a échouée (Veuillez vérifier la connexion internet ou la connexion au serveur).");
 		else
-			errorPane.setErrorMessage(ex.getMessage());
+			errorPane.setMessage(ex.getMessage());
 		
 		errorPane.setVisible(true);
 		parent.refreshUI();
@@ -180,7 +180,7 @@ public class LoginPane extends JPanel {
 		passwd.setError(false);
 		role.setError(false);
 
-		errorPane.setErrorMessage("");
+		errorPane.setMessage("");
 		errorPane.setVisible(false);
 		
 		parent.refreshUI();
