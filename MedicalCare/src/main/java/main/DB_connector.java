@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import main.exception.EmptySQLResultException;
 
+import main.exception.EmptySQLResultException;
 import main.exception.UnknownUsernameException;
 import main.exception.WrongParameterException;
 import main.exception.WrongPasswordException;
@@ -107,6 +107,16 @@ public class DB_connector {
             System.out.println("Deconnection !");
         } catch (SQLException ex) {
             System.err.println("Error while disconnecting : " + ex.getLocalizedMessage());
+        }
+    }
+    
+    private void convert(ResultSet rs) throws SQLException {
+        while (rs.next()) {
+            LinkedHashMap<String, String> tmpMap = new LinkedHashMap<String, String>();
+            for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+                tmpMap.put(rs.getMetaData().getColumnName(i), rs.getString(i));
+            }
+            //this.ret.put(rs.getString(this.idFieldName), tmpMap);
         }
     }
        
@@ -884,10 +894,10 @@ public class DB_connector {
      * @throws SQLException to lead all the errors triggred by the SQL to the main program
      * @throws Exception to indicates if there is a problem during the getting of all patients
      */
-    public ArrayList<Patient> getListPatientFromDoctor(Doctor Doc) throws SQLException, Exception {
+    public ArrayList<Patient> getListPatientFromDoctor(Doctor doc) throws SQLException, Exception {
         ArrayList<Patient> tmpListPatients= new ArrayList<Patient>();
         Boolean sexe, inclut;
-        String query = "SELECT PK_ID_PERSONNE, PRENOM, NOM, SEXE, DATE_NAISSANCE, STATUT FROM Patient WHERE Med_pk_id_personne='" + Integer.parseInt(Doc.getId()) + "'";
+        String query = "SELECT * FROM Patient WHERE Med_pk_id_personne = '" + doc.getId() + "'";
         SimpleDateFormat birth = new SimpleDateFormat();
         birth.applyPattern("dd/MM/yyyy");
         
@@ -934,7 +944,7 @@ public class DB_connector {
                 else    {
                     inclut = true;
                 }
-                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, Doc);
+                tmpPatient = new Patient(firstname, lastname, y, m, d, sexe, doc);
                 tmpPatient.setInclusion(inclut);
                 tmpPatient.setId(id);
                 
@@ -1114,7 +1124,7 @@ public class DB_connector {
      * @throws SQLException
      * @throws Exception 
      */
-    public void addDailyTest(DailyTest dt, Patient p, Doctor d, Analysis eeg, Analysis sang, Analysis effort) throws SQLException, Exception {
+    public void addDailyTest(DailyTest dt, Patient p, Doctor d, EEG eeg, BloodTest sang, EffortTest effort) throws SQLException, Exception {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat dateFormatBDD = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Calendar currentDate = Calendar.getInstance();
@@ -1144,44 +1154,36 @@ public class DB_connector {
         /**
          * Requête d'insertion dans la table FicheQuotidienne
          */
-        String queryAjoutFiche = "INSERT INTO FicheQuotidienne"
-                    //+ "(pk_id_fichequotidienne, "
-                    + "(pk_num_lot, "
-                    + "pression_systolique, "
-                    + "pression_diastolique, "
-                    + "rythme_cardiaque, "
-                    + "observations_quotidiennes, "
-                    + "state, "
-                    + "date_fiche) "
+        String queryAjoutFiche = "DECLARE X NUMBER; BEGIN "
+                    + "INSERT INTO FicheQuotidienne "
                     + "VALUES ("
-                    //+ "'',"
-                    //+ "'"+ this.getLotByIdPatient(idPatient).getNumero() +"'," //pk_num_lot
-                    + "?," //pk_num_lot
-                    + "?," //pression_systolique
-                    + "?," //pression_diastolique
-                    + "?," //rythme_cardiaque
-                    + "?," //observation_quotidienne
-                    + "?," //state => status is 'en_cours' (default)
-                    + "?" //date_fiche => day of clinical assay
-                    + ") RETURNING pk_id_fichequotidienne INTO ?";
+                    + "'',"
+                    + "'"+ this.getLotByIdPatient(idPatient).getNumero() +"'," //pk_num_lot
+                    + "'"+ dt.getSystole() +"'," //pression_systolique
+                    + "'"+ dt.getDiastole() +"'," //pression_diastolique
+                    + "'"+ dt.getHeartBeats() +"'," //rythme_cardiaque
+                    + "'"+ dt.getObservations() +"'," //observation_quotidienne
+                    + "'en_cours'," //state => status is 'en_cours' (default)
+                    + "'"+ jour +"'" //date_fiche => day of clinical assay
+                    + ") RETURNING pk_id_fichequotidienne INTO X; "
+                    + "END;";
         System.out.println("queryAjout => " + queryAjoutFiche);
+        //declare x number; begin INSERT INTO fichequotidienne VALUES ('', '101', '12', '8', '70', '', 'en_cours', '05') RETURNING pk_id_fichequotidienne INTO x; UPDATE testu SET testu.X = x; end;
         
-        CallableStatement prepAjoutFiche = this.connect.prepareCall(queryAjoutFiche);
-        prepAjoutFiche.setString(1, this.getLotByIdPatient(idPatient).getNumero());
-        prepAjoutFiche.setInt(2, dt.getSystole());
-        prepAjoutFiche.setInt(3, dt.getDiastole());
-        prepAjoutFiche.setInt(4, dt.getHeartBeats());
-        prepAjoutFiche.setString(5, dt.getObservations());
-        prepAjoutFiche.setString(6, "en_cours");
-        prepAjoutFiche.setString(7, jour);
-        prepAjoutFiche.registerOutParameter(8, java.sql.Types.VARCHAR);
-        System.out.println("query : " + prepAjoutFiche.toString());
-        prepAjoutFiche.execute();
-        //ResultSet rsAjoutFiche = prepAjoutFiche.getGeneratedKeys();
+        /**
+         * TEST
+         */
+        CallableStatement statement = this.connect.prepareCall(queryAjoutFiche);
+        statement.executeQuery();
+        this.connect.commit();
         
-        //ResultSet rsAjoutFiche = this.connect.createStatement().executeQuery(queryAjoutFiche);  
-        //rsAjoutFiche.next();
-        System.out.println("NEXT : " + prepAjoutFiche.getInt(2));
+//        ResultSet rsAjoutFiche = this.connect.createStatement().executeQuery(queryAjoutFiche);  
+//        rsAjoutFiche.next();
+//        rsAjoutFiche.getInt(9);
+        
+        for (int i = 0; i < statement.getMetaData().getColumnCount(); i++) {
+            System.out.println(i + " : " + statement.getMetaData().getColumnName(i) + " " + statement.getString(i));
+        }
                 
         idFiche = "toto";
         

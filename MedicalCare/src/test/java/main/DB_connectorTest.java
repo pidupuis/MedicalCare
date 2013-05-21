@@ -451,25 +451,7 @@ public class DB_connectorTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of addDailyTest method, of class DB_connector.
-     */
-    @Test
-    public void testAddDailyTest() throws Exception {
-        System.out.println("addDailyTest");
-        DailyTest dt = null;
-        Patient p = null;
-        Doctor d = null;
-        Analysis eeg = null;
-        Analysis sang = null;
-        Analysis effort = null;
-        DB_connector instance = null;
-        instance.addDailyTest(dt, p, d, eeg, sang, effort);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+   
     /**
      * Test of updateStateDailyTest method, of class DB_connector.
      */
