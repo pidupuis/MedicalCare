@@ -6,7 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
-import ui.loginframe.FormRow;
+
+import ui.form.FormRow;
 import ui.loginframe.LoginFrame;
 import ui.loginframe.listeners.ListenersPasswordRecovery;
 import ui.loginframe.listeners.ListenersPasswordRecoveryAnnuler;
