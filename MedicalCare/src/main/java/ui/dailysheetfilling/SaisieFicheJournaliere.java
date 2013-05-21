@@ -35,7 +35,6 @@ public class SaisieFicheJournaliere extends JPanel {
 		this.subpanelForm = new FormPanel(this.subpanelTree.getTree());
 		
 		this.add(this.subpanelTree);
-		//this.add(new JSeparator());
 		this.add(this.subpanelForm);
 		
 	}

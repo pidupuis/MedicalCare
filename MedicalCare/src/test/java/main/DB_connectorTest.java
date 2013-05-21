@@ -474,7 +474,7 @@ public class DB_connectorTest {
     //@Test
     public void testUpdateStateDailyTest() throws Exception {
         System.out.println("updateStateDailyTest");
-        DailyTest d = null;
+        String d = null;
         String statut = "";
         DB_connector instance = null;
         instance.updateStateDailyTest(d, statut);

@@ -11,7 +11,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTree;
 
+import ui.dailysheetfilling.listeners.ListenerBattCard;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
+import ui.dailysheetfilling.listeners.ListenerPresDias;
 import ui.dailysheetfilling.listeners.ListenerPresSys;
 import ui.dailysheetfilling.listeners.PatientChanging;
 import ui.messages.ErrorPane;
@@ -23,7 +25,7 @@ public class FormPanel extends JPanel {
 	private JTextField lot_number_txf;
 	private JTextField room_number_txf;
 	private JTextField pres_sys_txf;
-	private JTextField pres_dyas_txf;
+	private JTextField pres_dias_txf;
 	private JTextField bat_txf;
 
 	private JTextArea obs_txf;
@@ -32,7 +34,7 @@ public class FormPanel extends JPanel {
 	private JLabel lot_number_lbl;
 	private JLabel room_number_lbl;
 	private JLabel pres_sys_lbl;
-	private JLabel pres_dyas_lbl;
+	private JLabel pres_dias_lbl;
 	private JLabel bat_lbl;
 	private JLabel obs_lbl;
 	private ErrorPane warning_lbl;
@@ -98,17 +100,21 @@ public class FormPanel extends JPanel {
 		add(pres_sys_txf, "cell 3 7,growx");
 		pres_sys_txf.setColumns(10);
 
-		JLabel pres_dyas_lbl = new JLabel("Pression Diastolique :");
-		add(pres_dyas_lbl, "cell 0 9");
+		JLabel pres_dias_lbl = new JLabel("Pression Diastolique :");
+		add(pres_dias_lbl, "cell 0 9");
 
-		pres_dyas_txf = new JTextField();
-		add(pres_dyas_txf, "cell 3 9,growx");
-		pres_dyas_txf.setColumns(10);
+		pres_dias_txf = new JTextField();
+		pres_dias_txf.addActionListener(new ListenerPresDias(this));
+		pres_dias_txf.addFocusListener(new ListenerPresDias(this));
+		add(pres_dias_txf, "cell 3 9,growx");
+		pres_dias_txf.setColumns(10);
 
 		JLabel bat_lbl = new JLabel("Battements par min :");
 		add(bat_lbl, "cell 0 11");
 
 		bat_txf = new JTextField();
+		pres_dias_txf.addActionListener(new ListenerBattCard(this));
+		pres_dias_txf.addFocusListener(new ListenerBattCard(this));
 		add(bat_txf, "cell 3 11,growx");
 		bat_txf.setColumns(10);
 
@@ -157,12 +163,12 @@ public class FormPanel extends JPanel {
 		this.pres_sys_txf = pres_sys_txf;
 	}
 
-	public JTextField getPres_dyas_txf() {
-		return pres_dyas_txf;
+	public JTextField getPres_dias_txf() {
+		return pres_dias_txf;
 	}
 
-	public void setPres_dyas_txf(JTextField pres_dyas_txf) {
-		this.pres_dyas_txf = pres_dyas_txf;
+	public void setPres_dias_txf(JTextField pres_dyas_txf) {
+		this.pres_dias_txf = pres_dyas_txf;
 	}
 
 	public JTextField getBat_txf() {
@@ -184,10 +190,6 @@ public class FormPanel extends JPanel {
 	public ErrorPane getWarning_lbl() {
 		return warning_lbl;
 	}
-
-	/*public void setWarning_lbl(JLabel warning_lbl) {
-		this.warning_lbl = warning_lbl;
-	}*/
 
 	public JButton getSuivant_btn() {
 		return suivant_btn;
@@ -212,10 +214,6 @@ public class FormPanel extends JPanel {
 	public void cleanCorrect() {
 		for (int i = 0; i < 4; i++)
 			this.correct.set(i, false);
-		
-		// TODO : remove it when listeners will be implemented
-		this.correct.set(2, true);
-		this.correct.set(3, true);
 	}
 	
 	public boolean isCorrect() {
@@ -230,13 +228,13 @@ public class FormPanel extends JPanel {
 		this.lot_number_txf.setText("");
 		this.room_number_txf.setText("");
 		this.pres_sys_txf.setText("");
-		this.pres_dyas_txf.setText("");
+		this.pres_dias_txf.setText("");
 		this.bat_txf.setText("");
 		
 		this.lot_number_txf.setBackground(Color.white);
 		this.room_number_txf.setBackground(Color.white);
 		this.pres_sys_txf.setBackground(Color.white);
-		this.pres_dyas_txf.setBackground(Color.white);
+		this.pres_dias_txf.setBackground(Color.white);
 		this.bat_txf.setBackground(Color.white);
 	}
 	

@@ -611,7 +611,8 @@ public class DB_connector {
      */
     public void resetPassword(String login, String password) throws Exception {        
         if (this.checkPassword(password))   {
-            String query = "UPDATE Utilisateur SET Utilisateur_Password = ('"+ password +"')";
+            String query = "UPDATE Utilisateur SET Utilisateur_Password = ('"+ password +"')"
+                    + " WHERE Utilisateur_Login = '"+ login +"'";
             System.out.println("query => " + query);
             ResultSet rs = this.connect.createStatement().executeQuery(query);
             rs.next();
@@ -986,22 +987,14 @@ public class DB_connector {
             System.out.println("query => " + query2);
             ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
             rs2.next();
-            System.out.println("Prenom : "+ rs.getString("prenom"));
-            System.out.println("Nom : "+ rs.getString("nom"));
-            System.out.println("ID : "+rs.getString("pk_id_personne"));
-            System.out.println("Prenom2 : "+ rs2.getString("prenom"));
-            System.out.println("Nom2 : "+ rs2.getString("nom"));
-            System.out.println("ID2 : "+rs2.getString("pk_id_personne"));
             CRA c = new CRA(rs2.getString("pk_id_personne"), 
                         rs2.getString("prenom"), 
                         rs2.getString("nom"));
-            System.out.println("CRA => "+ c.getFirstName() + " " + c.getLastName());
             Doctor d = new Doctor(
                     rs.getString("prenom"), 
                     rs.getString("nom"), 
                     rs.getString("pk_id_personne"),
                     c);
-            System.out.println("Doctor => "+ d.getFirstName() + " " + d.getLastName());
             /*
             return new Doctor(
                     rs.getString("prenom"), 
@@ -1023,7 +1016,6 @@ public class DB_connector {
      */
     public ArrayList<Doctor> getListDoctor(CRA cra) throws SQLException, Exception {
         ArrayList<Doctor> tmpListDoctor= new ArrayList<Doctor>();
-        System.out.println("CRA => "+ cra.getId() + " " + cra.getFirstName());
         String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + cra.getId() + "'";
         System.out.println("query => " + query);
         
@@ -1114,22 +1106,24 @@ public class DB_connector {
         int duree, idFiche;
         String idPatient;
         String jour = "";
+        Date debutDate;
         
         /**
          * Requête de sélection de la date d'entrée du patient
          */
-        String querySelectPatient = "SELECT pk_id_personne, date_debut FROM Patient WHERE pk_id_personne = '"+ p.getId() +"'";
+        String querySelectPatient = "SELECT pk_id_personne, date_debut FROM Patient "
+                + "WHERE pk_id_personne = '"+ p.getId() +"'";
         System.out.println("querySelect => " + querySelectPatient);
         ResultSet rsSelectPatient = this.connect.createStatement().executeQuery(querySelectPatient);
         rsSelectPatient.next();
         idPatient = rsSelectPatient.getString("pk_id_personne");
-        Date debutDate = rsSelectPatient.getDate("date_debut");
+        debutDate = rsSelectPatient.getDate("date_debut");
         
         /*
          * Attention ce qui suit est extrêment moche et dégueulasse !
          */
         duree = currentDate.getTime().getDate() - debutDate.getDate();
-        jour = (duree>10) ? String.valueOf(duree) : '0'+String.valueOf(duree);
+        jour = (duree>10) ? String.valueOf(duree) : '0' +String.valueOf(duree);
                 
         /**
          * Requête d'insertion dans la table FicheQuotidienne
@@ -1137,15 +1131,18 @@ public class DB_connector {
         String queryAjoutFiche = "INSERT INTO FicheQuotidienne "
                 + "VALUES ("
                 + "''," //pk_id_fichequotidienne => auto-increment
+                + "'"+ this.getLotByIdPatient(idPatient) +"'," //pk_num_lot
                 + "'"+ dt.getSystole() +"'," //pression_systolique
                 + "'"+ dt.getDiastole() +"'," //pression_diastolique
                 + "'"+ dt.getHeartBeats() +"'," //rythme_cardiaque
                 + "'"+ dt.getObservations() +"'," //observation_quotidienne
                 + "'en_cours'," //state => status is 'en_cours' (default)
-                + "'"+ duree +"'" //date_fiche => day of clinical assay
+                + "'"+ jour +"'" //date_fiche => day of clinical assay
                 + ") RETURNING pk_id_fichequotidienne";
         System.out.println("queryAjout => " + queryAjoutFiche);
         ResultSet rsAjoutFiche = this.connect.createStatement().executeQuery(queryAjoutFiche);
+        rsAjoutFiche.next();
+        
         idFiche = rsAjoutFiche.getInt(1);
         System.out.println("id : " + idFiche);
                 
@@ -1159,7 +1156,8 @@ public class DB_connector {
                 + "'"+ d.getId() +"'" //Med_pk_id_personne
                 + ")";
         System.out.println("queryAjout => " + queryRempliFiche);
-        ResultSet rsRempliFiche = this.connect.createStatement().executeQuery(queryRempliFiche);        
+        ResultSet rsRempliFiche = this.connect.createStatement().executeQuery(queryRempliFiche);  
+        rsRempliFiche.next();    
         
         /**
          * Si on doit aussi insérer une analyse EEG
@@ -1174,35 +1172,37 @@ public class DB_connector {
                     + "'"+ ((((EEG)eeg).checkEEG(((EEG)eeg).getResult())) ? 1 : 0) +"'" //correct_eeg
                     + ")";
             System.out.println("queryAjout => " + queryAjoutEEG);
-            ResultSet rsAjoutEEG = this.connect.createStatement().executeQuery(queryAjoutEEG);
+            ResultSet rsAjoutEEG = this.connect.createStatement().executeQuery(queryAjoutEEG);  
+            rsAjoutEEG.next();    
         }
         
         /**
          * Si on doit aussi insérer une analyse de sang
          * getResults
          */
-        if (sang != null)    {
-            String queryAjoutSang = "INSERT INTO AnalyseSang "
-                + "VALUES ("
-                    + "''," //pk_id_analysesang => auto-increment
-                    + "'"+ idFiche +"'," //pk_id_fichequotidienne
-                    + "'"+ ((BloodTest)sang).getResults(0) +"'," //concentration1
-                    + "'"+ ((BloodTest)sang).getResults(1) +"'," //concentration2
-                    + "'"+ ((BloodTest)sang).getResults(2) +"'," //concentration3
-                    + "'"+ ((BloodTest)sang).getResults(3) +"'," //concentration4
-                    + "'"+ ((BloodTest)sang).getResults(4) +"'," //concentration5
-                    + "'"+ ((BloodTest)sang).getObservations() +"'," //observation_sang
-                    + "'"+ ((BloodTest)sang).checkAllResults(
-                        ((BloodTest)sang).getResults(0), 
-                        ((BloodTest)sang).getResults(1), 
-                        ((BloodTest)sang).getResults(2), 
-                        ((BloodTest)sang).getResults(3), 
-                        ((BloodTest)sang).getResults(4), 
-                        this.getPatientById(idPatient)) +"'" //correct_sang
-                    + ")";
-            System.out.println("queryAjout => " + queryAjoutSang);
-            ResultSet rsAjoutSang = this.connect.createStatement().executeQuery(queryAjoutSang);
-        }
+//        if (sang != null)    {
+//            String queryAjoutSang = "INSERT INTO AnalyseSang "
+//                + "VALUES ("
+//                    + "''," //pk_id_analysesang => auto-increment
+//                    + "'"+ idFiche +"'," //pk_id_fichequotidienne
+//                    + "'"+ ((BloodTest)sang).getHb() +"'," //concentration1
+//                    + "'"+ ((BloodTest)sang).getGR(1) +"'," //concentration2
+//                    + "'"+ ((BloodTest)sang).getGB(2) +"'," //concentration3
+//                    + "'"+ ((BloodTest)sang).getHemato(3) +"'," //concentration4
+//                    + "'"+ ((BloodTest)sang).getP(4) +"'," //concentration5
+//                    + "'"+ ((BloodTest)sang).getObservations() +"'," //observation_sang
+//                    + "'"+ ((BloodTest)sang).checkAllResults(
+//                        ((BloodTest)sang).getHb(), 
+//                        ((BloodTest)sang).getGR(), 
+//                        ((BloodTest)sang).getGB(), 
+//                        ((BloodTest)sang).getHemato(), 
+//                        ((BloodTest)sang).getP(), 
+//                        this.getPatientById(idPatient)) +"'" //correct_sang
+//                    + ")";
+//            System.out.println("queryAjout => " + queryAjoutSang);
+//            ResultSet rsAjoutSang = this.connect.createStatement().executeQuery(queryAjoutSang);
+//            rsAjoutSang.next();
+//        }
         
         /**
          * Si on doit aussi insérer une analyse d'effort
@@ -1223,6 +1223,7 @@ public class DB_connector {
                     + ")";
             System.out.println("queryAjout => " + queryAjoutEffort);
             ResultSet rsAjoutEffort = this.connect.createStatement().executeQuery(queryAjoutEffort);
+            rsAjoutEffort.next();
         }
     }
     
@@ -1307,7 +1308,7 @@ public class DB_connector {
      * @param id
      * @return
      */
-    public void getLot(String id) throws SQLException, Exception {
+    public Lot getLotByIdPatient(String id) throws SQLException, Exception {
         String query = "SELECT * FROM Lot " + "WHERE pk_id_personne = '" + id + "'";
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
@@ -1316,9 +1317,7 @@ public class DB_connector {
         if (rs.getString("pk_id_personne") == null) {
             throw new Exception("Il n'existe aucun patient comportant ce nom et ce prénom !");
         } else {
-            String query2 = "SELECT * FROM Lot " + "WHERE pk_id_personne = '" + rs.getString("pk_id_personne") + "'"; // ou id 
-            System.out.println("query => " + query2);
-            ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+            return new Lot(rs.getString("pk_num_lot"), rs.getString("date_lot"));
         }
     }
 
@@ -1327,14 +1326,26 @@ public class DB_connector {
      * @param id
      * @return
      */
-    public void getLot_Fiche(String id) throws SQLException, Exception {
-        String query = "SELECT * FROM Lot " + "JOIN Patient " + "ON Lot.pk_id_personne = " + "Patient.pk_id_personne " + "JOIN Rempli_fiche " + "ON Patient.pk_id_personne = " + "Rempli_fiche.pk_id_personne " + "JOIN FicheQuotidienne " + "ON Rempli_fiche.pk_id_fichequotidienne = " + "FicheQuotidienne.pk_id_fichequotidienne ";
+    public Lot getLotByIdFiche(String id) throws SQLException, Exception {
+        String query = "SELECT * FROM Lot " 
+                + "JOIN Patient " 
+                + "ON Lot.pk_id_personne = " 
+                + "Patient.pk_id_personne " 
+                + "JOIN Rempli_fiche " 
+                + "ON Patient.pk_id_personne = " 
+                + "Rempli_fiche.pk_id_personne " 
+                + "JOIN FicheQuotidienne " 
+                + "ON Rempli_fiche.pk_id_fichequotidienne = " 
+                + "FicheQuotidienne.pk_id_fichequotidienne"
+                + "WHERE FicheQuotidienne.pk_id_fichequotidienne = '" + id + "'";        
         System.out.println("query1 => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
         rs.next();
 
         if (rs.getString("pk_id_personne") == null) {
             throw new Exception("Il n'existe aucun patient comportant ce nom et ce prénom !");
+        } else {
+            return new Lot(rs.getString("pk_num_lot"), rs.getString("date_lot"));
         }
 
     }
