@@ -4,17 +4,17 @@
  */
 package tests;
 
-import persons.Patient;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import persons.Patient;
 
 /**
  *
- * @author Vincent
+ * @author Katia
  */
 public class BloodTestTest {
     
@@ -43,174 +43,269 @@ public class BloodTestTest {
     @Test
     public void testCheckResult() throws Exception {
         System.out.println("checkResult");
-        /* POUR UN HOMME */
-        
-        Patient p = new Patient("prenom","nom",1980,12,12,true, null);
-        Boolean expRes;
-        Boolean Res=true;
-        
-        /* cas où toutes les valeurs sont en dessous des notmes physiologiques*/
-        float Hb = 0;
-        float GR = 0;
-        float GB = 0;
-        float hemato = 0;
-        float P = 0;
-        expRes = false;
-        
-        try {
-            BloodTest instance=new BloodTest( Hb,  GR,  GB,  hemato,  P, p);
-            Res=true;
-        }
-        catch (Exception e) { 
-                Res = false;
-        } 
-       assertEquals(expRes,Res);
-       
-       /* cas où toutes les valeurs sont en dessus des notmes physiologiques*/
-       Hb = 1000000.0F;
-       GR = 10000000.0F;
-       GB = 10000000.0F;
-       hemato = 10000000.0F;
-       P = 10000000.0F;
-
-        expRes = false;
-        
-        try {
-            BloodTest instance=new BloodTest( Hb,  GR,  GB,  hemato,  P, p);
-            Res=true;
-        }
-        catch (Exception e) { 
-                Res = false;
-        } 
-       assertEquals(expRes,Res);
-       
-        /* cas où toutes les valeurs sont dans les notmes physiologiques*/
-        Hb = 15.0F;
-        GR = 5.0F;
-        GB = 8.0F;
-        hemato = 45.0F;
-        P = 300;
-        expRes = true;
-        
-        try {
-            BloodTest instance=new BloodTest( Hb,  GR,  GB,  hemato,  P, p);
-            Res=true;
-        }
-        catch (Exception e) { 
-                Res = false;
-        } 
-       assertEquals(expRes,Res);
-    
-    
-     /* POUR UNE FEMME */
-        p = new Patient("prenom","nom",1980,12,12,false, null);
-        
-        /* cas où toutes les valeurs sont dans les notmes physiologiques*/
-        Hb = 15.0F;
-        GR = 5.0F;
-        GB = 8.0F;
-        hemato = 45.0F;
-        P = 300;
-        expRes = true;
-        
-        try {
-            BloodTest instance=new BloodTest( Hb,  GR,  GB,  hemato,  P, p);
-            Res=true;
-        }
-        catch (Exception e) { 
-                Res = false;
-        } 
-       assertEquals(expRes,Res);
+        BloodTest instance = new BloodTest();
+        instance.checkResult();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getResults method, of class BloodTest.
+     * Test of checkP method, of class BloodTest.
      */
     @Test
-    public void testGetResults() throws Exception {
-        System.out.println("getResults");
-        float Hb = 15.0F;
-        float GR = 5.0F;
-        float GB = 8.0F;
-        float hemato = 45.0F;
-        float P = 300F;
-        float expResult;
-        float result;
-        int i;
-        
-        Patient p = new Patient("prenom","nom",1980,12,12,false, null);
-        BloodTest instance = new BloodTest( Hb,  GR,  GB,  hemato,  P,  p);
-        for (i=0;i<5;i++){
-            if (i==0){
-                expResult = 15.0F;
-                result = instance.getResults(i);
-                assertEquals(expResult, result,0.0);
-            } 
-            else if (i==1){
-                expResult = 5.0F;
-                result = instance.getResults(i);
-                assertEquals(expResult, result,0.0);
-            }
-            else if (i==2){
-                expResult = 8.0F;
-                result = instance.getResults(i);
-                assertEquals(expResult, result,0.0);
-            } 
-            else if (i==3){
-                expResult = 45.0F;
-                result = instance.getResults(i);
-                assertEquals(expResult, result,0.0);
-            }
-            else if (i==4){
-                expResult = 300F;
-                result = instance.getResults(i);
-                assertEquals(expResult, result,0.0);
-            } 
-            
-        }
-        
+    public void testCheckP() {
+        System.out.println("checkP");
+        BloodTest instance = new BloodTest();
+        boolean expResult = false;
+        boolean result = instance.checkP();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of setResults method, of class BloodTest.
+     * Test of checkGB method, of class BloodTest.
      */
     @Test
-    public void testSetResults() throws Exception {
-        System.out.println("setResults");
-        float[] results= new float[5];
-        float Hb = 15.0F;
-        float GR = 5.0F;
-        float GB = 8.0F;
-        float hemato = 45.0F;
-        float P = 300F;
-        float expResult;
-        float res;
-        results[0] = Hb;
-        results[1] = GR;
-        results[2] = GB;
-        results[3] = hemato;
-        results[4] = P;        
-        P = 300F;
-        
-        Patient p = new Patient("prenom","nom",1980,12,12,true, null);
-        BloodTest instance = new BloodTest( 17,  6,  6,  46, 350,  p);
-        instance.setResults( Hb,  GR,  GB,  hemato,  P,  p);
-        expResult = 15.0F;
-        res=instance.getResults(0);
-        assertEquals(expResult, res,0.0);
-        expResult = 5.0F;
-        res=instance.getResults(1);
-        assertEquals(expResult, res,0.0);        
-        expResult = 8.0F;
-        res=instance.getResults(2);
-        assertEquals(expResult, res,0.0);
-        expResult = 45.0F;
-        res=instance.getResults(3);
-        assertEquals(expResult, res,0.0);
-        expResult = 300F;
-        res=instance.getResults(4);
-        assertEquals(expResult, res,0.0);
+    public void testCheckGB() {
+        System.out.println("checkGB");
+        BloodTest instance = new BloodTest();
+        boolean expResult = false;
+        boolean result = instance.checkGB();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
+    /**
+     * Test of checkHb method, of class BloodTest.
+     */
+    @Test
+    public void testCheckHb() {
+        System.out.println("checkHb");
+        BloodTest instance = new BloodTest();
+        boolean expResult = false;
+        boolean result = instance.checkHb();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 
+    /**
+     * Test of checkGR method, of class BloodTest.
+     */
+    @Test
+    public void testCheckGR() {
+        System.out.println("checkGR");
+        BloodTest instance = new BloodTest();
+        boolean expResult = false;
+        boolean result = instance.checkGR();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of checkHemato method, of class BloodTest.
+     */
+    @Test
+    public void testCheckHemato() {
+        System.out.println("checkHemato");
+        BloodTest instance = new BloodTest();
+        boolean expResult = false;
+        boolean result = instance.checkHemato();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of checkAllResults method, of class BloodTest.
+     */
+    @Test
+    public void testCheckAllResults() throws Exception {
+        System.out.println("checkAllResults");
+        BloodTest instance = new BloodTest();
+        boolean expResult = false;
+        boolean result = instance.checkAllResults();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getHb method, of class BloodTest.
+     */
+    @Test
+    public void testGetHb() {
+        System.out.println("getHb");
+        BloodTest instance = new BloodTest();
+        float expResult = 0.0F;
+        float result = instance.getHb();
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setHb method, of class BloodTest.
+     */
+    @Test
+    public void testSetHb() throws Exception {
+        System.out.println("setHb");
+        float Hb = 0.0F;
+        BloodTest instance = new BloodTest();
+        instance.setHb(Hb);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getGR method, of class BloodTest.
+     */
+    @Test
+    public void testGetGR() {
+        System.out.println("getGR");
+        BloodTest instance = new BloodTest();
+        float expResult = 0.0F;
+        float result = instance.getGR();
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setGR method, of class BloodTest.
+     */
+    @Test
+    public void testSetGR() throws Exception {
+        System.out.println("setGR");
+        float GR = 0.0F;
+        BloodTest instance = new BloodTest();
+        instance.setGR(GR);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getGB method, of class BloodTest.
+     */
+    @Test
+    public void testGetGB() {
+        System.out.println("getGB");
+        BloodTest instance = new BloodTest();
+        float expResult = 0.0F;
+        float result = instance.getGB();
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setGB method, of class BloodTest.
+     */
+    @Test
+    public void testSetGB() throws Exception {
+        System.out.println("setGB");
+        float GB = 0.0F;
+        BloodTest instance = new BloodTest();
+        instance.setGB(GB);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getHemato method, of class BloodTest.
+     */
+    @Test
+    public void testGetHemato() {
+        System.out.println("getHemato");
+        BloodTest instance = new BloodTest();
+        float expResult = 0.0F;
+        float result = instance.getHemato();
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setHemato method, of class BloodTest.
+     */
+    @Test
+    public void testSetHemato() throws Exception {
+        System.out.println("setHemato");
+        float hemato = 0.0F;
+        BloodTest instance = new BloodTest();
+        instance.setHemato(hemato);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getP method, of class BloodTest.
+     */
+    @Test
+    public void testGetP() {
+        System.out.println("getP");
+        BloodTest instance = new BloodTest();
+        float expResult = 0.0F;
+        float result = instance.getP();
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setP method, of class BloodTest.
+     */
+    @Test
+    public void testSetP() throws Exception {
+        System.out.println("setP");
+        float P = 0.0F;
+        BloodTest instance = new BloodTest();
+        instance.setP(P);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getPat method, of class BloodTest.
+     */
+    @Test
+    public void testGetPat() {
+        System.out.println("getPat");
+        BloodTest instance = new BloodTest();
+        Patient expResult = null;
+        Patient result = instance.getPat();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setPat method, of class BloodTest.
+     */
+    @Test
+    public void testSetPat() {
+        System.out.println("setPat");
+        Patient pat = null;
+        BloodTest instance = new BloodTest();
+        instance.setPat(pat);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of toString method, of class BloodTest.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        BloodTest instance = new BloodTest();
+        String expResult = "";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 }
