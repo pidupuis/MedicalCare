@@ -1245,7 +1245,7 @@ public class DB_connector {
                     + "SET state = '"+ statut +"' "
                     + "WHERE pk_id_fichequotidienne = '"+ id +"'";
             System.out.println("query => " + query);
-            ResultSet rs = this.connect.createStatement().executeQuery(query);
+            this.connect.createStatement().executeUpdate(query);
         }
     }
 
