@@ -611,7 +611,8 @@ public class DB_connector {
      */
     public void resetPassword(String login, String password) throws Exception {        
         if (this.checkPassword(password))   {
-            String query = "UPDATE Utilisateur SET Utilisateur_Password = ('"+ password +"')";
+            String query = "UPDATE Utilisateur SET Utilisateur_Password = ('"+ password +"')"
+                    + " WHERE Utilisateur_Login = '"+ login +"'";
             System.out.println("query => " + query);
             ResultSet rs = this.connect.createStatement().executeQuery(query);
             rs.next();
@@ -1173,26 +1174,26 @@ public class DB_connector {
          * getResults
          */
         if (sang != null)    {
-            String queryAjoutSang = "INSERT INTO AnalyseSang "
-                + "VALUES ("
-                    + "''," //pk_id_analysesang => auto-increment
-                    + "'"+ idFiche +"'," //pk_id_fichequotidienne
-                    + "'"+ ((BloodTest)sang).getResults(0) +"'," //concentration1
-                    + "'"+ ((BloodTest)sang).getResults(1) +"'," //concentration2
-                    + "'"+ ((BloodTest)sang).getResults(2) +"'," //concentration3
-                    + "'"+ ((BloodTest)sang).getResults(3) +"'," //concentration4
-                    + "'"+ ((BloodTest)sang).getResults(4) +"'," //concentration5
-                    + "'"+ ((BloodTest)sang).getObservations() +"'," //observation_sang
-                    + "'"+ ((BloodTest)sang).checkAllResults(
-                        ((BloodTest)sang).getResults(0), 
-                        ((BloodTest)sang).getResults(1), 
-                        ((BloodTest)sang).getResults(2), 
-                        ((BloodTest)sang).getResults(3), 
-                        ((BloodTest)sang).getResults(4), 
-                        this.getPatientById(idPatient)) +"'" //correct_sang
-                    + ")";
-            System.out.println("queryAjout => " + queryAjoutSang);
-            ResultSet rsAjoutSang = this.connect.createStatement().executeQuery(queryAjoutSang);
+//            String queryAjoutSang = "INSERT INTO AnalyseSang "
+//                + "VALUES ("
+//                    + "''," //pk_id_analysesang => auto-increment
+//                    + "'"+ idFiche +"'," //pk_id_fichequotidienne
+//                    + "'"+ ((BloodTest)sang).getHb() +"'," //concentration1
+//                    + "'"+ ((BloodTest)sang).getGR(1) +"'," //concentration2
+//                    + "'"+ ((BloodTest)sang).getGB(2) +"'," //concentration3
+//                    + "'"+ ((BloodTest)sang).getHemato(3) +"'," //concentration4
+//                    + "'"+ ((BloodTest)sang).getP(4) +"'," //concentration5
+//                    + "'"+ ((BloodTest)sang).getObservations() +"'," //observation_sang
+//                    + "'"+ ((BloodTest)sang).checkAllResults(
+//                        ((BloodTest)sang).getHb(), 
+//                        ((BloodTest)sang).getGR(), 
+//                        ((BloodTest)sang).getGB(), 
+//                        ((BloodTest)sang).getHemato(), 
+//                        ((BloodTest)sang).getP(), 
+//                        this.getPatientById(idPatient)) +"'" //correct_sang
+//                    + ")";
+//            System.out.println("queryAjout => " + queryAjoutSang);
+//            ResultSet rsAjoutSang = this.connect.createStatement().executeQuery(queryAjoutSang);
         }
         
         /**
