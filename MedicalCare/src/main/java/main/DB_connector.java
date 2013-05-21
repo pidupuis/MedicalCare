@@ -988,7 +988,30 @@ public class DB_connector {
             rs2.next();
             System.out.println("Prenom : "+ rs.getString("prenom"));
             System.out.println("Nom : "+ rs.getString("nom"));
-            return new Doctor(rs.getString("prenom"), rs.getString("nom"), rs.getString("pk_id_personne"), new CRA(rs2.getString("pk_id_personne"), rs2.getString("prenom"), rs2.getString("nom")));
+            System.out.println("ID : "+rs.getString("pk_id_personne"));
+            System.out.println("Prenom2 : "+ rs2.getString("prenom"));
+            System.out.println("Nom2 : "+ rs2.getString("nom"));
+            System.out.println("ID2 : "+rs2.getString("pk_id_personne"));
+            CRA c = new CRA(rs2.getString("pk_id_personne"), 
+                        rs2.getString("prenom"), 
+                        rs2.getString("nom"));
+            System.out.println("CRA => "+ c.getFirstName() + " " + c.getLastName());
+            Doctor d = new Doctor(
+                    rs.getString("prenom"), 
+                    rs.getString("nom"), 
+                    rs.getString("pk_id_personne"),
+                    c);
+            System.out.println("Doctor => "+ d.getFirstName() + " " + d.getLastName());
+            /*
+            return new Doctor(
+                    rs.getString("prenom"), 
+                    rs.getString("nom"), 
+                    rs.getString("pk_id_personne"), 
+                    new CRA(rs2.getString("pk_id_personne"), 
+                        rs2.getString("prenom"), 
+                        rs2.getString("nom")));
+            */
+            return d;
         }
     }
     
@@ -1000,7 +1023,8 @@ public class DB_connector {
      */
     public ArrayList<Doctor> getListDoctor(CRA cra) throws SQLException, Exception {
         ArrayList<Doctor> tmpListDoctor= new ArrayList<Doctor>();
-        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + Integer.parseInt(cra.getId()) + "'";
+        System.out.println("CRA => "+ cra.getId() + " " + cra.getFirstName());
+        String query = "SELECT pk_id_personne, nom, prenom FROM Medecin WHERE ARC_pk_id_personne='" + cra.getId() + "'";
         System.out.println("query => " + query);
         
         try {
@@ -1209,7 +1233,7 @@ public class DB_connector {
      * @throws WrongParameterException is raised when the parameter statut contains the wrong word for update the status
      * @throws SQLException is raised when there are SQL errors
      */
-    public void updateStateDailyTest (DailyTest d, String statut) throws WrongParameterException, SQLException {
+    public void updateStateDailyTest (String id, String statut) throws WrongParameterException, SQLException {
         String query = "";
         System.out.println("statut : " + statut);
         if ((!(statut.equals("en_cours"))) && (!(statut.equals("valide"))) && (!(statut.equals("invalide"))) && (!(statut.equals("a_verifier"))))  {
@@ -1218,7 +1242,7 @@ public class DB_connector {
         else    {
             query = "UPDATE fichequotidienne "
                     + "SET state = '"+ statut +"' "
-                    + "WHERE pk_id_fichequotidienne = '"+ d.getId() +"'";
+                    + "WHERE pk_id_fichequotidienne = '"+ id +"'";
             System.out.println("query => " + query);
             ResultSet rs = this.connect.createStatement().executeQuery(query);
         }
@@ -1276,6 +1300,43 @@ public class DB_connector {
     public void updateDailyTest(int idTest) {
         System.out.println("updateDailyTest");
         throw new UnsupportedOperationException();
+    }
+    
+     /**
+     *
+     * @param id
+     * @return
+     */
+    public void getLot(String id) throws SQLException, Exception {
+        String query = "SELECT * FROM Lot " + "WHERE pk_id_personne = '" + id + "'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+
+        if (rs.getString("pk_id_personne") == null) {
+            throw new Exception("Il n'existe aucun patient comportant ce nom et ce prénom !");
+        } else {
+            String query2 = "SELECT * FROM Lot " + "WHERE pk_id_personne = '" + rs.getString("pk_id_personne") + "'"; // ou id 
+            System.out.println("query => " + query2);
+            ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
+        }
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public void getLot_Fiche(String id) throws SQLException, Exception {
+        String query = "SELECT * FROM Lot " + "JOIN Patient " + "ON Lot.pk_id_personne = " + "Patient.pk_id_personne " + "JOIN Rempli_fiche " + "ON Patient.pk_id_personne = " + "Rempli_fiche.pk_id_personne " + "JOIN FicheQuotidienne " + "ON Rempli_fiche.pk_id_fichequotidienne = " + "FicheQuotidienne.pk_id_fichequotidienne ";
+        System.out.println("query1 => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        rs.next();
+
+        if (rs.getString("pk_id_personne") == null) {
+            throw new Exception("Il n'existe aucun patient comportant ce nom et ce prénom !");
+        }
+
     }
 
     /**

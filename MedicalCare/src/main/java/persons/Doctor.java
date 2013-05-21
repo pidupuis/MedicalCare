@@ -44,8 +44,8 @@ public class Doctor extends Actor {
     
 
 
-    public Doctor(String firstName, String lastName, String id) throws Exception {
-    	super(firstName, lastName, id);
+    public Doctor(String id, String firstName, String lastName) throws Exception {
+    	super(id, firstName, lastName);
 	}
 
 
