@@ -102,5 +102,9 @@ public class EffortTest extends Analysis {
                 return true;
             }
         }
+        
+        public boolean checkResults(int av, int pdt, int ap)    {
+            return checkEffort(av) && checkEffort(pdt) && checkEffort(ap);
+        }
 
 }

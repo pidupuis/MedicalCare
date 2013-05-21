@@ -18,18 +18,12 @@ import ui.loginframe.LoginFrame;
  *
  * @author Katia
  */
-public class Main {
+public class MainKatia {
     private static Actor user=null;
     private static LoginFrame loginFrame;
     private static MainWindow mainWindow;
     
     public static void main (String[] args) throws Exception {
-
-    	try{
-    		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-    	} catch(Exception e) {}
-    	loginFrame= new LoginFrame();
-    	mainWindow = new MainWindow();
     	
         DB_connector db = null;
         Patient p;
@@ -70,14 +64,18 @@ public class Main {
         //db.addDailyTest(new DailyTest(12, 8, 70, "Aucune observation particulière", true, true, true, null, p, null), p);
         //db.setState(d, "en_cours");
         //System.out.println("Patient : " + db.getPatientById("1"));
-        DailyTest d = db.getDailyTests("1", "15");
+        Doctor dct = db.getDoctorById("21");
+        DailyTest d = db.getDailyTests("1", "05");
         //System.out.println("D1 : " + d.getObservations());
-        db.addDailyTest(d, p, null, null, null, null);
+        BloodTest bt = new BloodTest(23.5f, 23.5f, 23.5f, 23.5f, 23.5f, p);
+        EEG eeg = new EEG(8);
+        EffortTest et = new EffortTest(70, 180, 100);
+        db.addDailyTest(d, p, dct, eeg, bt, et);
         
     }
 
     public static void setUser(Actor user) {
-        Main.user = user;
+        MainKatia.user = user;
     }
 
     public static Actor getUser() {

@@ -41,7 +41,7 @@ public class BloodTest extends Analysis {
 
     public BloodTest() {}
 
-	/**
+    /**
      *
      * @param Hb
      * @param GR
@@ -82,6 +82,50 @@ public class BloodTest extends Analysis {
             }
 
         }
+    }
+
+    /**
+     *
+     * @param Hb
+     * @param GR
+     * @param GB
+     * @param hemato
+     * @param P
+     * @param p
+     * @throws Exception
+     */
+    public boolean checkAllResults(float Hb, float GR, float GB, float hemato, float P, Patient p) throws Exception {
+        if (P < 150.0 || P > 400.0) {
+            return false;
+        }
+        if (GB < 4.0 || GB > 10.0) {
+            return false;
+        } else if (p.getGender() == false) {
+
+            if (Hb < 12.5 || Hb > 15.5) {
+                return false;
+            }
+            if (GR < 3.8 || GR > 5.2) {
+                return false;
+            }
+            if (hemato < 37.0 || hemato > 46.0) {
+                return false;
+            }
+
+        } else {
+
+            if (Hb < 14.0 || Hb > 17.0) {
+                return false;
+            }
+            if (GR < 4.4 || GR > 6.0) {
+                return false;
+            }
+            if (hemato < 40.0 || hemato > 52.0) {
+                return false;
+            }
+
+        }
+        return true;
     }
 
     /**

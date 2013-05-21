@@ -91,7 +91,7 @@ public class DailyTest extends Analysis {
 	 * Returns the systole pressure.
 	 * @return int
 	 */
-	public int getCystole() {
+	public int getSystole() {
 		return this.bloodPressure[0];
 	}
         

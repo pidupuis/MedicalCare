@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -162,7 +163,7 @@ public class DB_connector {
      *
      * @param bt
      */
-    private boolean addBloodTest(BloodTest bt) {
+    public void addBloodTest(BloodTest bt) {
 //        Recap of the table ANALYSESANG
 //        PK_ID_ANALYSESANG
 //        PK_ID_FICHEQUOTIDIENNE
@@ -947,20 +948,20 @@ public class DB_connector {
      */
     public Doctor getDoctorByName(String nom, String prenom) throws SQLException, Exception   {        
         String query = "SELECT * FROM Medecin"
-                + "WHERE nom = '"+ nom +"'"
-                + "AND prenom = '"+ prenom +"'";
+                + " WHERE nom = '"+ nom +"'"
+                + " AND prenom = '"+ prenom +"'";
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
-        
+        rs.next();
         if(rs.getString("pk_id_personne") == null)  {
             throw new Exception("Il n'existe aucun médecin comportant ce nom et ce prénom !");
         }
         else    {
             String query2 = "SELECT * FROM ARC"
-                + "WHERE pk_id_personne = '"+ rs.getString("ARC_pk_id_personne") +"'";
+                + " WHERE pk_id_personne = '"+ rs.getString("ARC_pk_id_personne") +"'";
             System.out.println("query => " + query2);
             ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
-            
+            rs2.next();
             return new Doctor(rs.getString("prenom"), rs.getString("nom"), rs.getString("pk_id_personne"), new CRA(rs2.getString("pk_id_personne"), rs2.getString("prenom"), rs2.getString("nom")));
         }
     }
@@ -972,19 +973,21 @@ public class DB_connector {
      */
     public Doctor getDoctorById(String id) throws SQLException, Exception   {
         String query = "SELECT * FROM Medecin"
-                + "WHERE pk_id_personne = '"+ id +"'";
+                + " WHERE pk_id_personne = '"+ id +"'";
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
-        
+        rs.next();
         if(rs.getString("pk_id_personne") == null)  {
             throw new Exception("Il n'existe aucun médecin comportant ce nom et ce prénom !");
         }
         else    {
             String query2 = "SELECT * FROM ARC"
-                + "WHERE pk_id_personne = '"+ rs.getString("ARC_pk_id_personne") +"'";
+                + " WHERE pk_id_personne = '"+ rs.getString("ARC_pk_id_personne") +"'";
             System.out.println("query => " + query2);
             ResultSet rs2 = this.connect.createStatement().executeQuery(query2);
-            
+            rs2.next();
+            System.out.println("Prenom : "+ rs.getString("prenom"));
+            System.out.println("Nom : "+ rs.getString("nom"));
             return new Doctor(rs.getString("prenom"), rs.getString("nom"), rs.getString("pk_id_personne"), new CRA(rs2.getString("pk_id_personne"), rs2.getString("prenom"), rs2.getString("nom")));
         }
     }
@@ -1069,80 +1072,134 @@ public class DB_connector {
         }
     }
     
-    
-    public void addDailyTest(DailyTest dt, Patient p, Doctor d, EEG eeg, BloodTest sang, EffortTest effort) throws SQLException, Exception {
+    /**
+     * 
+     * @param dt
+     * @param p
+     * @param d
+     * @param eeg
+     * @param sang
+     * @param effort
+     * @throws SQLException
+     * @throws Exception 
+     */
+    public void addDailyTest(DailyTest dt, Patient p, Doctor d, Analysis eeg, Analysis sang, Analysis effort) throws SQLException, Exception {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateFormatBDD = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Calendar currentDate = Calendar.getInstance();
+        int duree, idFiche;
+        String idPatient;
+        String jour = "";
         
-        String querySelectPatient = "SELECT * FROM Patient WHERE pk_id_personne = '"+ p.getId() +"'";
+        /**
+         * Requête de sélection de la date d'entrée du patient
+         */
+        String querySelectPatient = "SELECT pk_id_personne, date_debut FROM Patient WHERE pk_id_personne = '"+ p.getId() +"'";
         System.out.println("querySelect => " + querySelectPatient);
         ResultSet rsSelectPatient = this.connect.createStatement().executeQuery(querySelectPatient);
         rsSelectPatient.next();
+        idPatient = rsSelectPatient.getString("pk_id_personne");
+        Date debutDate = rsSelectPatient.getDate("date_debut");
         
+        /*
+         * Attention ce qui suit est extrêment moche et dégueulasse !
+         */
+        duree = currentDate.getTime().getDate() - debutDate.getDate();
+        jour = (duree>10) ? String.valueOf(duree) : '0'+String.valueOf(duree);
+                
+        /**
+         * Requête d'insertion dans la table FicheQuotidienne
+         */
         String queryAjoutFiche = "INSERT INTO FicheQuotidienne "
                 + "VALUES ("
                 + "''," //pk_id_fichequotidienne => auto-increment
-                + "''," //date_fiche => day of clinical assay
-                + "''," //pression_systolique
-                + "''," //pression_diastolique
-                + "''," //rythme_cardiaque
-                + "''," //observation_quotidienne
-                + "'en_cours'" //state => status is 'en_cours' (default)
-                + ")";
+                + "'"+ dt.getSystole() +"'," //pression_systolique
+                + "'"+ dt.getDiastole() +"'," //pression_diastolique
+                + "'"+ dt.getHeartBeats() +"'," //rythme_cardiaque
+                + "'"+ dt.getObservations() +"'," //observation_quotidienne
+                + "'en_cours'," //state => status is 'en_cours' (default)
+                + "'"+ duree +"'" //date_fiche => day of clinical assay
+                + ") RETURNING pk_id_fichequotidienne";
         System.out.println("queryAjout => " + queryAjoutFiche);
+        ResultSet rsAjoutFiche = this.connect.createStatement().executeQuery(queryAjoutFiche);
+        idFiche = rsAjoutFiche.getInt(1);
+        System.out.println("id : " + idFiche);
+                
+        /**
+         * Requête d'insertion dans la table Rempli_Fiche
+         */
+        String queryRempliFiche = "INSERT INTO Rempli_Fiche "
+                + "VALUES ("
+                + "'"+ rsSelectPatient.getString("pk_id_personne") +"'," //pk_id_personne
+                + "'"+  idFiche +"'," //pk_id_fichequotidienne
+                + "'"+ d.getId() +"'" //Med_pk_id_personne
+                + ")";
+        System.out.println("queryAjout => " + queryRempliFiche);
+        ResultSet rsRempliFiche = this.connect.createStatement().executeQuery(queryRempliFiche);        
         
+        /**
+         * Si on doit aussi insérer une analyse EEG
+         */
+        if (eeg != null)    {
+            String queryAjoutEEG = "INSERT INTO AnalyseEEG "
+                + "VALUES ("
+                    + "''," //pk_id_analyseeeg => auto-increment
+                    + "'"+ idFiche +"'," //pk_id_fichequotidienne
+                    + "'"+ ((EEG)eeg).getResult() +"'," //resultat_eeg
+                    + "'"+ ((EEG)eeg).getObservations() +"'," //observation_eeg
+                    + "'"+ ((((EEG)eeg).checkEEG(((EEG)eeg).getResult())) ? 1 : 0) +"'" //correct_eeg
+                    + ")";
+            System.out.println("queryAjout => " + queryAjoutEEG);
+            ResultSet rsAjoutEEG = this.connect.createStatement().executeQuery(queryAjoutEEG);
+        }
         
-//        GregorianCalendar dateTest = instance.getDailyDate();
-//        
-//        String strDate = String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.MONTH)) + "/" + String.valueOf(instance.getDailyDate().get(Calendar.YEAR));
-//        String idTest = String.valueOf(instance.getPatient().getId());
-//        
-//        while (idTest.length() < 4) {
-//            idTest = "0" + idTest;
-//        }
-//            // Formate l'id pour qu'il fasse bien 4 caracteres.
-//            
-//        String numLot = idTest + String.valueOf(instance.getDailyDate().get(Calendar.DAY_OF_MONTH));
-//        
-//        String query_fiche = "insert into FICHEQUOTIDIENNE "
-//                + "(PK_ID_FICHEQUOTIDIENNE, PK_NUM_LOT, DATE_FICHE, PRESSION_SYSTOLIQUE, "
-//                + " PRESSION_DIASTOLIQUE, RYTHME_CARDIAQUE, OBSERVATIONS_QUOTIDIENNES, VERIFIE) "
-//                + "values (null, " + numLot + ", " + strDate + ", " + instance.getCystole() + ", "
-//                + instance.getDiastole() + ", " + instance.getHeartBeats() + ", " + instance.getObservations() + ", " + verifiee + ")";
-//        // Format date : '26/12/2014'
-//        System.out.println(query_fiche);
-//        ResultSet rs_fiche = this.connect.createStatement().executeQuery(query_fiche);
-//        rs_fiche.next();
-//        
-//        String query_rempli = "insert into REMPLI_FICHE (PK_ID_PERSONNE, PK_ID_FICHEQUOTIDIENNE, MED_PK_ID_PERSONNE) values "
-//                + "(" + String.valueOf(instance.getPatient().getId()) + ", " + rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") + ", " + instance.getMed().getId() + ")" ;
-//
-//        System.out.println(query_rempli);
-//        ResultSet rs_rempli = this.connect.createStatement().executeQuery(query_rempli);
-//        rs_rempli.next();
-//        
-//        if (instance.getPrescBlood()) {
-//            String query_blood = "insert into ANALYSESANG (PK_ID_ANALYSESANG, PK_ID_FICHEQUOTIDIENNE, HEMOGLOBINE, TAUX_GLOBULES_ROUGE, HEMATOCRITE, TAUX_GLOBULES_BLANC, PLAQUETTES, OBSERVATIONS_SANG, CORRECT_SANG) values "
-//                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getBloodTest().getResults(0) +", "+ instance.getBloodTest().getResults(1) +","
-//                    + " "+ instance.getBloodTest().getResults(3) +", "+ instance.getBloodTest().getResults(2) +", "+ instance.getBloodTest().getResults(4) +", "+ instance.getBloodTest().getObservations() +", null)";
-//            
-//            System.out.println(query_blood);
-//            ResultSet rs_blood = this.connect.createStatement().executeQuery(query_blood);
-//            rs_blood.next();
-//        }
-//        if (instance.getPrescEEG()) {
-//            String query_eeg = "insert into ANALYSEEEG (PK_ID_ANALYSEEEG, PK_ID_FICHEQUOTIDIENNE, RESULTAT_EEG, OBSERVATIONS_EEG) values "
-//                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEEGTest().getResult() +", "+ instance.getEEGTest().getObservations() +")";                    
-//                    
-//            System.out.println(query_eeg);
-//            ResultSet rs_eeg = this.connect.createStatement().executeQuery(query_eeg);
-//            rs_eeg.next();
-//        }
-//        if (instance.getPrescEffort()) {
-//            String query_effort = "insert into ANALYSEEFFORT (PK_ID_ANALYSEEFFORT, PK_ID_FICHEQUOTIDIENNE, RYTHME_AVANT, RYTHME_APRES, RYTHME_1MIN_APRES, OBSERVATIONS_EFFORT) values "
-//                    + "(null, "+ rs_fiche.getString("PK_ID_FICHEQUOTIDIENNE") +", "+ instance.getEffortTest().getBeforeEffort() +", "+ instance.getEffortTest().getPostEffort() +" , "+ instance.getEffortTest().getTimePlusOne() +", "+ instance.getEffortTest().getObservations() +")";
-//            System.out.println(query_effort);
-//            ResultSet rs_effort = this.connect.createStatement().executeQuery(query_effort);
-//            rs_effort.next();
-//        }
+        /**
+         * Si on doit aussi insérer une analyse de sang
+         * getResults
+         */
+        if (sang != null)    {
+            String queryAjoutSang = "INSERT INTO AnalyseSang "
+                + "VALUES ("
+                    + "''," //pk_id_analysesang => auto-increment
+                    + "'"+ idFiche +"'," //pk_id_fichequotidienne
+                    + "'"+ ((BloodTest)sang).getResults(0) +"'," //concentration1
+                    + "'"+ ((BloodTest)sang).getResults(1) +"'," //concentration2
+                    + "'"+ ((BloodTest)sang).getResults(2) +"'," //concentration3
+                    + "'"+ ((BloodTest)sang).getResults(3) +"'," //concentration4
+                    + "'"+ ((BloodTest)sang).getResults(4) +"'," //concentration5
+                    + "'"+ ((BloodTest)sang).getObservations() +"'," //observation_sang
+                    + "'"+ ((BloodTest)sang).checkAllResults(
+                        ((BloodTest)sang).getResults(0), 
+                        ((BloodTest)sang).getResults(1), 
+                        ((BloodTest)sang).getResults(2), 
+                        ((BloodTest)sang).getResults(3), 
+                        ((BloodTest)sang).getResults(4), 
+                        this.getPatientById(idPatient)) +"'" //correct_sang
+                    + ")";
+            System.out.println("queryAjout => " + queryAjoutSang);
+            ResultSet rsAjoutSang = this.connect.createStatement().executeQuery(queryAjoutSang);
+        }
+        
+        /**
+         * Si on doit aussi insérer une analyse d'effort
+         */
+        if (effort != null)    {
+            String queryAjoutEffort = "INSERT INTO AnalyseEffort "
+                + "VALUES ("
+                    + "''," //pk_id_analyseeffort => auto-increment
+                    + "'"+ idFiche +"'," //pk_id_fichequotidienne
+                    + "'"+ ((EffortTest)effort).getBeforeEffort() +"'," //rythme_avant
+                    + "'"+ ((EffortTest)effort).getPostEffort() +"'," //rythme_apres
+                    + "'"+ ((EffortTest)effort).getTimePlusOne() +"'," //rythme_1min_apres
+                    + "'"+ ((EffortTest)effort).getObservations() +"'," //observation_effort
+                    + "'"+ ((EffortTest)effort).checkResults(
+                    ((EffortTest)effort).getBeforeEffort(), 
+                    ((EffortTest)effort).getPostEffort(), 
+                    ((EffortTest)effort).getTimePlusOne()) +"'" //correct_effort
+                    + ")";
+            System.out.println("queryAjout => " + queryAjoutEffort);
+            ResultSet rsAjoutEffort = this.connect.createStatement().executeQuery(queryAjoutEffort);
+        }
     }
     
     /**

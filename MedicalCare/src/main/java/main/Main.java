@@ -70,7 +70,7 @@ public class Main {
         //db.addDailyTest(new DailyTest(12, 8, 70, "Aucune observation particulière", true, true, true, null, p, null), p);
         //db.setState(d, "en_cours");
         //System.out.println("Patient : " + db.getPatientById("1"));
-        DailyTest d = db.getDailyTests("1", "15");
+        DailyTest d = db.getDailyTests("1", "05");
         //System.out.println("D1 : " + d.getObservations());
         db.addDailyTest(d, p, null, null, null, null);
         

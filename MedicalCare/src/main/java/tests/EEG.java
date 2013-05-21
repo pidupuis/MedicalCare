@@ -52,7 +52,7 @@ public class EEG extends Analysis {
 	 * @param x
          * @return boolean
 	 */
-        private boolean checkEEG(int x) {
+        public boolean checkEEG(int x) {
             if (x > 10 || x < 0) {
                 return false;
             }
