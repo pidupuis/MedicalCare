@@ -8,6 +8,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import net.miginfocom.swing.MigLayout;
 
@@ -33,7 +37,10 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 		this.field = field;
 		this.status = new JLabel();
 		
-		setLayout(new MigLayout("hidemode 3, inset 0 20 10 20", "[120px:n][grow][28px:28px:28px]", "[::30px,grow]"));
+		setLayout(new MigLayout("hidemode 3, inset 0 20 10 20", "[140px:n][grow][28px:28px:28px]", "[30px,grow]"));
+		
+		if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
+			this.field.setBorder(new LineBorder(new Color(0,0,0, 50)));
 		
 		add(this.label, "cell 0 0,grow");
 		add(this.field, "cell 1 0,grow");
@@ -74,12 +81,16 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 			}
 			status.setToolTipText(reason);
 			field.setBackground(new Color(255, 215, 215));
+			if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
+				this.field.setBorder(new LineBorder(new Color(255,0,0, 50)));
 		}
 		else {
 			status.setText("");
 			status.setToolTipText("");
 			status.setIcon(null);
 			field.setBackground(Color.WHITE);
+			if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
+				this.field.setBorder(new LineBorder(new Color(0,0,0, 50)));
 		}
 		status.revalidate();
 	}

@@ -18,15 +18,17 @@ import ui.dailysheetfilling.listeners.PatientChanging;
 import ui.loginframe.FormRow;
 
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 
 public class FormPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private FormRow<JLabel, JTextField>  lot_number;
 	private FormRow<JLabel, JTextField>  pres_sys;
 	private FormRow<JLabel, JTextField>  pres_dias;
 	private FormRow<JLabel, JTextField>  bat;
-	
+	private FormRow<JLabel, JTextArea>  obs;
+
 	private JTextField lot_number_txf;
 	private JTextField pres_sys_txf;
 	private JTextField pres_dias_txf;
@@ -45,7 +47,7 @@ public class FormPanel extends JPanel {
 	private JButton suivant_btn;
 
 	private ArrayList<PatientNode> myPatientNodes;
-	
+
 	private ArrayList<Boolean> correct;
 
 	/**
@@ -56,8 +58,8 @@ public class FormPanel extends JPanel {
 		this.correct = new ArrayList<Boolean>();
 		for (int i = 0; i < 4; i++)
 			this.correct.add(false);
-		
-		setLayout(new MigLayout("", "[][][][grow][]", "[][][][][][][][][][][][][][][]"));
+
+		setLayout(new MigLayout("hidemode 3, inset 0 0 0 0", "[][][][grow]", "[][][][][][][100px:n][]"));
 
 		this.myPatientNodes = new ArrayList<PatientNode>();
 
@@ -68,60 +70,76 @@ public class FormPanel extends JPanel {
 		header_name_lbl = new JLabel(myPatientNodes.get(0).getMyPatient().getLastName() + " " + myPatientNodes.get(0).getMyPatient().getFirstName());
 		add(header_name_lbl, "cell 3 0");
 
-		warning_lbl = new MessagePane();//
-		warning_lbl.setErrorDisplayed(false);
-		warning_lbl.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
-		add(warning_lbl, "cell 0 2 4 1");
-		warning_lbl.setVisible(true);
+		{
+			warning_lbl = new MessagePane();//
+			warning_lbl.setErrorDisplayed(false);
+			warning_lbl.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
+			add(warning_lbl, "cell 0 1 4 1,growx");
+			warning_lbl.setVisible(true);
+		}
 
-		lot_number_lbl = new JLabel("Numéro de Lot :");
-		//add(lot_number_lbl, "cell 0 3");
-		lot_number_txf = new JTextField();
-		//add(lot_number_txf, "cell 3 3,growx");
-		lot_number = new FormRow<JLabel, JTextField>(lot_number_lbl, lot_number_txf);
-		add(lot_number, "cell 0 3 4 1,grow");
-		
-		lot_number_txf.addActionListener(new ListenerLotNumber(this));
-		lot_number_txf.addFocusListener(new ListenerLotNumber(this));
-		lot_number_txf.setColumns(10);
+		{
+			lot_number_lbl = new JLabel("Numéro de Lot :");
+			lot_number_txf = new JTextField();
+			lot_number = new FormRow<JLabel, JTextField>(lot_number_lbl, lot_number_txf);
+			add(lot_number, "cell 0 2 4 1,grow");
 
-		JLabel pres_sys_lbl = new JLabel("Pression Systolique :");
-		add(pres_sys_lbl, "cell 0 5");
+			lot_number_txf.addActionListener(new ListenerLotNumber(this));
+			lot_number_txf.addFocusListener(new ListenerLotNumber(this));
+			lot_number_txf.setColumns(10);
+		}
 
-		pres_sys_txf = new JTextField();
-		pres_sys_txf.addActionListener(new ListenerPresSys(this));
-		pres_sys_txf.addFocusListener(new ListenerPresSys(this));
-		add(pres_sys_txf, "cell 3 5,growx");
-		pres_sys_txf.setColumns(10);
+		{
+			JLabel pres_sys_lbl = new JLabel("Pression Systolique :");
 
-		JLabel pres_dias_lbl = new JLabel("Pression Diastolique :");
-		add(pres_dias_lbl, "cell 0 7");
+			pres_sys_txf = new JTextField();
+			pres_sys_txf.addActionListener(new ListenerPresSys(this));
+			pres_sys_txf.addFocusListener(new ListenerPresSys(this));
+			pres_sys_txf.setColumns(10);
+			pres_sys =  new FormRow<JLabel, JTextField>(pres_sys_lbl, pres_sys_txf);
+			add(pres_sys, "cell 0 3 4 1,grow");
+		}
 
-		pres_dias_txf = new JTextField();
-		pres_dias_txf.addActionListener(new ListenerPresDias(this));
-		pres_dias_txf.addFocusListener(new ListenerPresDias(this));
-		add(pres_dias_txf, "cell 3 7,growx");
-		pres_dias_txf.setColumns(10);
+		{
+			JLabel pres_dias_lbl = new JLabel("Pression Diastolique :");
 
-		JLabel bat_lbl = new JLabel("Battements par min :");
-		add(bat_lbl, "cell 0 9");
+			pres_dias_txf = new JTextField();
+			pres_dias_txf.addActionListener(new ListenerPresDias(this));
+			pres_dias_txf.addFocusListener(new ListenerPresDias(this));
+			pres_dias_txf.setColumns(10);
 
-		bat_txf = new JTextField();
-		pres_dias_txf.addActionListener(new ListenerBattCard(this));
-		pres_dias_txf.addFocusListener(new ListenerBattCard(this));
-		add(bat_txf, "cell 3 9,growx");
-		bat_txf.setColumns(10);
+			pres_dias =  new FormRow<JLabel, JTextField>(pres_dias_lbl, pres_dias_txf);
+			add(pres_dias, "cell 0 4 4 1,grow");
+		}
 
-		JLabel obs_lbl = new JLabel("Observations :");
-		add(obs_lbl, "cell 0 11");
+		{
+			JLabel bat_lbl = new JLabel("Battements par min :");
 
-		obs_txf = new JTextArea(10, 10);
-		add(obs_txf, "cell 3 11,growx");
-		obs_txf.setColumns(10);
+			bat_txf = new JTextField();
+			pres_dias_txf.addActionListener(new ListenerBattCard(this));
+			pres_dias_txf.addFocusListener(new ListenerBattCard(this));
+			bat_txf.setColumns(10);
+			
+			bat =  new FormRow<JLabel, JTextField>(bat_lbl, bat_txf);
+			add(bat, "cell 0 5 4 1,grow");
+		}
 
-		suivant_btn = new JButton("Suivant >");
-		suivant_btn.addActionListener(new PatientChanging(this));
-		add(suivant_btn, "cell 4 14");
+		{
+			JLabel obs_lbl = new JLabel("Observations :");
+
+			obs_txf = new JTextArea(30, 10);
+			obs_txf.setColumns(10);
+			obs_txf.setBorder(new LineBorder(new Color(0,0,0, 50)));
+			
+			obs =  new FormRow<JLabel, JTextArea>(obs_lbl, obs_txf);
+			add(obs, "cell 0 6 4 1,grow");
+		}
+
+		{
+			suivant_btn = new JButton("Suivant >");
+			suivant_btn.addActionListener(new PatientChanging(this));
+			add(suivant_btn, "cell 0 7 4 1,alignx right");
+		}
 
 	}
 
@@ -176,7 +194,7 @@ public class FormPanel extends JPanel {
 	public MessagePane getWarning_lbl() {
 		return warning_lbl;
 	}
-	
+
 	public void setWarning_lbl(MessagePane message) {
 		this.warning_lbl = message;
 	}
@@ -200,12 +218,12 @@ public class FormPanel extends JPanel {
 	public void setCorrect(int index, boolean correct) {
 		this.correct.set(index, correct);
 	}
-	
+
 	public void cleanCorrect() {
 		for (int i = 0; i < 4; i++)
 			this.correct.set(i, false);
 	}
-	
+
 	public boolean isCorrect() {
 		for (Boolean b : this.correct) {
 			if (!b)
@@ -213,19 +231,19 @@ public class FormPanel extends JPanel {
 		}
 		return true;
 	}
-	
+
 	public void cleanPanel() {
 		this.lot_number_txf.setText("");
 		this.pres_sys_txf.setText("");
 		this.pres_dias_txf.setText("");
 		this.bat_txf.setText("");
-		
+
 		this.lot_number_txf.setBackground(Color.white);
 		this.pres_sys_txf.setBackground(Color.white);
 		this.pres_dias_txf.setBackground(Color.white);
 		this.bat_txf.setBackground(Color.white);
 	}
-	
-	
-	
+
+
+
 }
