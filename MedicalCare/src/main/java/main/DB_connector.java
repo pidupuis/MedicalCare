@@ -1485,4 +1485,8 @@ public class DB_connector {
             return null;
         }
     }
+    
+    public String toto() {
+        return "totototo";
+    }
 }
