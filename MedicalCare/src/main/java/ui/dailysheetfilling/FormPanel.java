@@ -4,11 +4,16 @@ import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
+
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JRootPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTree;
+import javax.swing.RootPaneContainer;
+
 import ui.MessagePane;
 import ui.dailysheetfilling.listeners.ListenerBattCard;
 import ui.dailysheetfilling.listeners.ListenerLotNumber;
@@ -53,7 +58,7 @@ public class FormPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public FormPanel(JTree myTree) {
+	public FormPanel(JTree myTree, JRootPane parentRootPane) {
 
 		this.correct = new ArrayList<Boolean>();
 		for (int i = 0; i < 4; i++)
@@ -140,7 +145,9 @@ public class FormPanel extends JPanel {
 			suivant_btn.addActionListener(new PatientChanging(this));
 			add(suivant_btn, "cell 0 7 4 1,alignx right");
 		}
-
+		
+		
+		parentRootPane.setDefaultButton(suivant_btn);
 	}
 
 	public JLabel getHeader_name_lbl() {

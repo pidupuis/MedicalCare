@@ -2,6 +2,8 @@ package ui.loginframe;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -76,23 +78,47 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 		if(arg) {
 			try {
 				status.setIcon(new ImageIcon(getClass().getResource("/icon/error_mini.png")));
-			} catch (Exception e) {
-				status.setText("/!\\");
-			}
+			} catch (Exception e) { }
 			status.setToolTipText(reason);
-			field.setBackground(new Color(255, 215, 215));
+			field.setBackground(new Color(255, 0 , 0, 40));
 			if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
-				this.field.setBorder(new LineBorder(new Color(255,0,0, 50)));
+				this.field.setBorder(new LineBorder(new Color(255, 0 , 0, 100)));
 		}
-		else {
-			status.setText("");
-			status.setToolTipText("");
-			status.setIcon(null);
-			field.setBackground(Color.WHITE);
-			if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
-				this.field.setBorder(new LineBorder(new Color(0,0,0, 50)));
-		}
+		else backToDefault();
+		
 		status.revalidate();
+	}
+	
+	/**
+	 * Display the field as invalid with orange color, orange icon and reason in tooltip
+	 * @param arg true to make the row appear with a warning; false otherwise
+	 * @param reason the reason of the warning
+	 */
+	public void setWarning(boolean arg, String reason) {
+		if(arg) {
+			try {
+				status.setIcon(new ImageIcon(getClass().getResource("/icon/warning_mini.png")));
+			} catch (Exception e) {}
+			
+			status.setToolTipText(reason);
+			field.setBackground(new Color(255, 127, 0, 40));
+			if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
+				this.field.setBorder(new LineBorder(new Color(255, 127, 0, 100)));
+		}
+		else backToDefault();
+		
+		status.revalidate();
+	}
+	
+	/**
+	 * 
+	 */
+	private void backToDefault() {
+		status.setToolTipText("");
+		status.setIcon(null);
+		field.setBackground(Color.WHITE);
+		if(this.field instanceof JTextArea || this.field instanceof JTextField || this.field instanceof JPasswordField)
+			this.field.setBorder(new LineBorder(new Color(0, 0, 0, 50)));
 	}
 	
 	/**
@@ -122,4 +148,5 @@ public class FormRow<L extends JComponent, F extends JComponent> extends JPanel 
 			field.setFont(f);
 		} catch (Exception e) {}
 	}
+	
 }

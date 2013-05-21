@@ -4,6 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.RootPaneContainer;
 import javax.swing.UIManager;
 
 import main.DB_connector;
@@ -27,12 +29,12 @@ public class SaisieFicheJournaliere extends JPanel {
 	 * Create the panel.
 	 * @throws Exception 
 	 */
-	public SaisieFicheJournaliere(Actor user, ArrayList<Patient> myPatients) throws Exception {
+	public SaisieFicheJournaliere(Actor user, ArrayList<Patient> myPatients, JRootPane parentRootPane) throws Exception {
 		
 		this.setLayout(new GridLayout(1, 2));
 		
 		this.subpanelTree = new TreePanel(user, myPatients);
-		this.subpanelForm = new FormPanel(this.subpanelTree.getTree());
+		this.subpanelForm = new FormPanel(this.subpanelTree.getTree(), parentRootPane);
 		
 		this.add(this.subpanelTree);
 		this.add(this.subpanelForm);
@@ -67,7 +69,7 @@ public class SaisieFicheJournaliere extends JPanel {
 				e.printStackTrace();
 			}
 
-			plop.add(new SaisieFicheJournaliere(actor, myPatients));
+			plop.add(new SaisieFicheJournaliere(actor, myPatients, plop.getRootPane()));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
