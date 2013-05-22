@@ -45,6 +45,8 @@ public class PatientChanging implements ActionListener {
 				fp.setHeader_name_lbl(header_name);					
 				current_index++;
 				//Control conditions are NOT OK
+
+				fp.cleanPanel();
 			}
 			//case 2 : the last patient of the array
 			else if (current_index == last_p)
@@ -57,20 +59,24 @@ public class PatientChanging implements ActionListener {
 				fp.setHeader_name_lbl(header_name);
 				fp.getSuivant_btn().setText("Valider et Finir");
 				current_index++;
+
+				fp.cleanPanel();
 			}
 			else {
 				myPatientNodes.get(current_index-1).setFocused(false);
 				myPatientNodes.get(current_index-1).setValide(true);
+				
+
+				fp.correctPanel();
 			}
 			
 			fp.cleanCorrect();
-			fp.cleanPanel();
 			this.fp.getParent().repaint();
 		}
 		else {
 			//fp.getWarning_lbl().setVisible(true);
 			this.fp.getParent().repaint();
-			fp.getWarning_lbl().setErrorMessage("Veuillez remplir correctement le formulaire");
+			fp.getMessagePane().setErrorMessage("Veuillez remplir correctement le formulaire");
 		}
 
 

@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import persons.Actor;
 import persons.Doctor;
 import persons.Patient;
+import net.miginfocom.swing.MigLayout;
 /**
  * JPanel to insert new daily form
  * 
@@ -36,14 +37,16 @@ public class SaisieFicheJournaliere extends JPanel {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		this.setLayout(new GridLayout(1, 2));
+		setLayout(new MigLayout("", "[225px][-67.00][225px][77.00][][23.00]", "[300px]"));
+		
+		JPanel panel = new JPanel();
+		add(panel, "cell 0 0,grow");
 		
 		this.subpanelTree = new TreePanel(doctor, myPatients);
+		subpanelTree.setMinimumSize(new Dimension(100, 1500));
+		panel.add(subpanelTree);
 		this.subpanelForm = new FormPanel(this.subpanelTree.getTree(), parentRootPane);
-		
-		this.add(this.subpanelTree);
-		this.add(this.subpanelForm);
+		this.add(this.subpanelForm, "cell 1 0 4 1,alignx left,growy");
 		
 	}
 	
@@ -66,7 +69,7 @@ public class SaisieFicheJournaliere extends JPanel {
 		Actor actor;
 		try {
 			actor = new Doctor("1", "Super","Docteur");
-			plop.add(new SaisieFicheJournaliere(actor, plop.getRootPane()));
+			plop.getContentPane().add(new SaisieFicheJournaliere(actor, plop.getRootPane()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

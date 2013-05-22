@@ -264,11 +264,11 @@ public class FormPanel extends JPanel {
 		this.obs_txf = obs_txf;
 	}
 
-	public MessagePane getWarning_lbl() {
+	public MessagePane getMessagePane() {
 		return messagePane;
 	}
 
-	public void setWarning_lbl(MessagePane message) {
+	public void setMessagePane(MessagePane message) {
 		this.messagePane = message;
 	}
 
@@ -318,5 +318,16 @@ public class FormPanel extends JPanel {
 		
 		messagePane.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
 	}
+	
+	public void correctPanel() {
+		this.removeAll();
+		
+		messagePane = new MessagePane();
+		messagePane.setSuccessMessage("You registered every patient !");
+		add(messagePane, "cell 0 1 4 1,growx");
+		messagePane.setVisible(true);	
+	}
+	
+	
 
 }
