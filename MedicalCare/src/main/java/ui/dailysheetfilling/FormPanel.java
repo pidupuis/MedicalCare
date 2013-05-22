@@ -103,7 +103,6 @@ public class FormPanel extends JPanel {
 					} else
 						correct.set(0, false);
 
-					// TODO: change "correct" arraylist & message pane content
 					return s;
 				}
 			};
@@ -132,7 +131,6 @@ public class FormPanel extends JPanel {
 					} else
 						correct.set(1, false);
 
-					// TODO: change "correct" arraylist & message pane content
 					return s;
 				}
 			};
@@ -161,7 +159,6 @@ public class FormPanel extends JPanel {
 					} else
 						correct.set(2, false);
 
-					// TODO: change "correct" arraylist & message pane content
 					return s;
 				}
 			};
@@ -188,8 +185,7 @@ public class FormPanel extends JPanel {
 										: true);
 					} else
 						correct.set(3, false);
-
-					// TODO: change "correct" arraylist & message pane content
+					
 					return s;
 				}
 			};
@@ -264,11 +260,11 @@ public class FormPanel extends JPanel {
 		this.obs_txf = obs_txf;
 	}
 
-	public MessagePane getWarning_lbl() {
+	public MessagePane getMessagePane() {
 		return messagePane;
 	}
 
-	public void setWarning_lbl(MessagePane message) {
+	public void setMessagePane(MessagePane message) {
 		this.messagePane = message;
 	}
 
@@ -318,5 +314,16 @@ public class FormPanel extends JPanel {
 		
 		messagePane.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
 	}
+	
+	public void correctPanel() {
+		this.removeAll();
+		
+		messagePane = new MessagePane();
+		messagePane.setSuccessMessage("Vous avez enregistré toutes les fiches patients du jour !");
+		add(messagePane, "cell 0 1 4 1,growx");
+		messagePane.setVisible(true);	
+	}
+	
+	
 
 }

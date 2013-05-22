@@ -2,6 +2,7 @@ package ui;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -9,6 +10,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
+
+import persons.Actor;
+import ui.dailysheetfilling.SaisieFicheJournaliere;
 
 /**
  * Main software window
@@ -18,7 +22,7 @@ public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
-	public MainWindow() {
+	public MainWindow(String role, Actor user) throws Exception {
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -27,15 +31,25 @@ public class MainWindow extends JFrame {
 		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		
-		JComponent panel1 = makeTextPanel("Panel #1");
+		if (role.equalsIgnoreCase("médecin"))
+		{
+		JComponent panel1 = new SaisieFicheJournaliere(user, this.getRootPane());
         tabbedPane.addTab("Suivi Journalier",null, panel1,"Does nothing");
+        tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 		JComponent panel2 = makeTextPanel("D'autres fonctionnalités finiront bien par arriver ...");
         tabbedPane.addTab("Autres Fonctionnalités",null, panel2,"Does nothing twice");
-        contentPane.add(tabbedPane);
-        
+        tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+		}
+		else if (role.equalsIgnoreCase("Attaché de recherche clinique"))
+		{
+			JComponent panel1 = makeTextPanel("Aucune fonctionnalité encore implantée pour l'ARC");
+	        tabbedPane.addTab("Fonctionnalité Absente",null, panel1,"Does nothing twice");
+	        tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+		}
+		contentPane.add(tabbedPane);
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-
+		this.setSize(800,600);
 	}
 	
 	  protected JComponent makeTextPanel(String text) {
