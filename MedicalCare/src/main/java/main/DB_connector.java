@@ -465,18 +465,15 @@ public class DB_connector {
             rs2.next();
             
             if (statut == 1)    {
-                DataManager tmpDM = new DataManager(rs2.getNString("PRENOM"), rs2.getNString("NOM"));
-                tmpDM.setId(rs2.getNString("PK_ID_PERSONNE"));
+                DataManager tmpDM = new DataManager(rs2.getNString("PK_ID_PERSONNE"), rs2.getNString("PRENOM"), rs2.getNString("NOM"));
                 return tmpDM;
             }
             else if (statut == 2)    {
-                CRA tmpCRA = new CRA(rs2.getNString("PRENOM"), rs2.getNString("NOM"));
-                tmpCRA.setId(rs2.getNString("PK_ID_PERSONNE"));
+                CRA tmpCRA = new CRA(rs2.getNString("PK_ID_PERSONNE"), rs2.getNString("PRENOM"), rs2.getNString("NOM"));
                 return tmpCRA;
             }
             else    {
                 Doctor tmpDoctor = new Doctor(rs2.getNString("PK_ID_PERSONNE"), rs2.getNString("PRENOM"), rs2.getNString("NOM"), null);
-                tmpDoctor.setId(rs2.getNString("PK_ID_PERSONNE"));
                 return tmpDoctor;
             }
         }
