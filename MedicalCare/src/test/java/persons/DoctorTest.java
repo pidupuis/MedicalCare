@@ -38,7 +38,7 @@ public class DoctorTest {
     @Test
     public void testGetLogin() throws Exception {
         System.out.println("getLogin");
-        Doctor instance = new Doctor("Vincent", "Emonet", "123");
+        Doctor instance = new Doctor( "123", "Vincent", "Emonet");
         String expResult = "vemonet";
         String result = instance.getLogin();
         assertEquals(expResult, result);
@@ -50,7 +50,7 @@ public class DoctorTest {
     @Test
     public void testGetPassword() throws Exception {
         System.out.println("getPassword");
-        Doctor instance = new Doctor("test", "test", "123");
+        Doctor instance = new Doctor("123", "test", "test");
         instance.setPassword("testpw");
         String expResult = "testpw";
         String result = instance.getPassword();
@@ -63,7 +63,7 @@ public class DoctorTest {
     @Test
     public void testSetPassword() throws Exception {
         System.out.println("setPassword");
-        Doctor instance = new Doctor("test", "test", "123");
+        Doctor instance = new Doctor("123", "test", "test");
         String expResult = "testpw";
         instance.setPassword("testpw");
         String result = instance.getPassword();

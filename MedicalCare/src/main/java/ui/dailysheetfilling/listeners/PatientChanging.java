@@ -3,14 +3,8 @@ package ui.dailysheetfilling.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JPanel;
-
-import persons.Patient;
 import ui.dailysheetfilling.FormPanel;
 import ui.dailysheetfilling.PatientNode;
-import ui.dailysheetfilling.TreePanel;
 
 /**
  * Allow to change the patient from the button clic or the tree modification
@@ -69,14 +63,14 @@ public class PatientChanging implements ActionListener {
 				myPatientNodes.get(current_index-1).setValide(true);
 			}
 			
-			this.fp.getParent().repaint();
 			fp.cleanCorrect();
 			fp.cleanPanel();
+			this.fp.getParent().repaint();
 		}
 		else {
-			fp.getWarning_lbl().setVisible(true);
-			if (!fp.getWarning_lbl().isErrorDisplayed())
-				fp.getWarning_lbl().setErrorMessage("Veuillez remplir correctement le formulaire");
+			//fp.getWarning_lbl().setVisible(true);
+			this.fp.getParent().repaint();
+			fp.getWarning_lbl().setErrorMessage("Veuillez remplir correctement le formulaire");
 		}
 
 
