@@ -35,21 +35,20 @@ public class MainWindow extends JFrame {
 		{
 		JComponent panel1 = new SaisieFicheJournaliere(user, this.getRootPane());
         tabbedPane.addTab("Suivi Journalier",null, panel1,"Does nothing");
-        tabbedPane.setMnemonicAt(0, KeyEvent.VK_3);
+        tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 		JComponent panel2 = makeTextPanel("D'autres fonctionnalités finiront bien par arriver ...");
         tabbedPane.addTab("Autres Fonctionnalités",null, panel2,"Does nothing twice");
-        tabbedPane.setMnemonicAt(1, KeyEvent.VK_3);
+        tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
 		}
 		else if (role.equalsIgnoreCase("Attaché de recherche clinique"))
 		{
 			JComponent panel1 = makeTextPanel("Aucune fonctionnalité encore implantée pour l'ARC");
 	        tabbedPane.addTab("Fonctionnalité Absente",null, panel1,"Does nothing twice");
-	        tabbedPane.setMnemonicAt(0, KeyEvent.VK_3);
+	        tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 		}
 		contentPane.add(tabbedPane);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setBounds(100, 100, 450, 300);
 		this.setSize(800,600);
 	}
 	
