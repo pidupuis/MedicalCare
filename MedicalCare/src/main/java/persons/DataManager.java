@@ -30,6 +30,13 @@ public class DataManager extends Actor {
         this.password = this.login;
         this.assignment = false;
     }
+    
+    public DataManager(String id, String firstName, String lastName) throws Exception {
+        super(id, firstName, lastName);
+        this.generateLogin(firstName, lastName);
+        this.password = this.login;
+        this.assignment = false;
+    }
 
     /**
      * getter of the login of the datamanager
