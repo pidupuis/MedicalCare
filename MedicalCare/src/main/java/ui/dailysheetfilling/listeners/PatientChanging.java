@@ -69,12 +69,13 @@ public class PatientChanging implements ActionListener {
 				myPatientNodes.get(current_index-1).setValide(true);
 			}
 			
-			this.fp.getParent().repaint();
 			fp.cleanCorrect();
 			fp.cleanPanel();
+			this.fp.getParent().repaint();
 		}
 		else {
-			fp.getWarning_lbl().setVisible(true);
+			//fp.getWarning_lbl().setVisible(true);
+			this.fp.getParent().repaint();
 			if (!fp.getWarning_lbl().isErrorDisplayed())
 				fp.getWarning_lbl().setErrorMessage("Veuillez remplir correctement le formulaire");
 		}

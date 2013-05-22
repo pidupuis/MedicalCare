@@ -80,8 +80,7 @@ public class FormPanel extends JPanel {
 		{
 			messagePane = new MessagePane();
 			messagePane.setErrorDisplayed(false);
-			messagePane
-					.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
+			messagePane.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
 			add(messagePane, "cell 0 1 4 1,growx");
 			messagePane.setVisible(true);
 		}
@@ -317,6 +316,9 @@ public class FormPanel extends JPanel {
 		this.pres_sys_txf.setBackground(Color.white);
 		this.pres_dias_txf.setBackground(Color.white);
 		this.bat_txf.setBackground(Color.white);
+		
+		messagePane.setErrorDisplayed(false);
+		messagePane.setInfoMessage("Veuillez remplir l'intégralité du formulaire ci-dessous");
 	}
 
 }
