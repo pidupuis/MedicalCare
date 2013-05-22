@@ -1272,9 +1272,82 @@ public class DB_connector {
      *
      * @param idTest
      */
-    public void updateDailyTest(int idTest) {
-        System.out.println("updateDailyTest");
-        throw new UnsupportedOperationException();
+    public void updateDailyTest(String idFiche, BloodTest sang, EffortTest effort, EEG eeg) throws SQLException, Exception {    
+        int check;
+        
+        if (eeg != null) {
+            /**
+            * Vérification si il y avait bel et bien un EEG prévu pour cette fiche
+            */
+           String queryEEG = "SELECT COUNT(*) AS nb FROM analyseeeg WHERE pk_id_fichequotidienne = '"+ idFiche +"'";
+           System.out.println("query => " + queryEEG);
+           ResultSet rsEEG = this.connect.createStatement().executeQuery(queryEEG);
+           rsEEG.next();
+
+           if (rsEEG.getInt("nb") > 0) {
+               String queryUp = "UPDATE analyseeeg "
+                       + "SET resultat_eeg = '"+ eeg.getResult() +"', "
+                       + "SET observation_eeg = '"+ eeg.getObservations() +"', "
+                       + "WHERE pk_id_fichequotidienne = '"+ idFiche +"'";
+               System.out.println("query => " + queryUp);
+               ResultSet rsUp = this.connect.createStatement().executeQuery(queryUp);
+               rsUp.next();
+           }
+        }
+        
+        if (sang != null) {
+            /**
+            * Vérification si il y avait bel et bien un BloodTest prévu pour cette fiche
+            */
+           String queryBlood = "SELECT COUNT(*) AS nb FROM analysesang WHERE pk_id_fichequotidienne = '"+ idFiche +"'";
+           System.out.println("query => " + queryBlood);
+           ResultSet rsBlood = this.connect.createStatement().executeQuery(queryBlood);
+           rsBlood.next();
+
+           if (sang.checkAllResults()) {
+               check = '1';
+           }
+           else    {
+               check = '0';
+           }
+
+           if (rsBlood.getInt("nb") > 0) {
+               String queryUp = "UPDATE analysesang "
+                       + "SET HEMOGLOBINE = '"+ sang.getHb() +"', "
+                       + "SET TAUX_GLOBULES_ROUGE = '"+ sang.getGR() +"', "
+                       + "SET HEMATOCRITE = '"+ sang.getHemato()+"', "
+                       + "SET TAUX_GLOBULES_BLANC = '"+ sang.getGB()+"', "
+                       + "SET PLAQUETTES = '"+ sang.getP()+"', "
+                       + "SET OBSERVATIONS_SANG = '"+ sang.getObservations()+"', "
+                       + "SET CORRECT_SANG = '"+ check +"', "
+                       + "WHERE pk_id_fichequotidienne = '"+ idFiche +"'";
+               System.out.println("query => " + queryUp);
+               ResultSet rsUp = this.connect.createStatement().executeQuery(queryUp);
+               rsUp.next();
+           } 
+        }
+        
+        if (effort != null) {
+            /**
+            * Vérification si il y avait bel et bien un EffortTest prévu pour cette fiche
+            */
+           String queryEffort = "SELECT COUNT(*) AS nb FROM analyseeffort WHERE pk_id_fichequotidienne = '"+ idFiche +"'";
+           System.out.println("query => " + queryEffort);
+           ResultSet rsEffort = this.connect.createStatement().executeQuery(queryEffort);
+           rsEffort.next();
+
+           if (rsEffort.getInt("nb") > 0) {
+               String queryUp = "UPDATE analyseeffort "
+                       + "SET RYTHME_AVANT = '"+ effort.getBeforeEffort() +"', "
+                       + "SET RYTHME_APRES = '"+ effort.getPostEffort() +"', "
+                       + "SET RYTHME_1MIN_APRES = '"+ effort.getTimePlusOne() +"', "
+                       + "SET OBSERVATIONS_EFFORT = '"+ effort.getObservations() +"', "
+                       + "WHERE pk_id_fichequotidienne = '"+ idFiche +"'";
+               System.out.println("query => " + queryUp);
+               ResultSet rsUp = this.connect.createStatement().executeQuery(queryUp);
+               rsUp.next();
+           } 
+        }    
     }
     
      /**

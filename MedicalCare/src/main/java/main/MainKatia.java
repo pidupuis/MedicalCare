@@ -79,6 +79,7 @@ public class MainKatia {
         //System.out.println("patient : " + d.getPatient().getFirstName());
         //Lot l = db.getLotByIdPatient("1565");
         //l = db.getLotByIdFiche("1");
+        db.updateDailyTest("1", bt, et, eeg);
         
     }
 
