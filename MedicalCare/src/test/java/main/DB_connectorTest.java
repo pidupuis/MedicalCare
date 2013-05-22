@@ -483,19 +483,6 @@ public class DB_connectorTest {
     }
 
     /**
-     * Test of updateDailyTest method, of class DB_connector.
-     */
-    @Test
-    public void testUpdateDailyTest() {
-        System.out.println("updateDailyTest");
-        int idTest = 0;
-        DB_connector instance = null;
-        instance.updateDailyTest(idTest);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getLotByIdPatient method, of class DB_connector.
      */
     @Test
