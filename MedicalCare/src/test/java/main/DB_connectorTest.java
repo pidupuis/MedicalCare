@@ -467,22 +467,6 @@ public class DB_connectorTest {
     }
 
     /**
-     * Test of getDailyTests method, of class DB_connector.
-     */
-    @Test
-    public void testGetDailyTests() throws Exception {
-        System.out.println("getDailyTests");
-        String idPatient = "";
-        String day = "";
-        DB_connector instance = null;
-        DailyTest expResult = null;
-        DailyTest result = instance.getDailyTests(idPatient, day);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getLotByIdPatient method, of class DB_connector.
      */
     @Test

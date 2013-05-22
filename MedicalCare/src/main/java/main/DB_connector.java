@@ -376,6 +376,52 @@ public class DB_connector {
     }
     
     /**
+     * 
+     * This method allows the DB_connector to add a new user who is could be a doctor or a cra or a data manager. Use it cautiously.
+     * @param id Caution : this parameter has to be getted before. This identifier is the id of the user (CRA, doctor, data manager). It corresponds to the identifier which is saved in the corresponding table (CRA, doctor or data manager).
+     * @param login Caution : this parameter has also been created when a CRA or a doctor or a data manager is created. You have to give this login as parameter.
+     * @param password Caution : this parameter has also been created when a CRA or a doctor or a data manager is created. You have to give this password as parameter.
+     * @param statut Indicate the status of the user (CRA or doctor or data manager). This is the correspondance : 1 => Data Manager    ;   2 => CRA    ;   3 => Doctor
+     * @throws SQLException to lead all the errors triggred by the SQL to the main program
+     * @throws Exception to indicate to the main program when the status is wrong
+     */
+    public void addUser(String id, String login, String password, int statut, String question, String reponse) throws SQLException, Exception {
+        String query = "INSERT INTO UTILISATEUR VALUES ('',";
+        String job = "";
+        
+        if (statut == 1)  {
+            query += "'"+ id +"',"
+                    + "'',"
+                    + "'', ";
+            job = "Data Manager";
+        }
+        else if (statut == 2)  {
+            query += "'',"
+                    + "'"+ id +"',"
+                    + "'', ";   
+            job = "ARC";
+        }
+        else if (statut == 3)   {
+            query += "'',"
+                    + "'',"
+                    + "'"+ id +"', ";       
+            job = "Médecin";
+        }
+        else    {
+            throw new Exception("Ce statut n'existe pas !");
+        }
+            
+        query += "'"+ login +"',"
+                    + "'"+ password +"',"
+                    + "'"+ job +"',"
+                    + "'"+ question +"',"
+                    + "'"+ reponse +"')";
+        
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+    }
+    
+    /**
      * This method indicates if the login given in parameter already exists or not
      * @param login This is the login of the user which is created by the constructor of child of Actor class (CRA, doctor, data manager)
      * @return a boolean : true if the login is already taken, else false.
@@ -958,6 +1004,57 @@ public class DB_connector {
     }
     
     /**
+     * 
+     * @param p
+     * @return 
+     */
+    public ArrayList<DailyTest> getEmptyDailyTest(Patient p) throws SQLException, Exception {
+        ArrayList<DailyTest> dt = new ArrayList<DailyTest>();
+        
+        String query = "SELECT * FROM rempli_fiche "
+                + "JOIN fichequotidienne "
+                + "ON rempli_fiche.pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne "
+                + "WHERE rempli_fiche.pk_id_personne = '"+ p.getId() +"'";
+        System.out.println("query => " + query);
+        ResultSet rs = this.connect.createStatement().executeQuery(query);
+        
+        while (rs.next())   {
+            String sql1 = "SELECT COUNT (*) AS nb FROM analyseEEG "
+                    + "JOIN fichequotidienne "
+                    + "ON analyseeeg.pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne "
+                    + "WHERE fichequotidienne.pk_id_fichequotidienne = '"+ rs.getString("pk_id_fichequotidienne") +"'";
+            System.out.println("query => " + sql1);
+            ResultSet rs1 = this.connect.createStatement().executeQuery(sql1);
+            rs1.next();
+            
+            String sql2 = "SELECT COUNT (*) AS nb FROM analyseSang "
+                    + "JOIN fichequotidienne "
+                    + "ON analysesang.pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne "
+                    + "WHERE fichequotidienne.pk_id_fichequotidienne = '"+ rs.getString("pk_id_fichequotidienne") +"'";
+            System.out.println("query => " + sql2);
+            ResultSet rs2 = this.connect.createStatement().executeQuery(sql2);
+            rs2.next();
+            
+            String sql3 = "SELECT COUNT (*) AS nb FROM analyseEffort "
+                    + "JOIN fichequotidienne "
+                    + "ON analyseeffort.pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne "
+                    + "WHERE fichequotidienne.pk_id_fichequotidienne = '"+ rs.getString("pk_id_fichequotidienne") +"'";
+            System.out.println("query => " + sql3);
+            ResultSet rs3 = this.connect.createStatement().executeQuery(sql3);
+            rs3.next();
+            
+            if ((rs1.getInt("nb") == 0) && (rs2.getInt("nb") == 0) && (rs3.getInt("nb") == 0))   {
+                dt.add(new DailyTest(rs.getInt("pression_systolique"),
+                    rs.getInt("pression_diastolique"),
+                    rs.getInt("rythme_cardiaque"),
+                    rs.getString("observations_quotidiennes"),
+                    false, false, false, rs.getInt("date_fiche"), p));
+            } 
+        }
+        return dt;
+    }
+    
+    /**
      * This method permits to get one Doctor with his/her name and his/her firstname
      * @param nom name of the doctor
      * @param prenom firstname of the doctor
@@ -1147,7 +1244,7 @@ public class DB_connector {
          * Attention ce qui suit est extrêment moche et dégueulasse !
          */
         duree = currentDate.getTime().getDate() - debutDate.getDate();
-        jour = (duree>10) ? String.valueOf(duree) : '0' +String.valueOf(duree);
+        jour = (duree>=10) ? String.valueOf(duree) : '0' +String.valueOf(duree);
                 
         /**
          * Requête d'insertion dans la table FicheQuotidienne
@@ -1220,7 +1317,7 @@ public class DB_connector {
      * @throws EmptySQLResultException warn if there any are empty results of queries
      * @throws Exception warn you for each others errors
      */
-    public DailyTest getDailyTests(String idPatient, String day) throws SQLException, EmptySQLResultException, Exception {
+    public DailyTest getDailyTests(Patient p, String day) throws SQLException, EmptySQLResultException, Exception {
         boolean eeg = false;
         boolean sang = false;
         boolean effort = false;
@@ -1228,41 +1325,42 @@ public class DB_connector {
         String query = "SELECT * FROM fichequotidienne "
                 + "JOIN rempli_fiche "
                 + "ON rempli_fiche.pk_id_fichequotidienne = fichequotidienne.pk_id_fichequotidienne "
-                + "WHERE rempli_fiche.pk_id_personne = '"+ idPatient +"' "
+                + "WHERE rempli_fiche.pk_id_personne = '"+ p.getId() +"' "
                 + "AND fichequotidienne.date_fiche = '"+ day +"'";
         System.out.println("query => " + query);
         ResultSet rs = this.connect.createStatement().executeQuery(query);
-        rs.next();
         
-        if (rs.getString("pk_id_fichequotidienne") == null) {
-            throw new EmptySQLResultException("Il n'y a aucune fiche correspondante !");
-        }
-        else    {
-            Patient p = getPatientById(idPatient);
-            
-            if (checkIfAnalysisExists("eeg", idPatient)){
-                eeg = true;
-            }
-            if (checkIfAnalysisExists("sang", idPatient)){
-                sang = true;
-            }
-            if (checkIfAnalysisExists("effort", idPatient)){
-                effort = true;
-            }
+        while(rs.next())    {
         
-            //Recap of the constructor of the Daily Test
-            return new DailyTest(
-                    Integer.parseInt(rs.getString("pression_systolique")), //int systole
-                    Integer.parseInt(rs.getString("pression_diastolique")), //int diastole
-                    Integer.parseInt(rs.getString("rythme_cardiaque")), //int heart
-                    rs.getString("observations_quotidiennes"), //String observations
-                    effort, //boolean prescEffort
-                    eeg, //boolean prescEEG
-                    sang, //boolean prescBlood
-                    Integer.parseInt(rs.getString("date_fiche")), //int date
-                    p //Patient p
-                    );
+            if (rs.getString("pk_id_fichequotidienne") == null) {
+                throw new EmptySQLResultException("Il n'y a aucune fiche correspondante !");
+            }
+            else    {
+
+                if (checkIfAnalysisExists("eeg", p.getId())){
+                    eeg = true;
+                }
+                if (checkIfAnalysisExists("sang", p.getId())){
+                    sang = true;
+                }
+                if (checkIfAnalysisExists("effort", p.getId())){
+                    effort = true;
+                }
+            }
         }
+
+        //Recap of the constructor of the Daily Test
+        return new DailyTest(
+                Integer.parseInt(rs.getString("pression_systolique")), //int systole
+                Integer.parseInt(rs.getString("pression_diastolique")), //int diastole
+                Integer.parseInt(rs.getString("rythme_cardiaque")), //int heart
+                rs.getString("observations_quotidiennes"), //String observations
+                effort, //boolean prescEffort
+                eeg, //boolean prescEEG
+                sang, //boolean prescBlood
+                Integer.parseInt(rs.getString("date_fiche")), //int date
+                p //Patient p
+                );
     }
 
     /**
