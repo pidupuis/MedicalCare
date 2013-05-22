@@ -23,6 +23,7 @@ public class SaisieFicheJournaliere extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private TreePanel subpanelTree;
 	private FormPanel subpanelForm;
+	private static Actor actor;
 	
 	/**
 	 * Create the panel.
@@ -66,7 +67,6 @@ public class SaisieFicheJournaliere extends JPanel {
 		
 		JFrame plop = new JFrame();
 		
-		Actor actor;
 		try {
 			actor = new Doctor("1", "Super","Docteur");
 			plop.getContentPane().add(new SaisieFicheJournaliere(actor, plop.getRootPane()));
@@ -81,6 +81,9 @@ public class SaisieFicheJournaliere extends JPanel {
 		
 	}
 
+	public static Actor getActor() {
+		return actor;
+	}
 }
 
 

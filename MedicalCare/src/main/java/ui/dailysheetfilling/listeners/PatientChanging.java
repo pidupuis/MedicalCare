@@ -3,8 +3,16 @@ package ui.dailysheetfilling.listeners;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
+
+import main.DB_connector;
+
+import oracle.jdbc.driver.DBConversion;
+import tests.DailyTest;
+import persons.Doctor;
 import ui.dailysheetfilling.FormPanel;
 import ui.dailysheetfilling.PatientNode;
+import ui.dailysheetfilling.SaisieFicheJournaliere;
 
 /**
  * Allow to change the patient from the button clic or the tree modification
@@ -40,12 +48,21 @@ public class PatientChanging implements ActionListener {
 				myPatientNodes.get(current_index).setFocused(true);
 				myPatientNodes.get(current_index-1).setValide(true);
 				
-				//Control conditions are OK
 				String header_name = myPatientNodes.get(current_index).getMyPatient().getLastName() + " " + myPatientNodes.get(current_index).getMyPatient().getFirstName();
 				fp.setHeader_name_lbl(header_name);					
 				current_index++;
-				//Control conditions are NOT OK
-
+				
+				DailyTest dt;
+				try {
+					dt = new DailyTest(Integer.parseInt(fp.getPres_sys_txf().getText()), Integer.parseInt(fp.getPres_dias_txf().getText()), Integer.parseInt(fp.getBat_txf().getText()), fp.getObs_txf().getText(), false, false, false, (new Date()).getDay(), myPatientNodes.get(current_index-1).getMyPatient());
+					DB_connector.getInstance().addDailyTest(dt, myPatientNodes.get(current_index-1).getMyPatient(), ((Doctor) SaisieFicheJournaliere.getActor()), null, null, null);
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+				
 				fp.cleanPanel();
 			}
 			//case 2 : the last patient of the array
