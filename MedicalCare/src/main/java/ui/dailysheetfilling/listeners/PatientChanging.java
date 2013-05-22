@@ -10,6 +10,7 @@ import main.DB_connector;
 import oracle.jdbc.driver.DBConversion;
 import tests.DailyTest;
 import persons.Doctor;
+import persons.Patient;
 import ui.dailysheetfilling.FormPanel;
 import ui.dailysheetfilling.PatientNode;
 import ui.dailysheetfilling.SaisieFicheJournaliere;
@@ -54,8 +55,10 @@ public class PatientChanging implements ActionListener {
 				
 				DailyTest dt;
 				try {
-					dt = new DailyTest(Integer.parseInt(fp.getPres_sys_txf().getText()), Integer.parseInt(fp.getPres_dias_txf().getText()), Integer.parseInt(fp.getBat_txf().getText()), fp.getObs_txf().getText(), false, false, false, (new Date()).getDay(), myPatientNodes.get(current_index-1).getMyPatient());
-					DB_connector.getInstance().addDailyTest(dt, myPatientNodes.get(current_index-1).getMyPatient(), ((Doctor) SaisieFicheJournaliere.getActor()), null, null, null);
+					//int systole, int diastole, int heart, String observations, boolean prescEffort, boolean prescEEG, boolean prescBlood, int date, Patient p
+					dt = new DailyTest(Integer.parseInt(fp.getPres_sys_txf().getText()), Integer.parseInt(fp.getPres_dias_txf().getText()), Integer.parseInt(fp.getBat_txf().getText()), fp.getObs_txf().getText(), false, false, false,12, myPatientNodes.get(current_index-1).getMyPatient());
+					//System.out.println("Test : " + myPatientNodes.get(current_index-1).getMyPatient().getId() + " " + dt.getObservations());
+					//DB_connector.getInstance().addDailyTest(dt, myPatientNodes.get(current_index-1).getMyPatient(), ((Doctor) SaisieFicheJournaliere.getActor()), null, null, null);
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 				} catch (Exception e1) {
