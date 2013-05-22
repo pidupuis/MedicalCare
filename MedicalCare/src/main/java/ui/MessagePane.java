@@ -8,8 +8,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -23,7 +21,6 @@ public class MessagePane extends JPanel {
 	private JLabel lblMessage;
 	private Color myColor, myColorTransp;
 	private ImageIcon myIcon;
-	private boolean errorDisplayed; // Boolean which indicates if an error message is already displayed
 	
 	/**
 	 * Constructs an message panel with a centered label with icon
@@ -109,14 +106,6 @@ public class MessagePane extends JPanel {
 	 */
 	public ImageIcon getMyIcon() {
 		return myIcon;
-	}
-
-	public void setErrorDisplayed(boolean errorDisplayed) {
-		this.errorDisplayed = errorDisplayed;
-	}
-	
-	public boolean isErrorDisplayed() {
-		return errorDisplayed;
 	}
 	
 
